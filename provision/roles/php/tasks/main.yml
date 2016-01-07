@@ -22,6 +22,7 @@
     - php5-xsl
     - php5-xhprof
     - php5-intl
+    - php5-apcu
 
 - name: Configure php.ini
   lineinfile: dest=/etc/php5/cli/php.ini line="{{ item.line }}" regexp="{{ item.regexp }}" backup=yes

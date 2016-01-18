@@ -67,3 +67,12 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+# Guzzle Configuration
+guzzle:
+    clients:
+        api_grouphub:
+            base_url: "%grouphub_api_url%"
+
+            headers:
+                Accept: "application/json"

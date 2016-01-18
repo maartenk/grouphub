@@ -17,3 +17,10 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+    grouphub_api_url: http://api.grouphub.org
+
+    ldap_host: ~
+    ldap_port: 389
+    ldap_dn:   ~
+    ldap_pass: ~

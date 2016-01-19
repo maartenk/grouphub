@@ -20,6 +20,7 @@ class SynchronizableSequenceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([], $seq2->getAddedElements());
         $this->assertEquals([], $seq2->getUpdatedElements());
         $this->assertEquals([], $seq2->getRemovedElements());
+        $this->assertEquals([1, 2, 3, 4, 5], $seq2->getEqualElements());
     }
 
     public function testSyncForRemovedElement()
@@ -35,6 +36,7 @@ class SynchronizableSequenceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([], $seq2->getAddedElements());
         $this->assertEquals([], $seq2->getUpdatedElements());
         $this->assertEquals([2], $seq2->getRemovedElements());
+        $this->assertEquals([1, 3, 4, 5], $seq2->getEqualElements());
     }
 
     public function testSyncForAddedElement()
@@ -50,6 +52,7 @@ class SynchronizableSequenceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([6], $seq2->getAddedElements());
         $this->assertEquals([], $seq2->getUpdatedElements());
         $this->assertEquals([], $seq2->getRemovedElements());
+        $this->assertEquals([1, 2, 3, 4, 5], $seq2->getEqualElements());
     }
 
     public function testSyncWithoutOutOfBoundCheck()
@@ -65,6 +68,7 @@ class SynchronizableSequenceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([6], $seq2->getAddedElements());
         $this->assertEquals([], $seq2->getUpdatedElements());
         $this->assertEquals([2, 3], $seq2->getRemovedElements());
+        $this->assertEquals([1, 4], $seq2->getEqualElements());
     }
 
     public function testSyncWithCheckAndOutOfBoundElement()
@@ -75,11 +79,12 @@ class SynchronizableSequenceTest extends \PHPUnit_Framework_TestCase
         $lastIndex = $seq2->synchronize($seq1, true);
 
         $this->assertEquals([1, 4], $seq2->toArray());
-        $this->assertEquals(2, $lastIndex);
+        $this->assertEquals(1, $lastIndex);
 
         $this->assertEquals([], $seq2->getAddedElements());
         $this->assertEquals([], $seq2->getUpdatedElements());
         $this->assertEquals([2, 3], $seq2->getRemovedElements());
+        $this->assertEquals([1, 4], $seq2->getEqualElements());
     }
 
     public function testSyncWithoutCheckAndRemovalAtEnd()
@@ -95,6 +100,7 @@ class SynchronizableSequenceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([3], $seq2->getAddedElements());
         $this->assertEquals([], $seq2->getUpdatedElements());
         $this->assertEquals([2, 7], $seq2->getRemovedElements());
+        $this->assertEquals([1, 4], $seq2->getEqualElements());
     }
 
     public function testSyncWithCheckAndRemovalAtEnd()
@@ -110,6 +116,7 @@ class SynchronizableSequenceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([3], $seq2->getAddedElements());
         $this->assertEquals([], $seq2->getUpdatedElements());
         $this->assertEquals([2, 7], $seq2->getRemovedElements());
+        $this->assertEquals([1, 4], $seq2->getEqualElements());
     }
 
     public function testSyncWithCheckAndOutOfBoundAtEnd()
@@ -125,6 +132,7 @@ class SynchronizableSequenceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([3, 4], $seq2->getAddedElements());
         $this->assertEquals([], $seq2->getUpdatedElements());
         $this->assertEquals([], $seq2->getRemovedElements());
+        $this->assertEquals([1], $seq2->getEqualElements());
     }
 
     public function testSyncWithCheckAndFullAddition()
@@ -140,6 +148,7 @@ class SynchronizableSequenceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([1, 3, 4], $seq2->getAddedElements());
         $this->assertEquals([], $seq2->getUpdatedElements());
         $this->assertEquals([], $seq2->getRemovedElements());
+        $this->assertEquals([], $seq2->getEqualElements());
     }
 
     public function testSyncWithCheckAndFullRemoval()
@@ -155,5 +164,6 @@ class SynchronizableSequenceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([], $seq2->getAddedElements());
         $this->assertEquals([], $seq2->getUpdatedElements());
         $this->assertEquals([1, 3, 4], $seq2->getRemovedElements());
+        $this->assertEquals([], $seq2->getEqualElements());
     }
 }

@@ -28,6 +28,11 @@ class SynchronizableSequence extends Sequence
     private $removedElements = [];
 
     /**
+     * @var array
+     */
+    private $equalElements = [];
+
+    /**
      * @param Traversable $sourceSequence
      * @param bool        $checkOutOfBounds
      *
@@ -84,6 +89,14 @@ class SynchronizableSequence extends Sequence
     }
 
     /**
+     * @return mixed[]
+     */
+    public function getEqualElements()
+    {
+        return $this->equalElements;
+    }
+
+    /**
      * @param int   $index
      * @param mixed $sourceElement
      * @param bool  $checkOutOfBounds
@@ -122,6 +135,8 @@ class SynchronizableSequence extends Sequence
         }
 
         // Elements are equal
+        $this->keepElement($index, $sourceElement);
+
         return;
     }
 
@@ -212,5 +227,14 @@ class SynchronizableSequence extends Sequence
         $this->removedElements[] = $element;
 
         $this->removeAt($index);
+    }
+
+    /**
+     * @param int   $index
+     * @param mixed $element
+     */
+    private function keepElement($index, $element)
+    {
+        $this->equalElements[] = $element;
     }
 }

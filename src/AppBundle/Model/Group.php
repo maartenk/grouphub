@@ -88,6 +88,14 @@ class Group implements Comparable
     }
 
     /**
+     * @param string $reference
+     */
+    public function setReference($reference)
+    {
+        $this->reference = $reference;
+    }
+
+    /**
      * @return string
      */
     public function getName()

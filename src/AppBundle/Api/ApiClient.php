@@ -223,7 +223,7 @@ class ApiClient
             'name'        => $group->getName(),
             'description' => $group->getDescription(),
             'type'        => $group->getType(),
-            'ownerId'     => $group->getOwnerId(),
+            'owner'       => $group->getOwnerId(),
             'parent'      => $group->getParentId(),
         ];
     }
@@ -243,8 +243,8 @@ class ApiClient
                 isset($group['name']) ? $group['name'] : '',
                 isset($group['description']) ? $group['description'] : '',
                 isset($group['type']) ? $group['type'] : '',
-                isset($group['owner_id']) ? $group['owner_id'] : null,
-                isset($group['parent']) ? $group['parent'] : null
+                isset($group['owner']['id']) ? $group['owner']['id'] : null,
+                isset($group['parent']['id']) ? $group['parent']['id'] : null
             );
         }
 

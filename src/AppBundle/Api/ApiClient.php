@@ -126,6 +126,17 @@ class ApiClient
     }
 
     /**
+     * @param int    $groupId
+     * @param string $reference
+     */
+    public function updateGroupReference($groupId, $reference)
+    {
+        $data = $this->encode(['group' => ['reference' => $reference]]);
+
+        $this->guzzle->patch('groups/' . $groupId, ['body' => $data]);
+    }
+
+    /**
      * @param int $userId
      */
     public function removeUser($userId)

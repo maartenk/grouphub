@@ -34,7 +34,7 @@ class SyncService
     {
         $this->syncUsers();
         $this->syncGroups();
-        // $this->syncGrouphubGroups();
+        $this->syncGrouphubGroups();
     }
 
     /**
@@ -97,24 +97,36 @@ class SyncService
         foreach ($grouphubGroups->getAddedElements() as $element) {
             $this->api->addGroup($element);
 
-            // @todo: add members??
+            // @todo: ID is not known yet...
+            $this->syncGroupUsers($element->getId());
         }
 
         $this->logger->info('Going to update ' . count($grouphubGroups->getUpdatedElements()) . ' groups in Grouphub...');
         foreach ($grouphubGroups->getUpdatedElements() as $element) {
             $this->api->updateGroup($element['old']->getId(), $element['new']);
 
-            // @todo: update members?
+            $this->syncGroupUsers($element['old']->getId());
         }
 
         $this->logger->info('Going to remove ' . count($grouphubGroups->getRemovedElements()) . ' groups from Grouphub...');
         foreach ($grouphubGroups->getRemovedElements() as $element) {
             $this->api->removeGroup($element->getId());
+        }
 
-            // @todo: delete members?
+        foreach ($grouphubGroups->getEqualElements() as $element) {
+            $this->syncGroupUsers($element->getId());
         }
 
         $this->syncGroups($offset + $index + 1);
+    }
+
+    /**
+     * @param int $groupId
+     * @param int $offset
+     */
+    private function syncGroupUsers($groupId, $offset = 0)
+    {
+        // @todo: implement, test
     }
 
     /**
@@ -124,35 +136,54 @@ class SyncService
      */
     private function syncGrouphubGroups($offset = 0)
     {
+        $this->logger->info('Processing Grouphub groups ' . $offset . ' to ' . self::BATCH_SIZE . '...');
+
         $grouphubGroups = $this->api->findGrouphubGroups($offset, self::BATCH_SIZE);
+        $ldapGroups = $this->ldap->findGrouphubGroups($offset, self::BATCH_SIZE);
 
         // Nothing to sync, or done syncing
-        if (count($grouphubGroups) === 0) {
+        if (count($grouphubGroups) === 0 && count($ldapGroups) === 0) {
+            $this->logger->info('Done syncing Grouphub groups!');
             return;
         }
 
-        $ldapGroups = $this->ldap->findGrouphubGroups($offset, self::BATCH_SIZE);
-
         $index = $ldapGroups->synchronize($grouphubGroups, true);
 
+        $this->logger->info('Going to add ' . count($ldapGroups->getAddedElements()) . ' Grouphub groups to LDAP...');
         foreach ($ldapGroups->getAddedElements() as $element) {
             $this->ldap->addGroup($element);
 
-            // @todo: add members??
+            // Update the reference of the Group in the API
+            $this->api->updateGroupReference($element->getId(), $element->getReference());
+
+            $this->syncGrouphubGroupUsers($element->getReference());
         }
 
+        $this->logger->info('Going to update ' . count($ldapGroups->getUpdatedElements()) . ' Grouphub groups in LDAP... (NOT SUPPORTED, SKIPPING)');
         foreach ($ldapGroups->getUpdatedElements() as $element) {
-            $this->ldap->updateGroup($element);
+            $this->ldap->updateGroup($element['old']->getReference(), $element['new']);
 
-            // @todo: update members?
+            $this->syncGrouphubGroupUsers($element['old']->getReference());
         }
 
-        foreach ($ldapGroups->getAddedElements() as $element) {
-            $this->ldap->removeGroup($element->getId());
-
-            // @todo: delete members?
+        $this->logger->info('Going to remove ' . count($ldapGroups->getRemovedElements()) . ' Grouphub groups from LDAP...');
+        foreach ($ldapGroups->getRemovedElements() as $element) {
+            $this->ldap->removeGroup($element->getReference());
         }
 
-        $this->syncGrouphubGroups($index);
+        foreach ($ldapGroups->getEqualElements() as $element) {
+            $this->syncGrouphubGroupUsers($element->getReference());
+        }
+
+        $this->syncGrouphubGroups($offset + $index + 1);
+    }
+
+    /**
+     * @param string $groupReference
+     * @param int    $offset
+     */
+    private function syncGrouphubGroupUsers($groupReference, $offset = 0)
+    {
+        // @todo: implement, test
     }
 }

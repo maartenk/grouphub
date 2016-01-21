@@ -140,7 +140,7 @@ class LdapClient implements LdapClientInterface
         }
 
         // @todo: inject DN
-        $data = $this->find('ou=Groups,ou=SURFuni,dc=surfuni,dc=org', 'cn=*', '*', 'dn');
+        $data = $this->find('ou=Formalgroups,dc=surfuni,dc=org', 'cn=*', '*', '');
 
         if (empty($data)) {
             return new Sequence([]);
@@ -167,12 +167,18 @@ class LdapClient implements LdapClientInterface
         }
 
         // @todo: inject DN
-        $data = $this->find('ou=Grouphub,dc=surfuni,dc=org', 'cn=*', '*', 'dn');
+        $data = $this->find('ou=Grouphub,dc=surfuni,dc=org', 'cn=*', '*', '');
+
+        if (empty($data)) {
+            return new SynchronizableSequence([]);
+        }
+
+        $groups = $this->denormalizeGrouphubGroups($data);
 
         // @todo: use actual offset/limit
-        $data = array_slice($data, $offset, $limit);
+        $groups = array_slice($groups, $offset, $limit);
 
-        return new SynchronizableSequence($this->denormalizeGroups($data));
+        return new SynchronizableSequence($groups);
     }
 
     /**
@@ -206,11 +212,44 @@ class LdapClient implements LdapClientInterface
             $group = $groups[$i];
 
             $result[] = new Group(
-                null, $group['dn'], $group['cn'][0], '', 'ldap', 1, 0
+                null, $group['dn'], $group['cn'][0], '', 'ldap', 1
             );
         }
 
         return $result;
+    }
+
+    /**
+     * @param array $groups
+     *
+     * @return User[]
+     */
+    private function denormalizeGrouphubGroups(array $groups)
+    {
+        $result = [];
+        for ($i = 0; $i < $groups['count']; $i++) {
+            $group = $groups[$i];
+
+            $result[] = new Group(
+                null, $group['dn'], $group['cn'][0], ''
+            );
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param Group $group
+     *
+     * @return array
+     */
+    public function normalizeGroup(Group $group)
+    {
+        return [
+            'cn'          => $group->getName(),
+            'objectClass' => 'groupOfNames',  // @todo: inject??
+            'member'      => '',
+        ];
     }
 
     public function __destruct()
@@ -308,22 +347,43 @@ class LdapClient implements LdapClientInterface
 
     /**
      * @param Group $group
+     *
+     * @return Group
      */
     public function addGroup(Group $group)
     {
+        $dn = 'cn=' . $group->getName() . ',ou=Grouphub,dc=surfuni,dc=org'; // @todo: inject
+        $group->setReference($dn);
+
+        $data = $this->normalizeGroup($group);
+
+        if (!$this->isBinded) {
+            $this->bind($this->dn, $this->password);
+        }
+
+        ldap_add($this->connection, $group->getReference(), $data);
+
+        return $group;
     }
 
     /**
-     * @param Group $group
+     * @param string $groupReference
+     * @param Group  $group
      */
-    public function updateGroup(Group $group)
+    public function updateGroup($groupReference, Group $group)
     {
+        // Not supported...
     }
 
     /**
-     * @param int $groupId
+     * @param string $groupReference
      */
-    public function removeGroup($groupId)
+    public function removeGroup($groupReference)
     {
+        if (!$this->isBinded) {
+            $this->bind($this->dn, $this->password);
+        }
+
+        ldap_delete($this->connection, $groupReference);
     }
 }

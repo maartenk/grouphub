@@ -140,8 +140,6 @@ class SyncService
 
     /**
      * @param int $offset
-     *
-     * @todo: implement, test
      */
     private function syncGrouphubGroups($offset = 0)
     {

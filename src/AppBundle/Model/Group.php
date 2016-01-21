@@ -172,18 +172,6 @@ class Group implements Comparable
             return false;
         }
 
-        if ($other->getType() !== $this->type) {
-            return false;
-        }
-
-        if ($other->getOwnerId() !== $this->ownerId) {
-            return false;
-        }
-
-        if ($other->getParentId() !== $this->parentId) {
-            return false;
-        }
-
         return true;
     }
 }

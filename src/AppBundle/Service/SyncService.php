@@ -4,6 +4,8 @@ namespace AppBundle\Service;
 
 use AppBundle\Api\ApiClient;
 use AppBundle\Ldap\LdapClient;
+use AppBundle\Model\Group;
+use AppBundle\Model\User;
 use Monolog\Logger;
 
 /**
@@ -59,16 +61,19 @@ class SyncService
 
         $this->logger->info('Going to add ' . count($grouphubUsers->getAddedElements()) . ' users to Grouphub...');
         foreach ($grouphubUsers->getAddedElements() as $element) {
+            /** @var User $element */
             $this->api->addUser($element);
         }
 
         $this->logger->info('Going to update ' . count($grouphubUsers->getUpdatedElements()) . ' users in Grouphub...');
         foreach ($grouphubUsers->getUpdatedElements() as $element) {
+            /** @var User[] $element */
             $this->api->updateUser($element['old']->getId(), $element['new']);
         }
 
         $this->logger->info('Going to remove ' . count($grouphubUsers->getRemovedElements()) . ' users from Grouphub...');
         foreach ($grouphubUsers->getRemovedElements() as $element) {
+            /** @var User $element */
             $this->api->removeUser($element->getId());
         }
 
@@ -95,6 +100,7 @@ class SyncService
 
         $this->logger->info('Going to add ' . count($grouphubGroups->getAddedElements()) . ' groups to Grouphub...');
         foreach ($grouphubGroups->getAddedElements() as $element) {
+            /** @var Group $element */
             $this->api->addGroup($element);
 
             // @todo: ID is not known yet...
@@ -103,6 +109,7 @@ class SyncService
 
         $this->logger->info('Going to update ' . count($grouphubGroups->getUpdatedElements()) . ' groups in Grouphub...');
         foreach ($grouphubGroups->getUpdatedElements() as $element) {
+            /** @var Group[] $element */
             $this->api->updateGroup($element['old']->getId(), $element['new']);
 
             $this->syncGroupUsers($element['old']->getId());
@@ -110,10 +117,12 @@ class SyncService
 
         $this->logger->info('Going to remove ' . count($grouphubGroups->getRemovedElements()) . ' groups from Grouphub...');
         foreach ($grouphubGroups->getRemovedElements() as $element) {
+            /** @var Group $element */
             $this->api->removeGroup($element->getId());
         }
 
         foreach ($grouphubGroups->getEqualElements() as $element) {
+            /** @var Group $element */
             $this->syncGroupUsers($element->getId());
         }
 
@@ -151,6 +160,7 @@ class SyncService
 
         $this->logger->info('Going to add ' . count($ldapGroups->getAddedElements()) . ' Grouphub groups to LDAP...');
         foreach ($ldapGroups->getAddedElements() as $element) {
+            /** @var Group $element */
             $this->ldap->addGroup($element);
 
             // Update the reference of the Group in the API
@@ -161,6 +171,7 @@ class SyncService
 
         $this->logger->info('Going to update ' . count($ldapGroups->getUpdatedElements()) . ' Grouphub groups in LDAP... (NOT SUPPORTED, SKIPPING)');
         foreach ($ldapGroups->getUpdatedElements() as $element) {
+            /** @var Group[] $element */
             $this->ldap->updateGroup($element['old']->getReference(), $element['new']);
 
             $this->syncGrouphubGroupUsers($element['old']->getReference());
@@ -168,10 +179,12 @@ class SyncService
 
         $this->logger->info('Going to remove ' . count($ldapGroups->getRemovedElements()) . ' Grouphub groups from LDAP...');
         foreach ($ldapGroups->getRemovedElements() as $element) {
+            /** @var Group $element */
             $this->ldap->removeGroup($element->getReference());
         }
 
         foreach ($ldapGroups->getEqualElements() as $element) {
+            /** @var Group $element */
             $this->syncGrouphubGroupUsers($element->getReference());
         }
 

@@ -135,7 +135,7 @@ class SynchronizableSequence extends Sequence
         }
 
         // Elements are equal
-        $this->keepElement($index, $sourceElement);
+        $this->keepElement($index);
 
         return;
     }
@@ -207,6 +207,8 @@ class SynchronizableSequence extends Sequence
     /**
      * @param int   $index
      * @param mixed $element
+     *
+     * @todo: fix this, apply the update on the original element or return indexes?
      */
     private function updateElement($index, $element)
     {
@@ -231,10 +233,9 @@ class SynchronizableSequence extends Sequence
 
     /**
      * @param int   $index
-     * @param mixed $element
      */
-    private function keepElement($index, $element)
+    private function keepElement($index)
     {
-        $this->equalElements[] = $element;
+        $this->equalElements[] = $this->offsetGet($index);
     }
 }

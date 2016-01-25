@@ -97,6 +97,14 @@ class SynchronizableSequence extends Sequence
     }
 
     /**
+     * @return int[]
+     */
+    public function getEqualElementIndexes()
+    {
+        return array_keys($this->equalElements);
+    }
+
+    /**
      * @param int   $index
      * @param mixed $sourceElement
      * @param bool  $checkOutOfBounds
@@ -232,10 +240,10 @@ class SynchronizableSequence extends Sequence
     }
 
     /**
-     * @param int   $index
+     * @param int $index
      */
     private function keepElement($index)
     {
-        $this->equalElements[] = $this->offsetGet($index);
+        $this->equalElements[$index] = $this->offsetGet($index);
     }
 }

@@ -60,6 +60,10 @@ class Normalizer
             $group = $groups[$i]['member'];
 
             for ($j = 0; $j < $group['count']; $j ++) {
+                if (empty($group[$j])) {
+                    continue;
+                }
+
                 $result[$group[$j]] = new User(
                     null, $group[$j]
                 );

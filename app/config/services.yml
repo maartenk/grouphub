@@ -5,11 +5,26 @@ services:
     app.ldap_client:
         class: AppBundle\Ldap\LdapClient
         arguments: ["%ldap_host%", "%ldap_port%", "%ldap_dn%", "%ldap_pass%"]
+        private: true
+
+    app.ldap_normalizer:
+        class: AppBundle\Ldap\Normalizer
+        private: true
+
+    app.grouphub_ldap_client:
+        class: AppBundle\Ldap\GrouphubClient
+        arguments: ["@app.ldap_client", "@app.ldap_normalizer"]
+        private: true
+
+    app.api_normalizer:
+        class: AppBundle\Api\Normalizer
+        private: true
 
     app.api_client:
         class: AppBundle\Api\ApiClient
-        arguments: ["@guzzle.client.api_grouphub"]
+        arguments: ["@guzzle.client.api_grouphub", "@app.api_normalizer"]
+        private: true
 
     app.sync:
         class: AppBundle\Service\SyncService
-        arguments: ["@app.ldap_client", "@app.api_client", "@logger"]
+        arguments: ["@app.grouphub_ldap_client", "@app.api_client", "@logger"]

@@ -2,10 +2,6 @@
 
 namespace AppBundle\Ldap;
 
-use AppBundle\Model\Group;
-use AppBundle\Model\User;
-use AppBundle\Sequence;
-use AppBundle\SynchronizableSequence;
 use Symfony\Component\Ldap\Exception\ConnectionException;
 use Symfony\Component\Ldap\Exception\LdapException;
 use Symfony\Component\Ldap\LdapClientInterface;
@@ -63,7 +59,7 @@ class LdapClient implements LdapClientInterface
     /**
      * @var bool
      */
-    private $isBinded = false;
+    private $isBound = false;
 
     /**
      * @param string $host
@@ -100,158 +96,6 @@ class LdapClient implements LdapClientInterface
         $this->password = $password;
     }
 
-    /**
-     * @param int $offset
-     * @param int $limit
-     *
-     * @return Sequence
-     */
-    public function findUsers($offset, $limit)
-    {
-        if (!$this->isBinded) {
-            $this->bind($this->dn, $this->password);
-        }
-
-        // @todo: inject DN
-        $data = $this->find('ou=Users,ou=SURFUni,dc=surfuni,dc=org', 'cn=*', '*', '');
-
-        if (empty($data)) {
-            return new Sequence([]);
-        }
-
-        $users = $this->denormalizeUsers($data);
-
-        // @todo: use actual offset/limit
-        $users = array_slice($users, $offset, $limit);
-
-        return new Sequence($users);
-    }
-
-    /**
-     * @param int $offset
-     * @param int $limit
-     *
-     * @return Sequence
-     */
-    public function findGroups($offset, $limit)
-    {
-        if (!$this->isBinded) {
-            $this->bind($this->dn, $this->password);
-        }
-
-        // @todo: inject DN
-        $data = $this->find('ou=Formalgroups,dc=surfuni,dc=org', 'cn=*', '*', '');
-
-        if (empty($data)) {
-            return new Sequence([]);
-        }
-
-        $groups = $this->denormalizeGroups($data);
-
-        // @todo: use actual offset/limit
-        $groups = array_slice($groups, $offset, $limit);
-
-        return new Sequence($groups);
-    }
-
-    /**
-     * @param int $offset
-     * @param int $limit
-     *
-     * @return SynchronizableSequence
-     */
-    public function findGrouphubGroups($offset, $limit)
-    {
-        if (!$this->isBinded) {
-            $this->bind($this->dn, $this->password);
-        }
-
-        // @todo: inject DN
-        $data = $this->find('ou=Grouphub,dc=surfuni,dc=org', 'cn=*', '*', '');
-
-        if (empty($data)) {
-            return new SynchronizableSequence([]);
-        }
-
-        $groups = $this->denormalizeGrouphubGroups($data);
-
-        // @todo: use actual offset/limit
-        $groups = array_slice($groups, $offset, $limit);
-
-        return new SynchronizableSequence($groups);
-    }
-
-    /**
-     * @param array $users
-     *
-     * @return User[]
-     */
-    private function denormalizeUsers(array $users)
-    {
-        $result = [];
-        for ($i = 0; $i < $users['count']; $i++) {
-            $user = $users[$i];
-
-            $result[] = new User(
-                null, $user['dn'], $user['givenname'][0], $user['sn'][0], $user['uid'][0]
-            );
-        }
-
-        return $result;
-    }
-
-    /**
-     * @param array $groups
-     *
-     * @return User[]
-     */
-    private function denormalizeGroups(array $groups)
-    {
-        $result = [];
-        for ($i = 0; $i < $groups['count']; $i++) {
-            $group = $groups[$i];
-
-            $result[] = new Group(
-                null, $group['dn'], $group['cn'][0], '', 'ldap', 1
-            );
-        }
-
-        return $result;
-    }
-
-    /**
-     * @param array $groups
-     *
-     * @return User[]
-     */
-    private function denormalizeGrouphubGroups(array $groups)
-    {
-        $result = [];
-        for ($i = 0; $i < $groups['count']; $i++) {
-            $group = $groups[$i];
-
-            $result[] = new Group(
-                null, $group['dn'], $group['cn'][0], ''
-            );
-        }
-
-        return $result;
-    }
-
-    /**
-     * @param Group $group
-     *
-     * @return array
-     */
-    public function normalizeGroup(Group $group)
-    {
-        return [
-            'cn'          => $group->getName(),
-            'objectClass' => 'groupOfNames',  // @todo: inject??
-            'member'      => '',
-        ];
-    }
-
     public function __destruct()
     {
         $this->disconnect();
@@ -276,6 +120,10 @@ class LdapClient implements LdapClientInterface
      */
     public function find($dn, $query, $filter = '*', $sort = null)
     {
+        if (!$this->isBound) {
+            $this->bind($this->dn, $this->password);
+        }
+
         if (!is_array($filter)) {
             $filter = [$filter];
         }
@@ -293,6 +141,57 @@ class LdapClient implements LdapClientInterface
         }
 
         return $infos;
+    }
+
+    /**
+     * @param string $dn
+     * @param array  $data
+     */
+    public function add($dn, array $data)
+    {
+        if (!$this->isBound) {
+            $this->bind($this->dn, $this->password);
+        }
+
+        ldap_add($this->connection, $dn, $data);
+    }
+
+    /**
+     * @param string $dn
+     */
+    public function delete($dn)
+    {
+        if (!$this->isBound) {
+            $this->bind($this->dn, $this->password);
+        }
+
+        ldap_delete($this->connection, $dn);
+    }
+
+    /**
+     * @param string $dn
+     * @param array  $data
+     */
+    public function addAttribute($dn, array $data)
+    {
+        if (!$this->isBound) {
+            $this->bind($this->dn, $this->password);
+        }
+
+        ldap_mod_add($this->connection, $dn, $data);
+    }
+
+    /**
+     * @param string $dn
+     * @param array  $data
+     */
+    public function deleteAttribute($dn, array $data)
+    {
+        if (!$this->isBound) {
+            $this->bind($this->dn, $this->password);
+        }
+
+        ldap_mod_del($this->connection, $dn, $data);
     }
 
     /**
@@ -343,47 +242,5 @@ class LdapClient implements LdapClientInterface
         }
 
         $this->connection = null;
-    }
-
-    /**
-     * @param Group $group
-     *
-     * @return Group
-     */
-    public function addGroup(Group $group)
-    {
-        $dn = 'cn=' . $group->getName() . ',ou=Grouphub,dc=surfuni,dc=org'; // @todo: inject
-        $group->setReference($dn);
-
-        $data = $this->normalizeGroup($group);
-
-        if (!$this->isBinded) {
-            $this->bind($this->dn, $this->password);
-        }
-
-        ldap_add($this->connection, $group->getReference(), $data);
-
-        return $group;
-    }
-
-    /**
-     * @param string $groupReference
-     * @param Group  $group
-     */
-    public function updateGroup($groupReference, Group $group)
-    {
-        // Not supported...
-    }
-
-    /**
-     * @param string $groupReference
-     */
-    public function removeGroup($groupReference)
-    {
-        if (!$this->isBinded) {
-            $this->bind($this->dn, $this->password);
-        }
-
-        ldap_delete($this->connection, $groupReference);
     }
 }

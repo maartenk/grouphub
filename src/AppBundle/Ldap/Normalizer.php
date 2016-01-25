@@ -60,13 +60,16 @@ class Normalizer
             $group = $groups[$i]['member'];
 
             for ($j = 0; $j < $group['count']; $j ++) {
-                $result[] = new User(
+                $result[$group[$j]] = new User(
                     null, $group[$j]
                 );
             }
         }
 
-        return $result;
+        // Manually sort the results, because ldap is unable to do this
+        ksort($result);
+
+        return array_values($result);
     }
 
     /**

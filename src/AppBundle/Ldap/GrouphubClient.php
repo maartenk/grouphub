@@ -86,8 +86,8 @@ class GrouphubClient
      */
     public function findGroupUsers($groupReference, $offset, $limit)
     {
-        // @todo: inject DN; check sort
-        $data = $this->ldap->find($groupReference, 'cn=*', ['member'], 'member');
+        // @todo: inject DN
+        $data = $this->ldap->find($groupReference, 'cn=*', ['member']);
 
         if (empty($data)) {
             return new SynchronizableSequence([]);

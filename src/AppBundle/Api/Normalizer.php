@@ -3,6 +3,7 @@
 namespace AppBundle\Api;
 
 use AppBundle\Model\Group;
+use AppBundle\Model\Membership;
 use AppBundle\Model\User;
 
 /**
@@ -118,6 +119,34 @@ class Normalizer
             isset($group['type']) ? $group['type'] : '',
             isset($group['owner']['id']) ? $group['owner']['id'] : null,
             isset($group['parent']['id']) ? $group['parent']['id'] : null
+        );
+    }
+
+    /**
+     * @param array $memberships
+     *
+     * @return Membership[]
+     */
+    public function denormalizeMemberships(array $memberships)
+    {
+        $result = [];
+        foreach ($memberships as $membership) {
+            $result[] = $this->denormalizeMembership($membership);
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param array $membership
+     *
+     * @return Membership
+     */
+    public function denormalizeMembership(array $membership)
+    {
+        return new Membership(
+            $membership['role'],
+            $this->denormalizeGroup($membership['group'])
         );
     }
 }

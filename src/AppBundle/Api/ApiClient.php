@@ -3,7 +3,9 @@
 namespace AppBundle\Api;
 
 use AppBundle\Model\Group;
+use AppBundle\Model\Membership;
 use AppBundle\Model\User;
+use AppBundle\Sequence;
 use AppBundle\SynchronizableSequence;
 use GuzzleHttp\Client;
 use RuntimeException;
@@ -117,6 +119,39 @@ class ApiClient
     }
 
     /**
+     * @param int $userId
+     *
+     * @return Sequence
+     */
+    public function findUserMemberships($userId)
+    {
+        $data = $this->guzzle->get('users/' . $userId . '/groups');
+
+        $data = $this->decode($data->getBody());
+
+        return new Sequence($this->normalizer->denormalizeMemberships($data));
+    }
+
+    /**
+     * @param int $userId
+     * @param int $groupId
+     *
+     * @return Membership
+     */
+    public function findUserMembershipOfGroup($userId, $groupId)
+    {
+        $data = $this->guzzle->get('users/' . $userId . '/groups/' . $groupId);
+
+        $data = $this->decode($data->getBody());
+
+        if (empty($data)) {
+            return null;
+        }
+
+        return $this->normalizer->denormalizeMembership($data);
+    }
+
+    /**
      * @param int $offset
      * @param int $limit
      *
@@ -225,7 +260,7 @@ class ApiClient
      */
     public function removeGroupUser($groupId, $userId)
     {
-        $this->guzzle->delete('groups/' . $groupId . '/users/'  . $userId);
+        $this->guzzle->delete('groups/' . $groupId . '/users/' . $userId);
     }
 
     /**

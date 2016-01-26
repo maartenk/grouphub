@@ -29,6 +29,11 @@ class GrouphubClient
     {
         $this->ldap = $ldap;
         $this->normalizer = $normalizer;
+
+        // @todo: inject DNs
+        $this->usersDn = 'ou=Users,ou=SURFUni,dc=surfuni,dc=org';
+        $this->groupsDn = 'ou=Formalgroups,dc=surfuni,dc=org';
+        $this->grouphubDn = 'ou=Grouphub,dc=surfuni,dc=org';
     }
 
     /**
@@ -39,8 +44,7 @@ class GrouphubClient
      */
     public function findUsers($offset, $limit)
     {
-        // @todo: inject DN
-        $data = $this->ldap->find('ou=Users,ou=SURFUni,dc=surfuni,dc=org', 'cn=*', '*', '');
+        $data = $this->ldap->find($this->usersDn, 'cn=*', '*', '');
 
         if (empty($data)) {
             return new Sequence([]);
@@ -62,8 +66,7 @@ class GrouphubClient
      */
     public function findGroups($offset, $limit)
     {
-        // @todo: inject DN
-        $data = $this->ldap->find('ou=Formalgroups,dc=surfuni,dc=org', 'cn=*', ['cn'], '');
+        $data = $this->ldap->find($this->groupsDn, 'cn=*', ['cn'], '');
 
         if (empty($data)) {
             return new Sequence([]);
@@ -86,7 +89,6 @@ class GrouphubClient
      */
     public function findGroupUsers($groupReference, $offset, $limit)
     {
-        // @todo: inject DN
         $data = $this->ldap->find($groupReference, 'cn=*', ['member']);
 
         if (empty($data)) {
@@ -109,8 +111,7 @@ class GrouphubClient
      */
     public function findGrouphubGroups($offset, $limit)
     {
-        // @todo: inject DN
-        $data = $this->ldap->find('ou=Grouphub,dc=surfuni,dc=org', 'cn=*', ['cn'], '');
+        $data = $this->ldap->find($this->grouphubDn, 'cn=*', ['cn'], '');
 
         if (empty($data)) {
             return new SynchronizableSequence([]);
@@ -131,7 +132,7 @@ class GrouphubClient
      */
     public function addGroup(Group $group)
     {
-        $dn = 'cn=' . $group->getName() . ',ou=Grouphub,dc=surfuni,dc=org'; // @todo: inject
+        $dn = 'cn=' . $group->getName() . ',' . $this->grouphubDn;
         $group->setReference($dn);
 
         $data = $this->normalizer->normalizeGroup($group);

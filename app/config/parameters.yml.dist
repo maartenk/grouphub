@@ -16,3 +16,5 @@ parameters:
     ldap_port: 389
     ldap_dn:   ~
     ldap_pass: ~
+
+    password_voot: super-secret

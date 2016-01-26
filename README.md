@@ -19,7 +19,14 @@ Make sure you have the following vagrant plugins installed.
 
 # Installation
 - Run `vagrant up` in order to get the vagrant machine running
-- Run `composer install` in order to install all required dependencies.
+
+```sh
+<projectdir>$ vagrant ssh
+<vagrantbox>$ cd /vagrant
+<vagrantbox>$ curl -sS https://getcomposer.org/installer | php
+<vagrantbox>$ sudo mv composer.phar /usr/local/bin/composer
+<vagrantbox>$ composer install
+```
 
 # Getting started
 After starting and provisioning your vagrant box you can go to:
@@ -29,7 +36,7 @@ After starting and provisioning your vagrant box you can go to:
 ```sh
 <projectdir>$ vagrant ssh
 <vagrantbox>$ cd /vagrant
-<vagrantbox>$ php bin/console grouphub:sync 
+<vagrantbox>$ php bin/console grouphub:sync -vvv
 ```
 
 # Accessing VOOT url's

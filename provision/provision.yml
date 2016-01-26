@@ -15,6 +15,7 @@
     - { role: php, enable_xdebug: true }
     - { role: mysql, mysql_root_password: "root", mysql_bind_address: "127.0.0.1" }
     - { role: franklinkim.redis }
+    - { role: geerlingguy.composer }
     - { role: nbz4live.php-fpm,
         php_fpm_pools: [
           {
@@ -33,7 +34,7 @@
           { option: "opcache.memory_consumption", section: "PHP", value: "128" },
           { option: "opcache.interned_strings_buffer", section: "PHP", value: "8" },
           { option: "opcache.max_accelerated_files", section: "PHP", value: "4000" },
-          { option: "opcache.revalidate_freq", section: "PHP", value: "60" },
+          { option: "opcache.revalidate_freq", section: "PHP", value: "0" },
           { option: "opcache.fast_shutdown", section: "PHP", value: "1" }
         ]
       }
@@ -95,9 +96,3 @@
       command: a2dissite default
 
     - service: name=apache2 state=restarted enabled=yes
-
-    - name: Configure XHProf
-      lineinfile: dest=/etc/php5/mods-available/xhprof.ini line="{{ item }}" backup=yes
-      with_items:
-        - xhprof.output_dir="{{ projectdir }}/xhprof"
-      notify: restart php-fpm

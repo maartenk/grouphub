@@ -23,8 +23,6 @@ Make sure you have the following vagrant plugins installed.
 ```sh
 <projectdir>$ vagrant ssh
 <vagrantbox>$ cd /vagrant
-<vagrantbox>$ curl -sS https://getcomposer.org/installer | php
-<vagrantbox>$ sudo mv composer.phar /usr/local/bin/composer
 <vagrantbox>$ composer install
 ```
 

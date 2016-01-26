@@ -20,7 +20,6 @@
     - php5-redis
     - php5-mcrypt
     - php5-xsl
-    - php5-xhprof
     - php5-intl
     - php5-apcu
     - php5-ldap

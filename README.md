@@ -40,5 +40,7 @@ After starting and provisioning your vagrant box you can go to:
 ```
 
 # Accessing VOOT url's
+These URL's are secured with the username `voot` and the password specified in the parameters.yml config file.
+
 - <http://dev.grouphub.org/voot/user/[userId]/groups>
 - <http://dev.grouphub.org/voot/user/[userId]/groups/[groupId]>

@@ -17,4 +17,4 @@ parameters:
     ldap_dn:   ~
     ldap_pass: ~
 
-    password_voot: super-secret
+    password_voot: ~

@@ -113,6 +113,8 @@ class LdapClient implements LdapClientInterface
         if (false === @ldap_bind($this->connection, $dn, $password)) {
             throw new ConnectionException(ldap_error($this->connection));
         }
+
+        $this->isBound = true;
     }
 
     /**

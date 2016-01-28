@@ -93,7 +93,7 @@ class SynchronizableSequence extends Sequence
      */
     public function getEqualElements()
     {
-        return $this->equalElements;
+        return array_values($this->equalElements);
     }
 
     /**

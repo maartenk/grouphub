@@ -14,6 +14,7 @@ use RuntimeException;
  * Class ApiClient
  *
  * @todo: catch (http) exceptions
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class ApiClient
 {

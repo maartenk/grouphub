@@ -21,9 +21,7 @@ class Normalizer
         for ($i = 0; $i < $users['count']; $i++) {
             $user = $users[$i];
 
-            $result[] = new User(
-                null, $user['dn'], $user['givenname'][0], $user['sn'][0], $user['uid'][0]
-            );
+            $result[] = new User(null, $user['dn'], $user['givenname'][0], $user['sn'][0], $user['uid'][0]);
         }
 
         return $result;
@@ -40,9 +38,7 @@ class Normalizer
         for ($i = 0; $i < $groups['count']; $i++) {
             $group = $groups[$i];
 
-            $result[] = new Group(
-                null, $group['dn'], $group['cn'][0], '', 'ldap', 1
-            );
+            $result[] = new Group(null, $group['dn'], $group['cn'][0], '', 'ldap', 1);
         }
 
         return $result;
@@ -59,14 +55,12 @@ class Normalizer
         for ($i = 0; $i < $groups['count']; $i++) {
             $group = $groups[$i]['member'];
 
-            for ($j = 0; $j < $group['count']; $j ++) {
+            for ($j = 0; $j < $group['count']; $j++) {
                 if (empty($group[$j])) {
                     continue;
                 }
 
-                $result[$group[$j]] = new User(
-                    null, $group[$j]
-                );
+                $result[$group[$j]] = new User(null, $group[$j]);
             }
         }
 
@@ -87,9 +81,7 @@ class Normalizer
         for ($i = 0; $i < $groups['count']; $i++) {
             $group = $groups[$i];
 
-            $result[] = new Group(
-                null, $group['dn'], $group['cn'][0], ''
-            );
+            $result[] = new Group(null, $group['dn'], $group['cn'][0], '');
         }
 
         return $result;

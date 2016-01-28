@@ -189,7 +189,9 @@ class SyncService
             $this->syncGrouphubGroupUsers($element);
         }
 
-        $this->logger->info(' - Going to update ' . count($ldapGroups->getUpdatedElements()) . ' Grouphub groups in LDAP... (NOT SUPPORTED, SKIPPING)');
+        $this->logger->info(
+            ' - Going to update ' . count($ldapGroups->getUpdatedElements()) . ' Grouphub groups in LDAP... (NOT SUPPORTED, SKIPPING)'
+        );
         foreach ($ldapGroups->getUpdatedElements() as $element) {
             /** @var Group[] $element */
             $this->ldap->updateGroup($element['old']->getReference(), $element['new']);

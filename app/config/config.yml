@@ -54,3 +54,8 @@ guzzle:
 
             headers:
                 Accept: "application/json"
+
+            options:
+                auth:
+                    - "%grouphub_api_username%"
+                    - "%grouphub_api_password%"

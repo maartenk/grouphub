@@ -11,6 +11,8 @@ parameters:
     secret:            ThisTokenIsNotSoSecretChangeIt
 
     grouphub_api_url: http://api.grouphub.org
+    grouphub_api_username: 'grouphub'
+    grouphub_api_password: ~
 
     ldap_host: ~
     ldap_port: 389

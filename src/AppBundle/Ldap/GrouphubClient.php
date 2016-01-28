@@ -22,18 +22,35 @@ class GrouphubClient
     private $normalizer;
 
     /**
-     * @param LdapClient  $ldap
-     * @param Normalizer $normalizer
+     * @var string
      */
-    public function __construct(LdapClient $ldap, $normalizer)
+    private $usersDn;
+
+    /**
+     * @var string
+     */
+    private $groupsDn;
+
+    /**
+     * @var string
+     */
+    private $grouphubDn;
+
+    /**
+     * @param LdapClient $ldap
+     * @param Normalizer $normalizer
+     * @param string     $usersDn
+     * @param string     $groupsDn
+     * @param string     $grouphubDn
+     */
+    public function __construct(LdapClient $ldap, $normalizer, $usersDn, $groupsDn, $grouphubDn)
     {
         $this->ldap = $ldap;
         $this->normalizer = $normalizer;
 
-        // @todo: inject DNs
-        $this->usersDn = 'ou=Users,ou=SURFUni,dc=surfuni,dc=org';
-        $this->groupsDn = 'ou=Formalgroups,dc=surfuni,dc=org';
-        $this->grouphubDn = 'ou=Grouphub,dc=surfuni,dc=org';
+        $this->usersDn = $usersDn;
+        $this->groupsDn = $groupsDn;
+        $this->grouphubDn = $grouphubDn;
     }
 
     /**
@@ -44,7 +61,7 @@ class GrouphubClient
      */
     public function findUsers($offset, $limit)
     {
-        $data = $this->ldap->find($this->usersDn, 'cn=*', '*', '');
+        $data = $this->ldap->find($this->usersDn, 'cn=*', '*', '', $offset, $limit);
 
         if (empty($data)) {
             return new Sequence([]);
@@ -66,7 +83,7 @@ class GrouphubClient
      */
     public function findGroups($offset, $limit)
     {
-        $data = $this->ldap->find($this->groupsDn, 'cn=*', ['cn'], '');
+        $data = $this->ldap->find($this->groupsDn, 'cn=*', ['cn'], '', $offset, $limit);
 
         if (empty($data)) {
             return new Sequence([]);
@@ -89,7 +106,7 @@ class GrouphubClient
      */
     public function findGroupUsers($groupReference, $offset, $limit)
     {
-        $data = $this->ldap->find($groupReference, 'cn=*', ['member']);
+        $data = $this->ldap->find($groupReference, 'cn=*', ['member'], null, $offset, $limit);
 
         if (empty($data)) {
             return new SynchronizableSequence([]);
@@ -111,7 +128,7 @@ class GrouphubClient
      */
     public function findGrouphubGroups($offset, $limit)
     {
-        $data = $this->ldap->find($this->grouphubDn, 'cn=*', ['cn'], '');
+        $data = $this->ldap->find($this->grouphubDn, 'cn=*', ['cn'], '', $offset, $limit);
 
         if (empty($data)) {
             return new SynchronizableSequence([]);

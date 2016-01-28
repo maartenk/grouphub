@@ -32,7 +32,11 @@
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
         "symfony/phpunit-bridge": "^2.7",
-        "phpunit/phpunit": "^4.8"
+        "phpunit/phpunit": "^4.8",
+        "sensiolabs/security-checker": "^3.0",
+        "sebastian/phpcpd": "~2",
+        "squizlabs/php_codesniffer": "^2.3",
+        "phpmd/phpmd": "^2.3"
     },
     "scripts": {
         "post-install-cmd": [

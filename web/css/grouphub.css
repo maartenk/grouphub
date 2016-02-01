@@ -1,0 +1,1124 @@
+/*! normalize.css v2.0.1 | MIT License | git.io/normalize */
+/* ==========================================================================
+   HTML5 display definitions
+   ========================================================================== */
+/*
+ * Corrects `block` display not defined in IE 8/9.
+ */
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,700,300");
+/* line 11, _normalize.scss */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+nav,
+section,
+summary {
+    display: block; }
+
+/*
+ * Corrects `inline-block` display not defined in IE 8/9.
+ */
+/* line 29, _normalize.scss */
+audio,
+canvas,
+video {
+    display: inline-block; }
+
+/*
+ * Prevents modern browsers from displaying `audio` without controls.
+ * Remove excess height in iOS 5 devices.
+ */
+/* line 40, _normalize.scss */
+audio:not([controls]) {
+    display: none;
+    height: 0; }
+
+/*
+ * Addresses styling for `hidden` attribute not present in IE 8/9.
+ */
+/* line 49, _normalize.scss */
+[hidden] {
+    display: none; }
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+/*
+ * 1. Sets default font family to sans-serif.
+ * 2. Prevents iOS text size adjust after orientation change, without disabling
+ *    user zoom.
+ */
+/* line 63, _normalize.scss */
+html {
+    font-family: sans-serif;
+    /* 1 */
+    -webkit-text-size-adjust: 100%;
+    /* 2 */
+    -ms-text-size-adjust: 100%;
+    /* 2 */ }
+
+/*
+ * Removes default margin.
+ */
+/* line 73, _normalize.scss */
+body {
+    margin: 0; }
+
+/* ==========================================================================
+   Links
+   ========================================================================== */
+/*
+ * Addresses `outline` inconsistency between Chrome and other browsers.
+ */
+/* line 85, _normalize.scss */
+a:focus {
+    outline: thin dotted; }
+
+/*
+ * Improves readability when focused and also mouse hovered in all browsers.
+ */
+/* line 93, _normalize.scss */
+a:active,
+a:hover {
+    outline: 0; }
+
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+/*
+ * Addresses `h1` font sizes within `section` and `article` in Firefox 4+,
+ * Safari 5, and Chrome.
+ */
+/* line 107, _normalize.scss */
+h1 {
+    font-size: 2em; }
+
+/*
+ * Addresses styling not present in IE 8/9, Safari 5, and Chrome.
+ */
+/* line 115, _normalize.scss */
+abbr[title] {
+    border-bottom: 1px dotted; }
+
+/*
+ * Addresses style set to `bolder` in Firefox 4+, Safari 5, and Chrome.
+ */
+/* line 123, _normalize.scss */
+b,
+strong {
+    font-weight: bold; }
+
+/*
+ * Addresses styling not present in Safari 5 and Chrome.
+ */
+/* line 132, _normalize.scss */
+dfn {
+    font-style: italic; }
+
+/*
+ * Addresses styling not present in IE 8/9.
+ */
+/* line 140, _normalize.scss */
+mark {
+    background: #ff0;
+    color: #000; }
+
+/*
+ * Corrects font family set oddly in Safari 5 and Chrome.
+ */
+/* line 150, _normalize.scss */
+code,
+kbd,
+pre,
+samp {
+    font-family: monospace, serif;
+    font-size: 1em; }
+
+/*
+ * Improves readability of pre-formatted text in all browsers.
+ */
+/* line 162, _normalize.scss */
+pre {
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word; }
+
+/*
+ * Sets consistent quote types.
+ */
+/* line 172, _normalize.scss */
+q {
+    quotes: "\201C" "\201D" "\2018" "\2019"; }
+
+/*
+ * Addresses inconsistent and variable font size in all browsers.
+ */
+/* line 180, _normalize.scss */
+small {
+    font-size: 80%; }
+
+/*
+ * Prevents `sub` and `sup` affecting `line-height` in all browsers.
+ */
+/* line 188, _normalize.scss */
+sub,
+sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline; }
+
+/* line 196, _normalize.scss */
+sup {
+    top: -0.5em; }
+
+/* line 200, _normalize.scss */
+sub {
+    bottom: -0.25em; }
+
+/* ==========================================================================
+   Embedded content
+   ========================================================================== */
+/*
+ * Removes border when inside `a` element in IE 8/9.
+ */
+/* line 212, _normalize.scss */
+img {
+    border: 0; }
+
+/*
+ * Corrects overflow displayed oddly in IE 9.
+ */
+/* line 220, _normalize.scss */
+svg:not(:root) {
+    overflow: hidden; }
+
+/* ==========================================================================
+   Figures
+   ========================================================================== */
+/*
+ * Addresses margin not present in IE 8/9 and Safari 5.
+ */
+/* line 232, _normalize.scss */
+figure {
+    margin: 0; }
+
+/* ==========================================================================
+   Forms
+   ========================================================================== */
+/*
+ * Define consistent border, margin, and padding.
+ */
+/* line 244, _normalize.scss */
+fieldset {
+    border: 1px solid #c0c0c0;
+    margin: 0 2px;
+    padding: 0.35em 0.625em 0.75em; }
+
+/*
+ * 1. Corrects color not being inherited in IE 8/9.
+ * 2. Remove padding so people aren't caught out if they zero out fieldsets.
+ */
+/* line 255, _normalize.scss */
+legend {
+    border: 0;
+    /* 1 */
+    padding: 0;
+    /* 2 */ }
+
+/*
+ * 1. Corrects font family not being inherited in all browsers.
+ * 2. Corrects font size not being inherited in all browsers.
+ * 3. Addresses margins set differently in Firefox 4+, Safari 5, and Chrome
+ */
+/* line 266, _normalize.scss */
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+    /* 1 */
+    font-size: 100%;
+    /* 2 */
+    margin: 0;
+    /* 3 */ }
+
+/*
+ * Addresses Firefox 4+ setting `line-height` on `input` using `!important` in
+ * the UA stylesheet.
+ */
+/* line 280, _normalize.scss */
+button,
+input {
+    line-height: normal; }
+
+/*
+ * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
+ *    and `video` controls.
+ * 2. Corrects inability to style clickable `input` types in iOS.
+ * 3. Improves usability and consistency of cursor style between image-type
+ *    `input` and others.
+ */
+/* line 293, _normalize.scss */
+button,
+html input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+    -webkit-appearance: button;
+    /* 2 */
+    cursor: pointer;
+    /* 3 */ }
+
+/*
+ * Re-set default cursor for disabled elements.
+ */
+/* line 305, _normalize.scss */
+button[disabled],
+input[disabled] {
+    cursor: default; }
+
+/*
+ * 1. Addresses box sizing set to `content-box` in IE 8/9.
+ * 2. Removes excess padding in IE 8/9.
+ */
+/* line 315, _normalize.scss */
+input[type="checkbox"],
+input[type="radio"] {
+    box-sizing: border-box;
+    /* 1 */
+    padding: 0;
+    /* 2 */ }
+
+/*
+ * 1. Addresses `appearance` set to `searchfield` in Safari 5 and Chrome.
+ * 2. Addresses `box-sizing` set to `border-box` in Safari 5 and Chrome
+ *    (include `-moz` to future-proof).
+ */
+/* line 327, _normalize.scss */
+input[type="search"] {
+    -webkit-appearance: textfield;
+    /* 1 */
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    /* 2 */
+    box-sizing: content-box; }
+
+/*
+ * Removes inner padding and search cancel button in Safari 5 and Chrome
+ * on OS X.
+ */
+/* line 339, _normalize.scss */
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+    -webkit-appearance: none; }
+
+/*
+ * Removes inner padding and border in Firefox 4+.
+ */
+/* line 348, _normalize.scss */
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+    border: 0;
+    padding: 0; }
+
+/*
+ * 1. Removes default vertical scrollbar in IE 8/9.
+ * 2. Improves readability and alignment in all browsers.
+ */
+/* line 359, _normalize.scss */
+textarea {
+    overflow: auto;
+    /* 1 */
+    vertical-align: top;
+    /* 2 */ }
+
+/* ==========================================================================
+   Tables
+   ========================================================================== */
+/*
+ * Remove most spacing between table cells.
+ */
+/* line 372, _normalize.scss */
+table {
+    border-collapse: collapse;
+    border-spacing: 0; }
+
+/* _variables.scss */
+/* line 3, _base.scss */
+*, :after, :before {
+    box-sizing: border-box; }
+
+/* line 7, _base.scss */
+body {
+    font-family: "Open Sans";
+    font-weight: 400;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased; }
+
+/* line 14, _base.scss */
+.background_purple {
+    background-color: #8e5290; }
+
+/* line 18, _base.scss */
+.background_grey {
+    background-color: #bbbbbb; }
+
+/* line 22, _base.scss */
+.background_green {
+    background-color: #548c5b; }
+
+/* line 26, _base.scss */
+.background_blue {
+    background-color: #52b2cd; }
+
+/* line 30, _base.scss */
+.white {
+    color: white; }
+
+/* line 34, _base.scss */
+.blue {
+    color: #52b2cd; }
+
+/* line 38, _base.scss */
+.green {
+    color: #548c5b; }
+
+/* line 42, _base.scss */
+.purple {
+    color: #8e5290; }
+
+/* line 46, _base.scss */
+.grey {
+    color: #bbbbbb; }
+
+/* line 50, _base.scss */
+.pull-left {
+    float: left; }
+
+/* line 54, _base.scss */
+.pull-right {
+    float: right; }
+
+/* line 58, _base.scss */
+.hidden {
+    display: none !important; }
+
+/* line 1, _buttons.scss */
+.button_blue, .button_grey, .button_grey_info, .button_dark_grey, li.group_section div:last-child .button_edit, li.group_section div:last-child .button_member, li.group_section div:last-child .button_join {
+    background: #52b2cd;
+    padding: 7px 15px;
+    border-radius: 2px;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    position: relative;
+    margin-right: 7px; }
+/* line 12, _buttons.scss */
+.button_blue:hover, .button_grey:hover, .button_grey_info:hover, .button_dark_grey:hover, li.group_section div:last-child .button_edit:hover, li.group_section div:last-child .button_member:hover, li.group_section div:last-child .button_join:hover {
+    background: #359bb7;
+    text-decoration: none; }
+/* line 17, _buttons.scss */
+.button_blue i, .button_grey i, .button_grey_info i, .button_dark_grey i, li.group_section div:last-child .button_edit i, li.group_section div:last-child .button_member i, li.group_section div:last-child .button_join i {
+    margin-right: 10px; }
+
+/* line 23, _buttons.scss */
+.button_grey, .button_grey_info {
+    color: #555555;
+    background-color: #eaeaea; }
+/* line 28, _buttons.scss */
+.button_grey:hover, .button_grey_info:hover {
+    background: #d1d1d1; }
+
+/* line 33, _buttons.scss */
+.button_dark_grey {
+    color: white;
+    background-color: #a6a6a6; }
+/* line 38, _buttons.scss */
+.button_dark_grey:hover {
+    background: #8d8d8d; }
+
+/* line 43, _buttons.scss */
+.button_grey_info {
+    padding-left: 40px; }
+/* line 48, _buttons.scss */
+.button_grey_info span {
+    position: absolute;
+    color: white;
+    background-color: #a6a6a6;
+    padding: 7px 12px;
+    top: 0;
+    left: 0;
+    border-radius: 2px; }
+
+/* line 1, _modals.scss */
+.modal-open {
+    overflow: hidden; }
+
+/* line 5, _modals.scss */
+.modal_container, .notifications_container, .new_group_container, .edit_group_container {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    position: absolute;
+    background-color: rgba(22, 22, 22, 0.85); }
+@media screen and (max-width: 800px) {
+    /* line 5, _modals.scss */
+    .modal_container, .notifications_container, .new_group_container, .edit_group_container {
+        background-color: black; } }
+
+/* line 16, _modals.scss */
+.modal, .notifications_container div.notifications, .new_group_container div.new_group, .edit_group_container div.edit_group {
+    position: relative;
+    margin: 0 auto;
+    overflow-y: auto; }
+@media screen and (max-width: 800px) {
+    /* line 16, _modals.scss */
+    .modal, .notifications_container div.notifications, .new_group_container div.new_group, .edit_group_container div.edit_group {
+        top: 0;
+        width: 100%;
+        max-height: 100%; } }
+@media screen and (min-width: 800px) {
+    /* line 16, _modals.scss */
+    .modal, .notifications_container div.notifications, .new_group_container div.new_group, .edit_group_container div.edit_group {
+        top: 10%;
+        width: 600px;
+        max-height: 80%; } }
+@media screen and (min-width: 1200px) {
+    /* line 16, _modals.scss */
+    .modal, .notifications_container div.notifications, .new_group_container div.new_group, .edit_group_container div.edit_group {
+        top: 10%;
+        width: 800px;
+        max-height: 80%; } }
+/* line 37, _modals.scss */
+.modal .modal_header, .notifications_container div.notifications .modal_header, .new_group_container div.new_group .modal_header, .edit_group_container div.edit_group .modal_header, .notifications_container div.notifications header, .new_group_container div.new_group header, .edit_group_container div.edit_group header {
+    position: relative;
+    background-color: #52b2cd;
+    color: white;
+    text-align: center;
+    padding: 20px 0; }
+/* line 44, _modals.scss */
+.modal .modal_header p, .notifications_container div.notifications .modal_header p, .new_group_container div.new_group .modal_header p, .edit_group_container div.edit_group .modal_header p, .notifications_container div.notifications header p, .new_group_container div.new_group header p, .edit_group_container div.edit_group header p {
+    margin: 0;
+    font-size: 26px; }
+
+/* line 52, _modals.scss */
+.close_modal {
+    position: absolute;
+    top: 15%;
+    left: 5%;
+    font-size: 34px;
+    color: white; }
+
+/* line 2, _mixins.scss */
+header.header:after {
+    content: "";
+    display: table;
+    clear: both; }
+/* line 4, _header.scss */
+header.header ul {
+    list-style-type: none; }
+/* line 7, _header.scss */
+header.header li {
+    display: inline-block; }
+/* line 10, _header.scss */
+header.header a {
+    text-decoration: none; }
+/* line 13, _header.scss */
+header.header ul:first-child {
+    float: left;
+    font-size: 20px;
+    font-weight: 700; }
+/* line 18, _header.scss */
+header.header ul:first-child li:first-child {
+    border-right: solid 1px #a6a6a6;
+    padding-right: 10px; }
+/* line 19, _header.scss */
+header.header ul:first-child li:first-child a {
+    color: #a6a6a6; }
+/* line 25, _header.scss */
+header.header ul:first-child li:last-child {
+    padding-left: 10px; }
+/* line 26, _header.scss */
+header.header ul:first-child li:last-child a {
+    color: #52b2cd; }
+/* line 33, _header.scss */
+header.header ul:last-child {
+    float: right; }
+/* line 35, _header.scss */
+header.header ul:last-child li:last-child {
+    margin-right: 5px; }
+/* line 37, _header.scss */
+header.header ul:last-child li:last-child a {
+    padding-right: 22px; }
+/* line 40, _header.scss */
+header.header ul:last-child li:last-child i {
+    position: absolute;
+    left: 38px;
+    top: 7px; }
+/* line 48, _header.scss */
+header.header li.language-selector {
+    position: relative; }
+/* line 50, _header.scss */
+header.header li.language-selector a:last-child {
+    position: absolute; }
+
+/* line 1, _navigation.scss */
+nav {
+    background-color: black;
+    padding: 5px 0; }
+/* line 2, _mixins.scss */
+nav:after {
+    content: "";
+    display: table;
+    clear: both; }
+/* line 7, _navigation.scss */
+nav ul {
+    list-style-type: none;
+    font-weight: bold; }
+@media screen and (min-width: 800px) {
+    /* line 7, _navigation.scss */
+    nav ul {
+        float: left; } }
+/* line 16, _navigation.scss */
+nav li {
+    display: inline-block;
+    margin-right: 25px; }
+/* line 21, _navigation.scss */
+nav label {
+    cursor: pointer; }
+/* line 25, _navigation.scss */
+nav input[type="checkbox"] {
+    display: none; }
+/* line 30, _navigation.scss */
+nav input[type="checkbox"] + label span i {
+    color: transparent;
+    padding: 3px; }
+/* line 37, _navigation.scss */
+nav input[type="checkbox"]:checked + label span i {
+    color: white; }
+/* line 42, _navigation.scss */
+nav .search_container {
+    margin-top: 7px; }
+@media screen and (max-width: 800px) {
+    /* line 42, _navigation.scss */
+    nav .search_container {
+        margin: 0 auto;
+        width: 97%; } }
+@media screen and (min-width: 800px) {
+    /* line 42, _navigation.scss */
+    nav .search_container {
+        float: right;
+        width: 40%; } }
+/* line 53, _navigation.scss */
+nav .search_container .input_container {
+    position: relative;
+    width: 100%; }
+/* line 56, _navigation.scss */
+nav .search_container .input_container i {
+    position: absolute;
+    font-size: 18px;
+    top: 7px;
+    left: 0;
+    color: #bbbbbb; }
+/* line 63, _navigation.scss */
+nav .search_container .input_container input {
+    display: inline-block;
+    padding: 5px 5px 5px 35px;
+    float: right;
+    width: 100%;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: 1px solid #555555;
+    background-color: #555555;
+    color: #bbbbbb; }
+/* line 73, _navigation.scss */
+nav .search_container .input_container input:focus {
+    outline: none; }
+@media screen and (max-width: 800px) {
+    /* line 63, _navigation.scss */
+    nav .search_container .input_container input {
+        margin-right: 0; } }
+
+/* line 1, _groups.scss */
+.groups {
+    background-color: black;
+    padding: 0 5px; }
+@media screen and (min-width: 1200px) {
+    /* line 1, _groups.scss */
+    .groups {
+        display: flex;
+        align-items: stretch; } }
+
+/* line 1, _group.scss */
+.group {
+    width: 100%;
+    background-color: white;
+    border: 2px solid; }
+/* line 6, _group.scss */
+.group h3, .group p {
+    margin: 0;
+    font-weight: 400; }
+/* line 10, _group.scss */
+.group h3 {
+    padding-top: 15px; }
+/* line 13, _group.scss */
+.group section:first-child {
+    position: relative;
+    text-align: center;
+    color: white; }
+/* line 17, _group.scss */
+.group section:first-child p {
+    padding-bottom: 15px; }
+/* line 20, _group.scss */
+.group section:first-child a {
+    text-decoration: none;
+    color: white; }
+/* line 24, _group.scss */
+.group section:first-child .close {
+    position: absolute;
+    top: -1px;
+    left: 6px;
+    font-size: 16px; }
+/* line 30, _group.scss */
+.group section:first-child .sort {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    border: solid 1px #bce5f0;
+    border-radius: 2px;
+    padding: 3px 16px 3px 4px;
+    font-size: 12px; }
+/* line 39, _group.scss */
+.group section:first-child .sort_container {
+    position: relative; }
+/* line 41, _group.scss */
+.group section:first-child .sort_container i {
+    position: absolute;
+    top: -18px;
+    left: 22px; }
+/* line 47, _group.scss */
+.group section:first-child .sort_drop_down_blue, .group section:first-child .sort_drop_down_green, .group section:first-child .sort_drop_down_purple, .group section:first-child .sort_drop_down_grey {
+    position: absolute;
+    text-align: right;
+    top: 30px;
+    right: 3px;
+    min-width: 80px;
+    border-radius: 2px;
+    border: solid 1px #eaeaea;
+    background-color: #359bb7;
+    padding: 3px;
+    font-size: 12px;
+    z-index: 999; }
+/* line 59, _group.scss */
+.group section:first-child .sort_drop_down_blue ul, .group section:first-child .sort_drop_down_green ul, .group section:first-child .sort_drop_down_purple ul, .group section:first-child .sort_drop_down_grey ul {
+    list-style-type: none; }
+/* line 62, _group.scss */
+.group section:first-child .sort_drop_down_blue ul a:hover, .group section:first-child .sort_drop_down_green ul a:hover, .group section:first-child .sort_drop_down_purple ul a:hover, .group section:first-child .sort_drop_down_grey ul a:hover {
+    font-weight: bold; }
+/* line 65, _group.scss */
+.group section:first-child .sort_drop_down_blue ul a.active:before, .group section:first-child .sort_drop_down_green ul a.active:before, .group section:first-child .sort_drop_down_purple ul a.active:before, .group section:first-child .sort_drop_down_grey ul a.active:before {
+    content: "*";
+    position: absolute;
+    top: 0;
+    left: 1px; }
+/* line 74, _group.scss */
+.group section:first-child .sort_drop_down_green {
+    background-color: #416c46; }
+/* line 78, _group.scss */
+.group section:first-child .sort_drop_down_purple {
+    background-color: #6e3f70; }
+/* line 82, _group.scss */
+.group section:first-child .sort_drop_down_grey {
+    background-color: #a2a2a2; }
+/* line 87, _group.scss */
+.group section.owned {
+    background-color: #bce5f0;
+    position: relative;
+    text-align: center;
+    color: #359bb7; }
+/* line 92, _group.scss */
+.group section.owned h3 {
+    padding: 8px 0px; }
+/* line 95, _group.scss */
+.group section.owned i {
+    position: absolute;
+    left: 7px;
+    top: 10px;
+    font-size: 20px; }
+/* line 102, _group.scss */
+.group ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0; }
+
+/* line 1, _group_section.scss */
+li.group_section {
+    border-bottom: solid 1px #eaeaea;
+    padding-bottom: 10px; }
+/* line 6, _group_section.scss */
+li.group_section div:first-child {
+    margin-top: 15px;
+    padding: 0 10px 12px 15px;
+    text-align: center;
+    border-right: solid 1px #eaeaea;
+    float: left; }
+/* line 13, _group_section.scss */
+li.group_section div:first-child i {
+    display: block; }
+/* line 17, _group_section.scss */
+li.group_section div:first-child span {
+    color: #8a8a8a;
+    font-size: 12px; }
+/* line 23, _group_section.scss */
+li.group_section div:nth-child(2) {
+    display: inline-block;
+    padding-left: 10px;
+    max-width: 55%; }
+/* line 28, _group_section.scss */
+li.group_section div:nth-child(2) p:first-child {
+    color: black;
+    padding-top: 10px; }
+/* line 33, _group_section.scss */
+li.group_section div:nth-child(2) p:nth-child(2) {
+    color: #8a8a8a;
+    font-size: 13px; }
+/* line 38, _group_section.scss */
+li.group_section div:nth-child(2) p:last-child {
+    color: #52b2cd;
+    font-size: 11px;
+    line-height: 13px; }
+/* line 45, _group_section.scss */
+li.group_section div:last-child {
+    float: right;
+    margin-top: 22px;
+    margin-right: 10px; }
+/* line 50, _group_section.scss */
+li.group_section div:last-child .button_edit, li.group_section div:last-child .button_member, li.group_section div:last-child .button_join {
+    color: #52b2cd;
+    background-color: white;
+    border: 1px solid #52b2cd;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 5px 10px;
+    width: 72px;
+    min-height: 30px; }
+/* line 62, _group_section.scss */
+li.group_section div:last-child .button_edit:hover, li.group_section div:last-child .button_member:hover, li.group_section div:last-child .button_join:hover {
+    background: #b5deea;
+    color: white; }
+/* line 67, _group_section.scss */
+li.group_section div:last-child .button_member {
+    color: white;
+    background-color: #548c5b;
+    border: none; }
+/* line 74, _group_section.scss */
+li.group_section div:last-child .button_member:hover {
+    background: #b62222; }
+/* line 76, _group_section.scss */
+li.group_section div:last-child .button_member:hover span {
+    display: none; }
+/* line 79, _group_section.scss */
+li.group_section div:last-child .button_member:hover:before {
+    content: attr(data-hover);
+    position: absolute;
+    top: 5px;
+    left: 0;
+    width: 100%; }
+/* line 88, _group_section.scss */
+li.group_section div:last-child .button_join {
+    color: #548c5b;
+    background-color: white;
+    border: 1px solid #548c5b; }
+/* line 94, _group_section.scss */
+li.group_section div:last-child .button_join:hover {
+    background: #9cc4a1; }
+
+/* line 1, _footer.scss */
+footer {
+    background-color: black;
+    padding: 5px 0; }
+/* line 2, _mixins.scss */
+footer:after {
+    content: "";
+    display: table;
+    clear: both; }
+/* line 7, _footer.scss */
+footer ul {
+    list-style-type: none; }
+/* line 11, _footer.scss */
+footer li {
+    display: inline-block;
+    margin-right: 15px; }
+/* line 15, _footer.scss */
+footer li:first-child {
+    padding-right: 15px;
+    border-right: solid 1px #eaeaea; }
+/* line 20, _footer.scss */
+footer li:last-child {
+    float: right; }
+/* line 25, _footer.scss */
+footer a {
+    color: #eaeaea;
+    text-decoration: none; }
+
+/* line 4, _notifications.scss */
+.notifications_container div.notifications {
+    background-color: #eaeaea; }
+/* line 12, _notifications.scss */
+.notifications_container div.notifications article {
+    margin: 5px 10px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 2px; }
+/* line 18, _notifications.scss */
+.notifications_container div.notifications article:nth-child(2) {
+    margin-top: 10px; }
+/* line 21, _notifications.scss */
+.notifications_container div.notifications article:last-child {
+    margin-bottom: 10px; }
+
+/* line 3, _notification.scss */
+.notification table {
+    width: 100%; }
+/* line 5, _notification.scss */
+.notification table td:first-child {
+    color: #8a8a8a;
+    width: 15%; }
+/* line 9, _notification.scss */
+.notification table td:last-child {
+    width: 85%; }
+/* line 13, _notification.scss */
+.notification a {
+    margin: 15px 10px 5px 0px; }
+
+/* line 4, _new_group.scss */
+.new_group_container div.new_group {
+    background-color: #eaeaea; }
+/* line 12, _new_group.scss */
+.new_group_container div.new_group form {
+    padding: 20px 30px;
+    border-radius: 2px; }
+/* line 16, _new_group.scss */
+.new_group_container div.new_group form .form_element {
+    padding: 10px; }
+/* line 20, _new_group.scss */
+.new_group_container div.new_group form label {
+    color: #555555;
+    min-width: 90px;
+    display: inline-block; }
+/* line 26, _new_group.scss */
+.new_group_container div.new_group form input, .new_group_container div.new_group form textarea, .new_group_container div.new_group form select {
+    width: 80%;
+    display: inline-block;
+    border-radius: 2px;
+    border: 1px solid #bbbbbb;
+    background-color: white;
+    padding: 2px;
+    -webkit-appearance: none;
+    -webkit-border-radius: 2px; }
+@media screen and (max-width: 800px) {
+    /* line 26, _new_group.scss */
+    .new_group_container div.new_group form input, .new_group_container div.new_group form textarea, .new_group_container div.new_group form select {
+        width: 100%; } }
+/* line 41, _new_group.scss */
+.new_group_container div.new_group form input, .new_group_container div.new_group form select {
+    height: 26px; }
+/* line 44, _new_group.scss */
+.new_group_container div.new_group form a {
+    margin: 30px 10px 5px 105px; }
+/* line 47, _new_group.scss */
+.new_group_container div.new_group form a.button_dark_grey {
+    margin-left: 0; }
+
+/* line 1, _edit_group.scss */
+.edit_group_container {
+    overflow-x: hidden;
+    /* DAMN YOU DENNIS */ }
+/* line 5, _edit_group.scss */
+.edit_group_container ::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; }
+/* line 9, _edit_group.scss */
+.edit_group_container ::-webkit-scrollbar-thumb {
+    background: transparent; }
+/* line 15, _edit_group.scss */
+.edit_group_container div.edit_group {
+    overflow-y: hidden;
+    background-color: transparent; }
+/* line 23, _edit_group.scss */
+.edit_group_container div.edit_group header i {
+    position: absolute;
+    top: 47%;
+    right: 10px; }
+/* line 28, _edit_group.scss */
+.edit_group_container div.edit_group header a.close_modal {
+    top: 28%;
+    left: 10%; }
+/* line 33, _edit_group.scss */
+.edit_group_container div.edit_group .left {
+    background-color: #eaeaea; }
+@media screen and (max-width: 800px) {
+    /* line 33, _edit_group.scss */
+    .edit_group_container div.edit_group .left {
+        width: 100%; } }
+@media screen and (min-width: 800px) {
+    /* line 33, _edit_group.scss */
+    .edit_group_container div.edit_group .left {
+        width: 565px; } }
+@media screen and (min-width: 1200px) {
+    /* line 33, _edit_group.scss */
+    .edit_group_container div.edit_group .left {
+        width: 765px; } }
+/* line 47, _edit_group.scss */
+.edit_group_container ul.icons {
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    list-style-type: none;
+    position: absolute;
+    z-index: 999; }
+@media screen and (max-width: 800px) {
+    /* line 47, _edit_group.scss */
+    .edit_group_container ul.icons {
+        top: 0;
+        right: 0; } }
+@media screen and (min-width: 800px) {
+    /* line 47, _edit_group.scss */
+    .edit_group_container ul.icons {
+        top: 0;
+        right: 0; } }
+/* line 64, _edit_group.scss */
+.edit_group_container ul.icons li {
+    background-color: #5c8da7;
+    margin-bottom: 2px; }
+/* line 67, _edit_group.scss */
+.edit_group_container ul.icons li:last-child {
+    border: none; }
+/* line 71, _edit_group.scss */
+.edit_group_container ul.icons li a i {
+    color: #eaeaea;
+    padding: 8px;
+    font-size: 16px; }
+/* line 80, _edit_group.scss */
+.edit_group_container ul.tabs {
+    list-style-type: none;
+    margin: 0;
+    padding: 0; }
+/* line 2, _mixins.scss */
+.edit_group_container ul.tabs:after {
+    content: "";
+    display: table;
+    clear: both; }
+/* line 87, _edit_group.scss */
+.edit_group_container ul.tabs li {
+    text-align: center;
+    width: 50%;
+    padding: 10px; }
+/* line 91, _edit_group.scss */
+.edit_group_container ul.tabs li a {
+    text-decoration: none; }
+/* line 95, _edit_group.scss */
+.edit_group_container ul.tabs li:first-child {
+    float: left;
+    background-color: white;
+    border-bottom: 0.5px solid #52b2cd; }
+/* line 99, _edit_group.scss */
+.edit_group_container ul.tabs li:first-child a {
+    color: #52b2cd; }
+/* line 103, _edit_group.scss */
+.edit_group_container ul.tabs li:last-child {
+    float: right;
+    background-color: #5c8da7; }
+/* line 106, _edit_group.scss */
+.edit_group_container ul.tabs li:last-child a {
+    color: white; }
+/* line 109, _edit_group.scss */
+.edit_group_container ul.tabs li:last-child i {
+    background-color: white;
+    color: #52b2cd;
+    border-radius: 50%;
+    padding: 2px 3px;
+    margin-right: 10px; }
+/* line 120, _edit_group.scss */
+.edit_group_container .search_container {
+    border-bottom: 3px solid #eaeaea; }
+/* line 123, _edit_group.scss */
+.edit_group_container .search_container .input_container {
+    position: relative;
+    width: 100%;
+    padding: 15px;
+    background-color: white; }
+/* line 128, _edit_group.scss */
+.edit_group_container .search_container .input_container i {
+    position: absolute;
+    font-size: 20px;
+    top: 19px;
+    left: 23px;
+    color: #52b2cd; }
+/* line 135, _edit_group.scss */
+.edit_group_container .search_container .input_container input {
+    display: inline-block;
+    padding: 4px 4px 4px 30px;
+    width: 100%;
+    border-radius: 2px;
+    border: 1px solid #eaeaea;
+    background-color: #eaeaea;
+    color: #555555; }
+/* line 143, _edit_group.scss */
+.edit_group_container .search_container .input_container input:focus {
+    outline: none; }
+/* line 150, _edit_group.scss */
+.edit_group_container ul.users {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    overflow-y: auto;
+    max-height: 600px; }
+/* line 158, _edit_group.scss */
+.edit_group_container ul.users li {
+    padding: 10px 0px 10px 20px;
+    border-bottom: 1px solid #eaeaea; }
+/* line 161, _edit_group.scss */
+.edit_group_container ul.users li div {
+    display: inline-block; }
+/* line 165, _edit_group.scss */
+.edit_group_container ul.users li p {
+    margin: 0;
+    padding: 0; }
+/* line 169, _edit_group.scss */
+.edit_group_container ul.users li span {
+    color: #8a8a8a;
+    font-size: 13px; }
+/* line 173, _edit_group.scss */
+.edit_group_container ul.users li select {
+    float: right;
+    margin-right: 10px;
+    width: 35%;
+    border-radius: 2px;
+    border: 1px solid #bbbbbb;
+    -webkit-appearance: none;
+    -webkit-border-radius: 2px;
+    color: #555555;
+    background-color: #eaeaea;
+    padding: 4px;
+    font-size: 12px;
+    margin-top: 4px; }
+/* line 187, _edit_group.scss */
+.edit_group_container ul.users li a {
+    float: right;
+    display: inline-block; }
+/* line 190, _edit_group.scss */
+.edit_group_container ul.users li a i {
+    background-color: white;
+    color: #a6a6a6;
+    border: 1px solid #a6a6a6;
+    border-radius: 50%;
+    padding: 2px 4px;
+    margin: 6px 15px 0 5px; }

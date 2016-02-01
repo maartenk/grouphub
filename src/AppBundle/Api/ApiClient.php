@@ -46,10 +46,13 @@ class ApiClient
      */
     public function findUsers($offset = 0, $limit = 100)
     {
-        $data = $this->guzzle->get(
-            'users',
-            ['query' => ['offset' => $offset, 'limit' => $limit, 'sort' => 'reference']]
-        );
+        $data = $this->guzzle->get('users', [
+            'query' => [
+                'offset' => $offset,
+                'limit'  => $limit,
+                'sort'   => 'reference',
+            ],
+        ]);
 
         $data = $this->decode($data->getBody());
 
@@ -63,10 +66,11 @@ class ApiClient
      */
     public function findUserByReference($reference)
     {
-        $data = $this->guzzle->get(
-            'users',
-            ['query' => ['reference' => $reference]]
-        );
+        $data = $this->guzzle->get('users', [
+            'query' => [
+                'reference' => $reference,
+            ],
+        ]);
 
         $data = $this->decode($data->getBody());
 
@@ -85,14 +89,7 @@ class ApiClient
      */
     public function findLdapGroups($offset = 0, $limit = 100)
     {
-        $data = $this->guzzle->get(
-            'groups',
-            ['query' => ['offset' => $offset, 'limit' => $limit, 'sort' => 'reference', 'type' => 'ldap']]
-        );
-
-        $data = $this->decode($data->getBody());
-
-        return new SynchronizableSequence($this->normalizer->denormalizeGroups($data));
+        return $this->findGroups('ldap', $offset, $limit);
     }
 
     /**
@@ -109,10 +106,13 @@ class ApiClient
             return new SynchronizableSequence([]);
         }
 
-        $data = $this->guzzle->get(
-            'groups/' . $group->getId() . '/users',
-            ['query' => ['offset' => $offset, 'limit' => $limit, 'sort' => 'reference']]
-        );
+        $data = $this->guzzle->get('groups/' . $group->getId() . '/users', [
+            'query' => [
+                'offset' => $offset,
+                'limit'  => $limit,
+                'sort'   => 'reference',
+            ],
+        ]);
 
         $data = $this->decode($data->getBody());
 
@@ -160,10 +160,26 @@ class ApiClient
      */
     public function findGrouphubGroups($offset = 0, $limit = 100)
     {
-        $data = $this->guzzle->get(
-            'groups',
-            ['query' => ['offset' => $offset, 'limit' => $limit, 'sort' => 'reference', 'type' => 'grouphub']]
-        );
+        return $this->findGroups('grouphub', $offset, $limit);
+    }
+
+    /**
+     * @param string $type
+     * @param int    $offset
+     * @param int    $limit
+     *
+     * @return SynchronizableSequence
+     */
+    public function findGroups($type = null, $offset = 0, $limit = 100)
+    {
+        $data = $this->guzzle->get('groups', [
+            'query' => [
+                'offset' => $offset,
+                'limit'  => $limit,
+                'sort'   => 'reference',
+                'type'   => $type,
+            ],
+        ]);
 
         $data = $this->decode($data->getBody());
 

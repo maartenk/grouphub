@@ -17,3 +17,4 @@
 /.idea
 /.vagrant
 cache.properties
+/web/compiled/*

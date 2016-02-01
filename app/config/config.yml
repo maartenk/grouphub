@@ -59,3 +59,11 @@ guzzle:
                 auth:
                     - "%grouphub_api_username%"
                     - "%grouphub_api_password%"
+
+# Assetic Configuration
+assetic:
+    debug:          '%kernel.debug%'
+    use_controller: false
+    filters:
+        cssrewrite:
+            apply_to: '\.css$'

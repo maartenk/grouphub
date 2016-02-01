@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             // 3rd party bundles
             new EightPoints\Bundle\GuzzleBundle\GuzzleBundle(),
+            new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             // custom bundles
             new AppBundle\AppBundle(),
         ];

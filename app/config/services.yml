@@ -23,8 +23,12 @@ services:
     app.api_client:
         class: AppBundle\Api\ApiClient
         arguments: ["@guzzle.client.api_grouphub", "@app.api_normalizer"]
-        private: true
 
     app.sync:
         class: AppBundle\Service\SyncService
         arguments: ["@app.grouphub_ldap_client", "@app.api_client", "@logger"]
+
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }

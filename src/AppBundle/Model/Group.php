@@ -2,6 +2,7 @@
 
 namespace AppBundle\Model;
 
+use DateTime;
 use Doctrine\Common\Comparable;
 
 /**
@@ -45,13 +46,19 @@ class Group implements Comparable
     private $parentId;
 
     /**
-     * @param int    $id
-     * @param string $reference
-     * @param string $name
-     * @param string $description
-     * @param string $type
-     * @param int    $ownerId
-     * @param int    $parentId
+     * @var DateTime
+     */
+    private $timeStamp;
+
+    /**
+     * @param int      $id
+     * @param string   $reference
+     * @param string   $name
+     * @param string   $description
+     * @param string   $type
+     * @param int      $ownerId
+     * @param int      $parentId
+     * @param DateTime $timeStamp
      */
     public function __construct(
         $id = null,
@@ -60,7 +67,8 @@ class Group implements Comparable
         $description = '',
         $type = '',
         $ownerId = null,
-        $parentId = null
+        $parentId = null,
+        DateTime $timeStamp = null
     ) {
         $this->id = $id;
         $this->reference = $reference;
@@ -69,6 +77,7 @@ class Group implements Comparable
         $this->type = $type;
         $this->ownerId = $ownerId;
         $this->parentId = $parentId;
+        $this->timeStamp = $timeStamp;
     }
 
     /**
@@ -133,6 +142,14 @@ class Group implements Comparable
     public function getParentId()
     {
         return $this->parentId;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getTimeStamp()
+    {
+        return $this->timeStamp;
     }
 
     /**

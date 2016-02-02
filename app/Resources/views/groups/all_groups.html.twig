@@ -38,11 +38,14 @@
                     <p>{{ group.timeStamp|localizeddate('medium', 'none') }}</p>
                 </div>
                 <div>
-                    {# todo: if already joined show other buttons #}
-                    {% if group.type == 'grouphub' %}
-                    <a class="button_join" href="#">
-                        <span>{{ 'JOIN'|trans }}</span>
-                    </a>
+                    {% if attribute(memberGrouphubGroups, group.id) is defined or attribute(memberOtherGroups, group.id) is defined %}
+                        <a class="button_member" href="#" data-hover="{{ 'LEAVE'|trans }}">
+                            <span>{{ 'MEMBER'|trans }}</span>
+                        </a>
+                    {% elseif group.type == 'grouphub' %}
+                        <a class="button_join" href="#">
+                            <span>{{ 'JOIN'|trans }}</span>
+                        </a>
                     {% endif %}
                 </div>
             </li>

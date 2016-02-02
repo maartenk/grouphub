@@ -20,12 +20,12 @@ class IndexController extends Controller
 
         $apiClient = $this->get('app.api_client');
 
-        /** @var Membership[] $myGroups */
-        $myGroups = $apiClient->findUserMemberships(7);//$user->getId());
+        /** @var Membership[] $memberships */
+        $memberships = $apiClient->findUserMemberships(7);//$user->getId());
 
         $ownerGrouphubGroups = $adminGrouphubGroups = $memberGrouphubGroups = [];
         $ownerOtherGroups = $adminOtherGroups = $memberOtherGroups = [];
-        foreach ($myGroups as $group) {
+        foreach ($memberships as $group) {
             if ($group->getGroup()->getType() === 'grouphub' && $group->getRole() == 'owner') {
                 $ownerGrouphubGroups[$group->getGroup()->getId()] = $group->getGroup();
             }

@@ -38,8 +38,12 @@
                     <p>{{ group.timeStamp|localizeddate('medium', 'none') }}</p>
                 </div>
                 <div>
-                    {% if attribute(memberGrouphubGroups, group.id) is defined or attribute(memberOtherGroups, group.id) is defined %}
+                    {% if attribute(memberGrouphubGroups, group.id) is defined %}
                         <a class="button_member" href="#" data-hover="{{ 'LEAVE'|trans }}">
+                            <span>{{ 'MEMBER'|trans }}</span>
+                        </a>
+                    {% elseif attribute(memberOtherGroups, group.id) is defined %}
+                        <a class="button_member" href="#">
                             <span>{{ 'MEMBER'|trans }}</span>
                         </a>
                     {% elseif group.type == 'grouphub' %}

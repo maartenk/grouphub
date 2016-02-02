@@ -1,98 +1,52 @@
 <div id="group_organisation_groups" class="group ">
+
     <section class="background_green">
         <a id="close_organisation_groups" href="#" class="close"><i class="fa fa-times"></i></a>
+
         <div class="sort">
             <a href="#"><i class="fa fa-sort-amount-asc"></i></a>
-            <span>A-Z</span>
-      <span class="sort_container">
-        <a id="sort_menu_green" href="#"><i class="fa fa-sort-down"></i></a>
-      </span>
+            <span>{{ 'A-Z'|trans }}</span>
+            <span class="sort_container">
+                <a id="sort_menu_green" href="#"><i class="fa fa-sort-down"></i></a>
+            </span>
         </div>
+
         <div id="sort_drop_down_green" class="hidden sort_drop_down_green">
             <ul>
-                <li><a href="#" class="active">Title</a></li>
-                <li><a href="#">Description</a></li>
-                <li><a href="#">Date</a></li>
+                <li><a href="#" class="active">{{ 'Title'|trans }}</a></li>
+                <li><a href="#">{{ 'Description'|trans }}</a></li>
+                <li><a href="#">{{ 'Date'|trans }}</a></li>
             </ul>
         </div>
+
         <div>
-            <h3>ORGANISATION GROUPS</h3>
-            <p>You are a member of these groups</p>
+            <h3>{{ 'ORGANISATION GROUPS'|trans }}</h3>
+            <p>{{ 'You are a member of these groups'|trans }}</p>
         </div>
     </section>
 
-
     <ul>
-        <li class="group_section">
-            <div>
-                <i class="fa fa-user green"></i>
-                <span>12</span>
-            </div>
-            <div>
-                <p>Data Management Landscape</p>
-                <p>Temporibus autem quibusdam et aut.</p>
-                <p>15 December 2015</p>
-            </div>
-            <div>
-                <a class="button_member" href="#" data-hover="LEAVE"><span>MEMBER</span></a>
-            </div>
-        </li>
-        <li class="group_section">
-            <div>
-                <i class="fa fa-user green"></i>
-                <span>12</span>
-            </div>
-            <div>
-                <p>Data Management Landscape</p>
-                <p>Temporibus autem quibusdam et aut.</p>
-                <p>15 December 2015</p>
-            </div>
-            <div>
-                <a class="button_member" href="#" data-hover="LEAVE"><span>MEMBER</span></a>
-            </div>
-        </li>
-        <li class="group_section">
-            <div>
-                <i class="fa fa-user green"></i>
-                <span>12</span>
-            </div>
-            <div>
-                <p>Data Management Landscape</p>
-                <p>Temporibus autem quibusdam et aut.</p>
-                <p>15 December 2015</p>
-            </div>
-            <div>
-                <a class="button_member" href="#" data-hover="LEAVE"><span>MEMBER</span></a>
-            </div>
-        </li>
-        <li class="group_section">
-            <div>
-                <i class="fa fa-user green"></i>
-                <span>12</span>
-            </div>
-            <div>
-                <p>Data Management Landscape</p>
-                <p>Temporibus autem quibusdam et aut.</p>
-                <p>15 December 2015</p>
-            </div>
-            <div>
-                <a class="button_member" href="#" data-hover="LEAVE"><span>MEMBER</span></a>
-            </div>
-        </li>
-        <li class="group_section">
-            <div>
-                <i class="fa fa-user green"></i>
-                <span>12</span>
-            </div>
-            <div>
-                <p>Data Management Landscape</p>
-                <p>Temporibus autem quibusdam et aut.</p>
-                <p>15 December 2015</p>
-            </div>
-            <div>
-                <a class="button_member" href="#" data-hover="LEAVE"><span>MEMBER</span></a>
-            </div>
-        </li>
+        {% for group in myGroups %}
+            {% if group.group.type != 'grouphub' %}
+                <li class="group_section">
+                    <div>
+                        <i class="fa fa-user green"></i>
+                        <span>12</span>
+                    </div>
+                    <div>
+                        <p>{{ group.group.name }}</p>
+                        <p>{{ group.group.description }}&nbsp;</p>
+                        <p>{{ group.group.timeStamp|localizeddate('medium', 'none') }}</p>
+                    </div>
+                    <div>
+                        {# todo: if role = 'admin' edit button? #}
+                        <a class="button_member" href="#">
+                            <span>{{ 'MEMBER'|trans }}</span>
+                        </a>
+                    </div>
+                </li>
+            {% endif %}
+        {% endfor %}
     </ul>
 
 </div>

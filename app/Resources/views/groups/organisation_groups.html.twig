@@ -25,28 +25,84 @@
         </div>
     </section>
 
-    <ul>
-        {% for group in myGroups %}
-            {% if group.group.type != 'grouphub' %}
+    {% if ownerOtherGroups %}
+        <section class="owned">
+            <i class="fa fa-angle-down"></i>
+            <h3>{{ 'Owner'|trans }}</h3>
+        </section>
+
+        <ul>
+            {% for group in ownerOtherGroups %}
                 <li class="group_section">
                     <div>
                         <i class="fa fa-user green"></i>
                         <span>12</span>
                     </div>
                     <div>
-                        <p>{{ group.group.name }}</p>
-                        <p>{{ group.group.description }}&nbsp;</p>
-                        <p>{{ group.group.timeStamp|localizeddate('medium', 'none') }}</p>
+                        <p>{{ group.name }}</p>
+                        <p>{{ group.description }}&nbsp;</p>
+                        <p>{{ group.timeStamp|localizeddate('medium', 'none') }}</p>
                     </div>
                     <div>
-                        {# todo: if role = 'admin' edit button? #}
+                        <a class="button_edit" href="#"><span>{{ 'EDIT'|trans }}</span></a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if adminOtherGroups %}
+        <section class="owned">
+            <i class="fa fa-angle-down"></i>
+            <h3>{{ 'Administrator'|trans }}</h3>
+        </section>
+
+        <ul>
+            {% for group in adminOtherGroups %}
+                <li class="group_section">
+                    <div>
+                        <i class="fa fa-user green"></i>
+                        <span>12</span>
+                    </div>
+                    <div>
+                        <p>{{ group.name }}</p>
+                        <p>{{ group.description }}&nbsp;</p>
+                        <p>{{ group.timeStamp|localizeddate('medium', 'none') }}</p>
+                    </div>
+                    <div>
+                        <a class="button_edit" href="#"><span>{{ 'EDIT'|trans }}</span></a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if memberOtherGroups %}
+        <section class="owned">
+            <i class="fa fa-angle-down"></i>
+            <h3>{{ 'Member'|trans }}</h3>
+        </section>
+
+        <ul>
+            {% for group in memberOtherGroups %}
+                <li class="group_section">
+                    <div>
+                        <i class="fa fa-user green"></i>
+                        <span>12</span>
+                    </div>
+                    <div>
+                        <p>{{ group.name }}</p>
+                        <p>{{ group.description }}&nbsp;</p>
+                        <p>{{ group.timeStamp|localizeddate('medium', 'none') }}</p>
+                    </div>
+                    <div>
                         <a class="button_member" href="#">
                             <span>{{ 'MEMBER'|trans }}</span>
                         </a>
                     </div>
                 </li>
-            {% endif %}
-        {% endfor %}
-    </ul>
+            {% endfor %}
+        </ul>
+    {% endif %}
 
 </div>

@@ -160,7 +160,7 @@ class ApiClient
      */
     public function findGrouphubGroups($offset = 0, $limit = 100)
     {
-        return $this->findGroups('grouphub', $offset, $limit);
+        return $this->findGroups('!ldap', $offset, $limit);
     }
 
     /**

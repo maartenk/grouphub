@@ -24,8 +24,8 @@
 
 <header class="header">
     <ul>
-        <li><a href="/">{{ 'GroupHUB'|trans }}</a></li>
-        <li><a href="/">{{ 'Surfnet'|trans }}</a></li>
+        <li><a href="{{ path('home') }}">{{ 'GroupHUB'|trans }}</a></li>
+        <li><a href="{{ path('home') }}">{{ 'Surfnet'|trans }}</a></li>
     </ul>
 
     <ul>
@@ -45,8 +45,10 @@
             </a>
         </li>
         <li class="language-selector">
-            <a class="button_grey" id="language_selector_link" href="#">{{ 'EN'|trans }}<i class="fa fa-sort-down"></i></a>
-            <a class="button_grey hidden" id="language_selector_menu" href="#">{{ 'NL'|trans }}</a>
+            {% set selectedLang = app.request.locale %}
+            {% set otherLang = selectedLang == 'en' ? 'nl' : 'en' %}
+            <a class="button_grey" id="language_selector_link" href="#">{{ selectedLang|upper|trans }}<i class="fa fa-sort-down"></i></a>
+            <a class="button_grey hidden" id="language_selector_menu" href="{{ path('home', {'_locale': otherLang}) }}">{{ otherLang|upper|trans }}</a>
         </li>
     </ul>
 </header>

@@ -16,48 +16,27 @@ class IndexController extends Controller
      */
     public function indexAction()
     {
-        $user = $this->getUser();
-
         $apiClient = $this->get('app.api_client');
 
         /** @var Membership[] $memberships */
-        $memberships = $apiClient->findUserMemberships(7);//$user->getId());
+        $memberships = $apiClient->findUserMemberships(7); // @todo: $this->getUser()->getId());
 
-        $ownerGrouphubGroups = $adminGrouphubGroups = $memberGrouphubGroups = [];
-        $ownerOtherGroups = $adminOtherGroups = $memberOtherGroups = [];
+        // Regroup memberships to make them a little more accessible
+        $groups = [];
         foreach ($memberships as $group) {
-            if ($group->getGroup()->getType() === 'grouphub' && $group->getRole() == 'owner') {
-                $ownerGrouphubGroups[$group->getGroup()->getId()] = $group->getGroup();
-            }
+            $type = $group->getGroup()->getType() === 'grouphub' ? 'grouphub' : 'other';
+            $role = $group->getRole();
 
-            if ($group->getGroup()->getType() === 'grouphub' && $group->getRole() == 'admin') {
-                $adminGrouphubGroups[$group->getGroup()->getId()] = $group->getGroup();
-            }
-
-            if ($group->getGroup()->getType() === 'grouphub' && $group->getRole() == 'member') {
-                $memberGrouphubGroups[$group->getGroup()->getId()] = $group->getGroup();
-            }
-
-            if ($group->getGroup()->getType() !== 'grouphub' && $group->getRole() == 'owner') {
-                $ownerOtherGroups[$group->getGroup()->getId()] = $group->getGroup();
-            }
-
-            if ($group->getGroup()->getType() !== 'grouphub' && $group->getRole() == 'admin') {
-                $adminOtherGroups[$group->getGroup()->getId()] = $group->getGroup();
-            }
-
-            if ($group->getGroup()->getType() !== 'grouphub' && $group->getRole() == 'member') {
-                $memberOtherGroups[$group->getGroup()->getId()] = $group->getGroup();
-            }
+            $groups[$type][$role][$group->getGroup()->getId()] = $group->getGroup();
         }
 
         return $this->render(':index:index.html.twig', [
-            'ownerGrouphubGroups'  => $ownerGrouphubGroups,
-            'adminGrouphubGroups'  => $adminGrouphubGroups,
-            'memberGrouphubGroups' => $memberGrouphubGroups,
-            'ownerOtherGroups'     => $ownerOtherGroups,
-            'adminOtherGroups'     => $adminOtherGroups,
-            'memberOtherGroups'    => $memberOtherGroups,
+            'ownerGrouphubGroups'  => isset($groups['grouphub']['owner']) ? $groups['grouphub']['owner'] : [],
+            'adminGrouphubGroups'  => isset($groups['grouphub']['admin']) ? $groups['grouphub']['admin'] : [],
+            'memberGrouphubGroups' => isset($groups['grouphub']['member']) ? $groups['grouphub']['member'] : [],
+            'ownerOtherGroups'     => isset($groups['other']['owner']) ? $groups['other']['owner'] : [],
+            'adminOtherGroups'     => isset($groups['other']['admin']) ? $groups['other']['admin'] : [],
+            'memberOtherGroups'    => isset($groups['other']['member']) ? $groups['other']['member'] : [],
             'groups'               => $apiClient->findGroups(),
         ]);
     }

@@ -89,7 +89,7 @@ class ApiClient
      */
     public function findLdapGroups($offset = 0, $limit = 100)
     {
-        return $this->findGroups('ldap', $offset, $limit);
+        return $this->findGroups(null, 'ldap', $offset, $limit);
     }
 
     /**
@@ -160,17 +160,18 @@ class ApiClient
      */
     public function findGrouphubGroups($offset = 0, $limit = 100)
     {
-        return $this->findGroups('!ldap', $offset, $limit);
+        return $this->findGroups(null, '!ldap', $offset, $limit);
     }
 
     /**
+     * @param string $query
      * @param string $type
      * @param int    $offset
      * @param int    $limit
      *
      * @return SynchronizableSequence
      */
-    public function findGroups($type = null, $offset = 0, $limit = 100)
+    public function findGroups($query = null, $type = null, $offset = 0, $limit = 100)
     {
         $data = $this->guzzle->get('groups', [
             'query' => [
@@ -178,6 +179,7 @@ class ApiClient
                 'limit'  => $limit,
                 'sort'   => 'reference',
                 'type'   => $type,
+                'query'  => $query,
             ],
         ]);
 

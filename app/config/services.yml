@@ -23,6 +23,7 @@ services:
     app.api_client:
         class: AppBundle\Api\ApiClient
         arguments: ["@guzzle.client.api_grouphub", "@app.api_normalizer"]
+        private: true
 
     app.sync:
         class: AppBundle\Service\SyncService
@@ -32,3 +33,7 @@ services:
         class: Twig_Extensions_Extension_Intl
         tags:
             - { name: twig.extension }
+
+    app.group_manager:
+        class: AppBundle\Manager\GroupManager
+        arguments: ["@app.api_client"]

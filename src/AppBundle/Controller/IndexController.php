@@ -30,7 +30,7 @@ class IndexController extends Controller
             $groups[$type][$role][$group->getGroup()->getId()] = $group->getGroup();
         }
 
-        return $this->render(':index:index.html.twig', [
+        return $this->render('::base.html.twig', [
             'ownerGrouphubGroups'  => isset($groups['grouphub']['owner']) ? $groups['grouphub']['owner'] : [],
             'adminGrouphubGroups'  => isset($groups['grouphub']['admin']) ? $groups['grouphub']['admin'] : [],
             'memberGrouphubGroups' => isset($groups['grouphub']['member']) ? $groups['grouphub']['member'] : [],

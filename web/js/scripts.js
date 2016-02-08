@@ -1,4 +1,4 @@
-var search = (function ($) {
+var grouphub = (function ($) {
     'use strict';
 
     var init = function () {
@@ -16,6 +16,13 @@ var search = (function ($) {
                 $searchResults.html(data);
             });
         });
+
+        $('.close-modal').on('click', function () {
+            $('body').removeClass('modal-open');
+            $(this).closest('section').addClass('hidden');
+
+            return false;
+        });
     };
 
     return {
@@ -27,5 +34,5 @@ var search = (function ($) {
 jQuery().ready(function () {
     'use strict';
 
-    search.init();
+    grouphub.init();
 });

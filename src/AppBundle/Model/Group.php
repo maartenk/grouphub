@@ -4,12 +4,17 @@ namespace AppBundle\Model;
 
 use DateTime;
 use Doctrine\Common\Comparable;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Group
  */
 class Group implements Comparable
 {
+    const TYPE_LDAP = 'ldap';
+    const TYPE_FORMAL = 'formal';
+    const TYPE_GROUPHUB = 'grouphub';
+
     /**
      * @var int
      */
@@ -22,6 +27,8 @@ class Group implements Comparable
 
     /**
      * @var string
+     *
+     * @Assert\NotBlank()
      */
     private $name;
 
@@ -113,11 +120,27 @@ class Group implements Comparable
     }
 
     /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
      * @return string
      */
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
     }
 
     /**

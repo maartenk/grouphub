@@ -6,29 +6,27 @@
             <p>{{ 'NEW GROUP'|trans }}</p>
         </header>
 
-        <form action="">
+        {{ form_start(add_form) }}
             <div class="form_element">
                 <label for="name_group">{{ 'Name'|trans }}</label>
-                <input id="name_group" name="name_group" type="text" placeholder="{{ 'Name...'|trans }}">
+                {{ form_widget(add_form.name, {attr: {'placeholder': 'Name...'|trans}}) }}
             </div>
 
             <div class="form_element">
                 <label for="name_description">{{ 'Description'|trans }}</label>
-                <textarea id="name_description" name="name_description" cols="5" placeholder="{{ 'Description...'|trans }}"></textarea>
+                {{ form_widget(add_form.description, {attr: {'placeholder': 'Description...'|trans}}) }}
             </div>
 
             {% if is_granted('ROLE_ADMIN') %}
             <div class="form_element">
                 <label for="type_group">{{ 'Type'|trans }}</label>
-                <select name="type_group" id="type_group">
-                    <option value="">{{ 'Select a type...'|trans }}</option>
-                </select>
+                {{ form_widget(add_form.parent) }}
             </div>
             {% endif %}
 
-            <a href="#" class="button_blue">{{ 'Submit'|trans }}</a>
+            <button type="submit" class="button_blue">{{ 'Submit'|trans }}</button>
             <a href="#" class="button_dark_grey">{{ 'Cancel'|trans }}</a>
-        </form>
+        {{ form_end(add_form) }}
     </div>
 
 </section>

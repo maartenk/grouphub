@@ -114,7 +114,7 @@ class Normalizer
     {
         return new Group(
             $group['id'],
-            $group['reference'],
+            isset($group['reference']) ? $group['reference'] : '',
             isset($group['name']) ? $group['name'] : '',
             isset($group['description']) ? $group['description'] : '',
             isset($group['type']) ? $group['type'] : '',

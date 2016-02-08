@@ -3,8 +3,8 @@
 namespace AppBundle\Manager;
 
 use AppBundle\Api\ApiClient;
+use AppBundle\Model\Group;
 use AppBundle\Model\Membership;
-use AppBundle\SynchronizableSequence;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -53,7 +53,7 @@ class GroupManager
      * @param int    $offset
      * @param int    $limit
      *
-     * @return SynchronizableSequence
+     * @return Group[]
      */
     public function findGroups($query = null, $type = null, $offset = 0, $limit = 100)
     {
@@ -64,10 +64,20 @@ class GroupManager
      * @param int $offset
      * @param int $limit
      *
-     * @return SynchronizableSequence
+     * @return Group[]
      */
     public function findFormalGroups($offset = 0, $limit = 100)
     {
         return $this->client->findFormalGroups($offset, $limit);
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return Group
+     */
+    public function getGroup($id)
+    {
+        return $this->client->getGroup($id);
     }
 }

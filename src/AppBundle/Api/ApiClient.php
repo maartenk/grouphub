@@ -200,6 +200,24 @@ class ApiClient
     }
 
     /**
+     * @param int $id
+     *
+     * @return Group
+     */
+    public function getGroup($id)
+    {
+        $data = $this->guzzle->get('groups/' . $id);
+
+        $data = $this->decode($data->getBody());
+
+        if (empty($data)) {
+            return null;
+        }
+
+        return $this->normalizer->denormalizeGroup($data);
+    }
+
+    /**
      * @param User $user
      */
     public function addUser(User $user)

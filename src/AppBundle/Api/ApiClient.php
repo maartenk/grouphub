@@ -134,6 +134,28 @@ class ApiClient
     }
 
     /**
+     * @param int $groupId
+     * @param int $offset
+     * @param int $limit
+     *
+     * @return Sequence
+     */
+    public function findGroupMemberships($groupId, $offset = 0, $limit = 100)
+    {
+        $data = $this->guzzle->get('groups/' . $groupId . '/users', [
+            'query' => [
+                'offset' => $offset,
+                'limit'  => $limit,
+                'sort'   => 'reference',
+            ],
+        ]);
+
+        $data = $this->decode($data->getBody());
+
+        return new SynchronizableSequence($this->normalizer->denormalizeMemberships($data));
+    }
+
+    /**
      * @param int $userId
      * @param int $groupId
      *

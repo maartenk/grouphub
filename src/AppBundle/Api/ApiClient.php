@@ -164,6 +164,17 @@ class ApiClient
     }
 
     /**
+     * @param int $offset
+     * @param int $limit
+     *
+     * @return SynchronizableSequence
+     */
+    public function findFormalGroups($offset = 0, $limit = 100)
+    {
+        return $this->findGroups(null, 'formal', $offset, $limit);
+    }
+
+    /**
      * @param string $query
      * @param string $type
      * @param int    $offset

@@ -59,4 +59,15 @@ class GroupManager
     {
         return $this->client->findGroups($query, $type, $offset, $limit);
     }
+
+    /**
+     * @param int $offset
+     * @param int $limit
+     *
+     * @return SynchronizableSequence
+     */
+    public function findFormalGroups($offset = 0, $limit = 100)
+    {
+        return $this->client->findFormalGroups($offset, $limit);
+    }
 }

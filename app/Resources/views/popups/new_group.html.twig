@@ -17,12 +17,15 @@
                 <textarea id="name_description" name="name_description" cols="5" placeholder="{{ 'Description...'|trans }}"></textarea>
             </div>
 
+            {% if is_granted('ROLE_ADMIN') %}
             <div class="form_element">
                 <label for="type_group">{{ 'Type'|trans }}</label>
                 <select name="type_group" id="type_group">
                     <option value="">{{ 'Select a type...'|trans }}</option>
                 </select>
             </div>
+            {% endif %}
+
             <a href="#" class="button_blue">{{ 'Submit'|trans }}</a>
             <a href="#" class="button_dark_grey">{{ 'Cancel'|trans }}</a>
         </form>

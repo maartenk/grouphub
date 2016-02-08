@@ -37,3 +37,10 @@ services:
     app.group_manager:
         class: AppBundle\Manager\GroupManager
         arguments: ["@app.api_client"]
+
+    app.admin_voter:
+        class: AppBundle\Security\AdminVoter
+        arguments: ["@app.group_manager"]
+        tags:
+            - { name: security.voter }
+        public: false

@@ -148,7 +148,8 @@ class Normalizer
     {
         return new Membership(
             $membership['role'],
-            $this->denormalizeGroup($membership['group'])
+            isset($membership['group']) ? $this->denormalizeGroup($membership['group']) : null,
+            isset($membership['user']) ? $this->denormalizeUser($membership['user']) : null
         );
     }
 }

@@ -18,13 +18,20 @@ class Membership
     private $group;
 
     /**
+     * @var User
+     */
+    private $user;
+
+    /**
      * @param string $role
      * @param Group  $group
+     * @param User   $user
      */
-    public function __construct($role, Group $group)
+    public function __construct($role, Group $group = null, User $user = null)
     {
         $this->role = $role;
         $this->group = $group;
+        $this->user = $user;
     }
 
     /**
@@ -41,5 +48,13 @@ class Membership
     public function getGroup()
     {
         return $this->group;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

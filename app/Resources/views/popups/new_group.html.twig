@@ -1,31 +1,30 @@
 <section id="new_group" class="new_group_container hidden">
+
     <div class="new_group">
         <header>
             <a id="new_group_close" href="#" class="close_modal"><i class="fa fa-times"></i></a>
-            <p>NEW GROUP</p>
+            <p>{{ 'NEW GROUP'|trans }}</p>
         </header>
+
         <form action="">
             <div class="form_element">
-                <label for="name_group">Name</label>
-                <input id="name_group" name="name_group" type="text" placeholder="Name...">
+                <label for="name_group">{{ 'Name'|trans }}</label>
+                <input id="name_group" name="name_group" type="text" placeholder="{{ 'Name...'|trans }}">
             </div>
+
             <div class="form_element">
-                <label for="name_description">Description</label>
-                <textarea id="name_description" name="name_description" cols="5"
-                          placeholder="Description..."></textarea>
+                <label for="name_description">{{ 'Description'|trans }}</label>
+                <textarea id="name_description" name="name_description" cols="5" placeholder="{{ 'Description...'|trans }}"></textarea>
             </div>
+
             <div class="form_element">
-                <label for="type_group">Type</label>
+                <label for="type_group">{{ 'Type'|trans }}</label>
                 <select name="type_group" id="type_group">
-                    <option value="">Select a type...</option>
-                    <option value="admin">Admin</option>
-                    <option value="admin">Organisation</option>
-                    <option value="admin">Private</option>
-                    <option value="admin">Public</option>
+                    <option value="">{{ 'Select a type...'|trans }}</option>
                 </select>
             </div>
-            <a href="#" class="button_blue">Submit</a>
-            <a href="#" class="button_dark_grey">Cancel</a>
+            <a href="#" class="button_blue">{{ 'Submit'|trans }}</a>
+            <a href="#" class="button_dark_grey">{{ 'Cancel'|trans }}</a>
         </form>
     </div>
 

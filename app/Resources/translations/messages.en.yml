@@ -38,3 +38,13 @@ There is a total of %count% groups: 'There is a total of %count% groups'
 
 SEARCH: 'SEARCH'
 Results for data: 'Results for data'
+
+NEW GROUP: 'NEW GROUP'
+Name: 'Name'
+Name...: 'Name...'
+Description: 'Description'
+Description...: 'Description...'
+Type: 'Type'
+Select a type...: 'Select a type...'
+Submit: 'Submit'
+Cancel: 'Cancel'

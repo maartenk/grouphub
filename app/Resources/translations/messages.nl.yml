@@ -38,3 +38,13 @@ There is a total of %count% groups: 'Er zijn in taal %count% groepen'
 
 SEARCH: 'ZOEKEN'
 Results for data: 'Resultaten voor data'
+
+NEW GROUP: 'NIEUWE GROEP'
+Name: 'Naam'
+Name...: 'Naam...'
+Description: 'Beschrijving'
+Description...: 'Beschrijving...'
+Type: 'Type'
+Select a type...: 'Selecteer een type...'
+Submit: 'Opslaan'
+Cancel: 'Annuleren'

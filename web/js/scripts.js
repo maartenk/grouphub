@@ -17,9 +17,19 @@ var grouphub = (function ($) {
             });
         });
 
-        $('.close-modal').on('click', function () {
+        $('section').on('click', '.close-modal', function () {
             $('body').removeClass('modal-open');
             $(this).closest('section').addClass('hidden');
+
+            return false;
+        });
+
+        $('.button_edit').on('click', function () {
+            $('body').addClass('modal-open');
+
+            $('#edit_group').load($(this).data('url'), function () {
+                $(this).removeClass('hidden');
+            });
 
             return false;
         });

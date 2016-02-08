@@ -106,14 +106,14 @@
                         return t(n, "#" + e)
                     })
                 });
-                var n = Array.from(document.querySelectorAll(".button_edit"));
-                n.forEach(function (e) {
-                    return e.addEventListener("click", function (e) {
-                        return t(e, "#edit_group")
-                    })
-                }), document.querySelector("#edit_group_close").addEventListener("click", function (e) {
-                    return t(e, "#edit_group")
-                })
+                //var n = Array.from(document.querySelectorAll(".button_edit"));
+                //n.forEach(function (e) {
+                //    return e.addEventListener("click", function (e) {
+                //        return t(e, "#edit_group")
+                //    })
+                //}), document.querySelector("#edit_group_close").addEventListener("click", function (e) {
+                //    return t(e, "#edit_group")
+                //})
             }
         }, {
             key: "languageSelector", value: function () {

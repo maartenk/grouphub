@@ -1,0 +1,76 @@
+<div class="edit_group">
+    <div class="left">
+        <header>
+            <a id="edit_group_close" href="#" class="close_modal close-modal"><i class="fa fa-times"></i></a>
+            <p>{{ group.name }}</p>
+            <i class="fa fa-angle-double-down"></i>
+            <div class="hidden">{{ group.description }}</div>
+        </header>
+
+        <ul class="tabs">
+            <li>
+                <a id="group_members" href="#">
+                    {{ 'Group members'|trans }}
+                </a>
+            </li>
+            {% if role in ['owner', 'admin'] %}
+                <li>
+                    <a id="add_members" href="#">
+                        <i class="rounded fa fa-plus"></i>{{ 'Add members'|trans }}
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+
+        <div id="group_members_tab">
+            <div class="search_container">
+                <div class="input_container">
+                    <i class="fa fa-search"></i>
+                    <input id="searchInput" type="text"/>
+                </div>
+            </div>
+
+            <ul class="users">
+                {% for member in members %}
+                    <li>
+                        <div>
+                            <p>{{ member.user.name }}</p>
+                            <span>john.doe@example.com</span>
+                        </div>
+
+                        {% if role in ['owner', 'admin'] %}
+                            <a href="#" class="rounded"><i class="fa fa-minus"></i></a>
+
+                            <select name="roles" id="roles">
+                                <option value="admin" {% if member.role == 'admin' %}selected{% endif %}>
+                                    {{ 'Admin'|trans }}
+                                </option>
+                                <option value="member" {% if member.role == 'member' %}selected{% endif %}>
+                                    {{ 'Member'|trans }}
+                                </option>
+                            </select>
+                        {% else %}
+                            {{ member.role }}
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div id="add_members_tab hidden">
+            <!-- see group members tab  -->
+        </div>
+    </div>
+
+    <ul class="icons right">
+        <li>
+            <a id="edit_group" href="#"><i class="fa fa-edit"></i></a>
+        </li>
+        <li>
+            <a id="download_group" href="#"><i class="fa fa-download"></i></a>
+        </li>
+        <li>
+            <a id="delete_group" href="#"><i class="fa fa-trash"></i></a>
+        </li>
+    </ul>
+</div>

@@ -19,6 +19,7 @@ class IndexController extends Controller
 {
     /**
      * @Route("/{_locale}", defaults={"_locale": "en"}, requirements={"_locale": "en|nl"}, name="home")
+     * @Method("GET")
      */
     public function indexAction()
     {
@@ -31,16 +32,19 @@ class IndexController extends Controller
             ]
         );
 
-        return $this->render('::base.html.twig', [
-            'ownerGrouphubGroups'  => isset($groups['grouphub']['owner']) ? $groups['grouphub']['owner'] : [],
-            'adminGrouphubGroups'  => isset($groups['grouphub']['admin']) ? $groups['grouphub']['admin'] : [],
-            'memberGrouphubGroups' => isset($groups['grouphub']['member']) ? $groups['grouphub']['member'] : [],
-            'ownerOtherGroups'     => isset($groups['other']['owner']) ? $groups['other']['owner'] : [],
-            'adminOtherGroups'     => isset($groups['other']['admin']) ? $groups['other']['admin'] : [],
-            'memberOtherGroups'    => isset($groups['other']['member']) ? $groups['other']['member'] : [],
-            'groups'               => $this->get('app.group_manager')->findGroups(),
-            'add_form'             => $addForm->createView(),
-        ]);
+        return $this->render(
+            '::base.html.twig',
+            [
+                'ownerGrouphubGroups'  => isset($groups['grouphub']['owner']) ? $groups['grouphub']['owner'] : [],
+                'adminGrouphubGroups'  => isset($groups['grouphub']['admin']) ? $groups['grouphub']['admin'] : [],
+                'memberGrouphubGroups' => isset($groups['grouphub']['member']) ? $groups['grouphub']['member'] : [],
+                'ownerOtherGroups'     => isset($groups['other']['owner']) ? $groups['other']['owner'] : [],
+                'adminOtherGroups'     => isset($groups['other']['admin']) ? $groups['other']['admin'] : [],
+                'memberOtherGroups'    => isset($groups['other']['member']) ? $groups['other']['member'] : [],
+                'groups'               => $this->get('app.group_manager')->findGroups(),
+                'add_form'             => $addForm->createView(),
+            ]
+        );
     }
 
     /**
@@ -57,20 +61,23 @@ class IndexController extends Controller
 
         $groups = $this->get('app.group_manager')->getMyGroups($this->getUser());
 
-        return $this->render(':groups:search-results.html.twig', [
-            'ownerGrouphubGroups'  => isset($groups['grouphub']['owner']) ? $groups['grouphub']['owner'] : [],
-            'adminGrouphubGroups'  => isset($groups['grouphub']['admin']) ? $groups['grouphub']['admin'] : [],
-            'memberGrouphubGroups' => isset($groups['grouphub']['member']) ? $groups['grouphub']['member'] : [],
-            'ownerOtherGroups'     => isset($groups['other']['owner']) ? $groups['other']['owner'] : [],
-            'adminOtherGroups'     => isset($groups['other']['admin']) ? $groups['other']['admin'] : [],
-            'memberOtherGroups'    => isset($groups['other']['member']) ? $groups['other']['member'] : [],
-            'groups'               => $this->get('app.group_manager')->findGroups($query),
-            'query'                => $query,
-        ]);
+        return $this->render(
+            ':groups:search-results.html.twig',
+            [
+                'ownerGrouphubGroups'  => isset($groups['grouphub']['owner']) ? $groups['grouphub']['owner'] : [],
+                'adminGrouphubGroups'  => isset($groups['grouphub']['admin']) ? $groups['grouphub']['admin'] : [],
+                'memberGrouphubGroups' => isset($groups['grouphub']['member']) ? $groups['grouphub']['member'] : [],
+                'ownerOtherGroups'     => isset($groups['other']['owner']) ? $groups['other']['owner'] : [],
+                'adminOtherGroups'     => isset($groups['other']['admin']) ? $groups['other']['admin'] : [],
+                'memberOtherGroups'    => isset($groups['other']['member']) ? $groups['other']['member'] : [],
+                'groups'               => $this->get('app.group_manager')->findGroups($query),
+                'query'                => $query,
+            ]
+        );
     }
 
     /**
-     * @Route("/add_group", name="add_group")
+     * @Route("/{_locale}/add_group", name="add_group")
      * @Method("POST")
      *
      * @param Request $request
@@ -91,5 +98,37 @@ class IndexController extends Controller
         }
 
         return new Response($form->getErrors(true));
+    }
+
+    /**
+     * @Route("/{_locale}/group/{id}", name="group_details")
+     * @Method("GET")
+     *
+     * @param int $id
+     *
+     * @return string
+     */
+    public function groupDetailsAction($id)
+    {
+        $membership = $this->get('app.api_client')->findUserMembershipOfGroup(7, $id); // @todo: $this->getUser()->getId()
+
+        if ($membership) {
+            $group = $membership->getGroup();
+            $role = $membership->getRole();
+        } else {
+            $group = $this->get('app.group_manager')->getGroup($id);
+            $role = null;
+        }
+
+        $members = $this->get('app.api_client')->findGroupMemberships($group->getId());
+
+        return $this->render(
+            ':popups:group_details.html.twig',
+            [
+                'group'   => $group,
+                'members' => $members,
+                'role'    => $role,
+            ]
+        );
     }
 }

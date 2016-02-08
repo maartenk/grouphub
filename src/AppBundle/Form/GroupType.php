@@ -4,6 +4,7 @@ namespace AppBundle\Form;
 
 use AppBundle\Manager\GroupManager;
 use AppBundle\Model\Group;
+use RuntimeException;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -15,9 +16,12 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Class GroupType
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class GroupType extends AbstractType
 {
@@ -94,6 +98,10 @@ class GroupType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $user = $this->tokenStorage->getToken()->getUser();
+
+        if (!$user instanceof UserInterface) {
+            throw new RuntimeException('User should be logged in');
+        }
 
         $resolver->setDefaults(
             [

@@ -85,6 +85,14 @@ class User implements Comparable
     /**
      * @return string
      */
+    public function getName()
+    {
+        return $this->firstName . ' ' . $this->lastName;
+    }
+
+    /**
+     * @return string
+     */
     public function getLoginName()
     {
         return $this->loginName;

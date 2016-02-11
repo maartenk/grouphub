@@ -24,3 +24,9 @@ parameters:
     grouphub_dn: 'ou=Grouphub,dc=surfuni,dc=org'
 
     password_voot: ~
+
+    simplesamlphp.path: simplesaml/
+    simplesamlphp.admin_password: ~
+    simplesamlphp.technical_contact_name: ~
+    simplesamlphp.technical_contact_email: ~
+    simplesamlphp.idp: http://idp.surfuni.org/simplesaml/saml2/idp/metadata.php

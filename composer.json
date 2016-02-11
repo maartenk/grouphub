@@ -41,6 +41,9 @@
         "phpmd/phpmd": "^2.3"
     },
     "scripts": {
+        "pre-autoload-dump": [
+            "bin/simplesamlphp-post-install.sh"
+        ],
         "post-install-cmd": [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",

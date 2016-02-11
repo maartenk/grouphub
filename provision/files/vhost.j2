@@ -4,6 +4,8 @@
     ServerAlias {{ apache_serveralias }}
     {% endif %}
 
+    Alias /simplesaml {{ basedir }}/vendor/simplesamlphp/simplesamlphp/www
+
     DocumentRoot {{ docroot }}
 
     <IfModule mod_fastcgi.c>

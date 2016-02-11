@@ -51,7 +51,6 @@ services:
         tags:
             - { name: form.type }
 
-    app.listener.security:
-        class: AppBundle\EventListener\SimpleSAMLAuthListener
-        tags:
-            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+    app.user_provider:
+        class: AppBundle\Security\UserProvider
+        arguments: ['@app.api_client']

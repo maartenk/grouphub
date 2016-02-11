@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             // 3rd party bundles
             new EightPoints\Bundle\GuzzleBundle\GuzzleBundle(),
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
+            new Hslavich\SimplesamlphpBundle\HslavichSimplesamlphpBundle(),
             // custom bundles
             new AppBundle\AppBundle(),
         ];

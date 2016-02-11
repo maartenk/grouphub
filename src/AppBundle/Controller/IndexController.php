@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @todo: refactor, also reorder templates
  */
-class IndexController extends Controller implements SecuredControllerInterface
+class IndexController extends Controller
 {
     /**
      * @Route("/{_locale}", defaults={"_locale": "en"}, requirements={"_locale": "en|nl"}, name="home")

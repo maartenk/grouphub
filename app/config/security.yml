@@ -9,15 +9,31 @@ security:
                     voot:
                         password: %password_voot%
                         roles: 'ROLE_VOOT'
+        simplesaml:
+            id: app.user_provider
 
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        main:
+        voot:
+            pattern: ^/voot
             anonymous: ~
             http_basic: ~
+            provider: in_memory
+
+        saml:
+            pattern: ^/
+            anonymous: true
+            stateless: true
+            simple_preauth:
+                authenticator: simplesamlphp.authenticator
+                provider: simplesaml
+            logout:
+                path:   /logout
+                success_handler: simplesamlphp.logout_handler
 
     access_control:
         - { path: ^/voot, roles: ROLE_VOOT }
+        - { path: ^/, roles: ROLE_USER }

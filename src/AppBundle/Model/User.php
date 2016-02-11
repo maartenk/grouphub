@@ -3,11 +3,14 @@
 namespace AppBundle\Model;
 
 use Doctrine\Common\Comparable;
+use Hslavich\SimplesamlphpBundle\Security\Core\User\SamlUserInterface;
+use Symfony\Component\Security\Core\User\EquatableInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Class User
  */
-class User implements Comparable
+class User implements Comparable, UserInterface, EquatableInterface, SamlUserInterface
 {
     /**
      * @var int
@@ -33,6 +36,11 @@ class User implements Comparable
      * @var string
      */
     private $loginName;
+
+    /**
+     * @var array
+     */
+    private $samlAttributes;
 
     /**
      * @param int    $id
@@ -140,5 +148,81 @@ class User implements Comparable
         }
 
         return true;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getRoles()
+    {
+        return ['ROLE_USER'];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getPassword()
+    {
+        return '';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSalt()
+    {
+        return null;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getUsername()
+    {
+        return $this->getLoginName();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function eraseCredentials()
+    {
+        // nothing here..
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isEqualTo(UserInterface $user)
+    {
+        if (!$user instanceof User) {
+            return false;
+        }
+
+        if ($this->getUsername() !== $user->getUsername()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setSamlAttributes(array $attributes)
+    {
+        $this->samlAttributes = $attributes;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail()
+    {
+        if (isset($this->samlAttributes['urn:mace:dir:attribute-def:mail'][0])) {
+            return $this->samlAttributes['urn:mace:dir:attribute-def:mail'][0];
+        }
+
+        return '';
     }
 }

@@ -60,6 +60,28 @@ class ApiClient
     }
 
     /**
+     * @param string $loginName
+     *
+     * @return User
+     */
+    public function getUserByLoginName($loginName)
+    {
+        $data = $this->guzzle->get('users', [
+            'query' => [
+                'login_name' => $loginName,
+            ],
+        ]);
+
+        $data = $this->decode($data->getBody());
+
+        if (empty($data)) {
+            return null;
+        }
+
+        return $this->normalizer->denormalizeUser($data);
+    }
+
+    /**
      * @param string $reference
      *
      * @return User

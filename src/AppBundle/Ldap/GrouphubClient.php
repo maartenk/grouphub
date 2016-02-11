@@ -149,7 +149,7 @@ class GrouphubClient
      */
     public function addGroup(Group $group)
     {
-        $dn = 'cn=' . $group->getName() . ',' . $this->grouphubDn;
+        $dn = 'cn=' . $group->getId() . ',' . $this->grouphubDn;
         $group->setReference($dn);
 
         $data = $this->normalizer->normalizeGroup($group);

@@ -50,3 +50,8 @@ services:
         arguments: ['@security.authorization_checker', '@app.group_manager', '@security.token_storage']
         tags:
             - { name: form.type }
+
+    app.listener.security:
+        class: AppBundle\EventListener\SimpleSAMLAuthListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }

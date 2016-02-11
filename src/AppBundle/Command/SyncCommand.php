@@ -9,6 +9,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Class SyncCommand
+ *
+ * @todo: split into several separate commands
  */
 class SyncCommand extends ContainerAwareCommand
 {

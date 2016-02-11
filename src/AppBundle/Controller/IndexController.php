@@ -110,7 +110,7 @@ class IndexController extends Controller
      */
     public function groupDetailsAction($id)
     {
-        $membership = $this->get('app.api_client')->findUserMembershipOfGroup(7, $id); // @todo: $this->getUser()->getId()
+        $membership = $this->get('app.api_client')->findUserMembershipOfGroup($this->getUser()->getId(), $id);
 
         if ($membership) {
             $group = $membership->getGroup();

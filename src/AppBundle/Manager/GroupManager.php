@@ -5,7 +5,7 @@ namespace AppBundle\Manager;
 use AppBundle\Api\ApiClient;
 use AppBundle\Model\Group;
 use AppBundle\Model\Membership;
-use Symfony\Component\Security\Core\User\UserInterface;
+use AppBundle\Model\User;
 
 /**
  * Class GroupManager
@@ -26,14 +26,22 @@ class GroupManager
     }
 
     /**
-     * @param UserInterface $user
+     * @param User $user
      *
      * @return array
+     *
+     * @todo: revise into more solid caching..
      */
-    public function getMyGroups(UserInterface $user)
+    public function getMyGroups(User $user)
     {
+        static $cache;
+
+        if (isset($cache[$user->getId()])) {
+            return $cache[$user->getId()];
+        }
+
         /** @var Membership[] $memberships */
-        $memberships = $this->client->findUserMemberships(7); // @todo: $user->getId();
+        $memberships = $this->client->findUserMemberships($user->getId());
 
         // Regroup memberships to make them a little more accessible
         $groups = [];
@@ -44,7 +52,7 @@ class GroupManager
             $groups[$type][$role][$group->getGroup()->getId()] = $group->getGroup();
         }
 
-        return $groups;
+        return $cache[$user->getId()] = $groups;
     }
 
     /**

@@ -121,7 +121,7 @@ class GroupType extends AbstractType
                         $form->get('name')->getData(),
                         $form->get('description')->getData(),
                         $type,
-                        7, // @todo: $user->getId(),
+                        $user->getId(),
                         $parent
                     );
                 },

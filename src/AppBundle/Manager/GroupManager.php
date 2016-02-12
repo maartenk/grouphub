@@ -104,6 +104,7 @@ class GroupManager
      * @param int $userId
      *
      * @return Membership
+     * @todo: a user could have multiple memberships
      */
     public function findUserMembershipOfGroup($groupId, $userId)
     {

@@ -38,8 +38,14 @@ class Normalizer
         for ($i = 0; $i < $groups['count']; $i++) {
             $group = $groups[$i];
 
-            // @todo: description??
-            $result[] = new Group(null, $group['dn'], $group['cn'][0], '', 'ldap', 1);
+            $result[] = new Group(
+                null,
+                $group['dn'],
+                $group['cn'][0],
+                isset($group['description'][0]) ? $group['description'][0] : '',
+                'ldap',
+                1
+            );
         }
 
         return $result;

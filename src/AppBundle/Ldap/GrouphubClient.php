@@ -83,7 +83,7 @@ class GrouphubClient
      */
     public function findGroups($offset, $limit)
     {
-        $data = $this->ldap->find($this->groupsDn, 'cn=*', ['cn'], '', $offset, $limit);
+        $data = $this->ldap->find($this->groupsDn, 'cn=*', ['cn', 'description'], '', $offset, $limit);
 
         if (empty($data)) {
             return new Sequence([]);

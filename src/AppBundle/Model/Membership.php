@@ -7,6 +7,9 @@ namespace AppBundle\Model;
  */
 class Membership
 {
+    const ROLE_ADMIN = 'admin';
+    const ROLE_MEMBER = 'member';
+
     /**
      * @var string
      */

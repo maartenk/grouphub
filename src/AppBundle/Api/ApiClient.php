@@ -331,6 +331,18 @@ class ApiClient
     }
 
     /**
+     * @param int    $groupId
+     * @param int    $userId
+     * @param string $role
+     */
+    public function updateGroupUser($groupId, $userId, $role)
+    {
+        $data = $this->encode(['userInGroup' => ['role' => $role]]);
+
+        $this->guzzle->put('groups/' . $groupId . '/users/' . $userId, ['body' => $data]);
+    }
+
+    /**
      * @param int $userId
      */
     public function removeUser($userId)

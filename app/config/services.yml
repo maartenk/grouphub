@@ -45,6 +45,13 @@ services:
             - { name: security.voter }
         public: false
 
+    app.group_voter:
+        class: AppBundle\Security\GroupVoter
+        arguments: ["@app.group_manager"]
+        tags:
+            - { name: security.voter }
+        public: false
+
     app.form.group:
         class: AppBundle\Form\GroupType
         arguments: ['@security.authorization_checker', '@app.group_manager', '@security.token_storage']

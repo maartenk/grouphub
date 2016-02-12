@@ -16,16 +16,24 @@ use Symfony\Component\HttpFoundation\Response;
 class VootController extends Controller
 {
     /**
-     * @Route("/user/{userId}/groups", name="voot_groups")
+     * @Route("/user/{loginName}/groups", name="voot_groups")
      *
-     * @param int $userId
+     * @param string $loginName
      *
      * @return Response
      */
-    public function groupsAction($userId)
+    public function groupsAction($loginName)
     {
+        $apiClient = $this->get('app.api_client');
+
+        $user = $apiClient->getUserByLoginName($loginName);
+
+        if (empty($user)) {
+            throw $this->createNotFoundException('User not found');
+        }
+
         /** @var Membership[] $memberships */
-        $memberships = $this->get('app.api_client')->findUserMemberships($userId);
+        $memberships = $apiClient->findUserMemberships($user->getId());
 
         $result = [];
 
@@ -45,16 +53,24 @@ class VootController extends Controller
     }
 
     /**
-     * @Route("/user/{userId}/groups/{groupId}", name="voot_group")
+     * @Route("/user/{loginName}/groups/{groupId}", name="voot_group")
      *
-     * @param int $userId
-     * @param int $groupId
+     * @param string $loginName
+     * @param int    $groupId
      *
      * @return Response
      */
-    public function groupAction($userId, $groupId)
+    public function groupAction($loginName, $groupId)
     {
-        $membership = $this->get('app.api_client')->findUserMembershipOfGroup($userId, $groupId);
+        $apiClient = $this->get('app.api_client');
+
+        $user = $apiClient->getUserByLoginName($loginName);
+
+        if (empty($user)) {
+            throw $this->createNotFoundException('User not found');
+        }
+
+        $membership = $apiClient->findUserMembershipOfGroup($user->getId(), $groupId);
 
         if ($membership === null) {
             throw $this->createNotFoundException();

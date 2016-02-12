@@ -94,8 +94,11 @@ class IndexController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $group = $this->get('app.api_client')->addGroup($form->getData());
+            $apiClient = $this->get('app.api_client');
+
+            $group = $apiClient->addGroup($form->getData());
             $this->get('app.grouphub_ldap_client')->addGroup($group);
+            $apiClient->updateGroupReference($group->getId(), $group->getReference());
 
             return $this->redirect($this->generateUrl('home'));
         }

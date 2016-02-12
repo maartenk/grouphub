@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8b197d15e177421a9e552a1de75db087",
-    "content-hash": "8429029ce2aca9ebfe2b857c67fcd601",
+    "hash": "adaf0491f15b039f6025b9877b012653",
+    "content-hash": "db2e0af2cca0883c6b44320a9d169d9d",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -788,18 +788,18 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/hslavich/SimplesamlphpBundle.git",
-                "reference": "075e304d48b53492b80d05f1379fd584672160c3"
+                "url": "https://github.com/ibuildingsnl/SimplesamlphpBundle.git",
+                "reference": "6ae71bebe94761c6392c6f8c508a909b961d37b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hslavich/SimplesamlphpBundle/zipball/075e304d48b53492b80d05f1379fd584672160c3",
-                "reference": "075e304d48b53492b80d05f1379fd584672160c3",
+                "url": "https://api.github.com/repos/ibuildingsnl/SimplesamlphpBundle/zipball/6ae71bebe94761c6392c6f8c508a909b961d37b6",
+                "reference": "6ae71bebe94761c6392c6f8c508a909b961d37b6",
                 "shasum": ""
             },
             "require": {
                 "simplesamlphp/simplesamlphp": "dev-master",
-                "symfony/symfony": ">=2.4"
+                "symfony/symfony": ">=2.8"
             },
             "type": "symfony-bundle",
             "autoload": {
@@ -807,7 +807,6 @@
                     "Hslavich\\SimplesamlphpBundle\\": ""
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "authors": [
                 {
                     "name": "hslavich",
@@ -823,7 +822,10 @@
                 "saml",
                 "simplesamlphp"
             ],
-            "time": "2016-02-10 16:24:00"
+            "support": {
+                "source": "https://github.com/ibuildingsnl/SimplesamlphpBundle/tree/master"
+            },
+            "time": "2016-02-12 13:25:57"
         },
         {
             "name": "incenteev/composer-parameter-handler",
@@ -2836,16 +2838,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.8.22",
+            "version": "4.8.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "dfb11aa5236376b4fc63853cf746af39fe780e72"
+                "reference": "6e351261f9cd33daf205a131a1ba61c6d33bd483"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/dfb11aa5236376b4fc63853cf746af39fe780e72",
-                "reference": "dfb11aa5236376b4fc63853cf746af39fe780e72",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/6e351261f9cd33daf205a131a1ba61c6d33bd483",
+                "reference": "6e351261f9cd33daf205a131a1ba61c6d33bd483",
                 "shasum": ""
             },
             "require": {
@@ -2904,7 +2906,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-02-02 09:01:21"
+            "time": "2016-02-11 14:56:33"
         },
         {
             "name": "phpunit/phpunit-mock-objects",

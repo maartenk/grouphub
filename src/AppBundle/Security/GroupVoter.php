@@ -53,6 +53,7 @@ class GroupVoter extends Voter
             return true;
         }
 
+        // @todo: Not very efficient - load all??
         $memberships = $this->groupManager->findGroupMemberships($subject->getId());
 
         foreach ($memberships as $membership) {

@@ -100,6 +100,17 @@ class GroupManager
     }
 
     /**
+     * @param int $groupId
+     * @param int $userId
+     *
+     * @return Membership
+     */
+    public function findUserMembershipOfGroup($groupId, $userId)
+    {
+        return $this->client->findUserMembershipOfGroup($userId, $groupId);
+    }
+
+    /**
      * @param int    $groupId
      * @param int    $userId
      * @param string $role
@@ -116,5 +127,14 @@ class GroupManager
     public function deleteMembership($groupId, $userId)
     {
         $this->client->removeGroupUser($groupId, $userId);
+    }
+
+    /**
+     * @param int $groupId
+     * @param int $userId
+     */
+    public function addMembership($groupId, $userId)
+    {
+        $this->client->addGroupUser($groupId, $userId);
     }
 }

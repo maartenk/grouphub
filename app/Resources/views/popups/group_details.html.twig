@@ -13,7 +13,7 @@
                     {{ 'Group members'|trans }}
                 </a>
             </li>
-            {% if role in ['owner', 'admin'] %}
+            {% if is_granted('EDIT', group) %}
                 <li>
                     <a id="add_members" href="#">
                         <i class="rounded fa fa-plus"></i>{{ 'Add members'|trans }}
@@ -38,7 +38,7 @@
                             <span>{{ member.user.email }}&nbsp;</span>
                         </div>
 
-                        {% if role in ['owner', 'admin'] %}
+                        {% if is_granted('EDIT', group) %}
                             <a href="#" data-url="{{ path('membership_delete', {groupId: group.id, userId: member.user.id}) }}" class="delete rounded">
                                 <i class="fa fa-minus"></i>
                             </a>
@@ -59,11 +59,34 @@
             </ul>
         </div>
 
-        <div id="add_members_tab hidden">
-            <!-- see group members tab  -->
-        </div>
+        {% if is_granted('EDIT', group) %}
+            <div id="add_members_tab hidden">
+                <div class="search_container">
+                    <div class="input_container">
+                        <i class="fa fa-search"></i>
+                        <input id="searchInput" type="text"/>
+                    </div>
+                </div>
+
+                <ul class="users">
+                    {% for user in users %}
+                        <li>
+                            <div>
+                                <p>{{ user.name }}</p>
+                                <span>{{ user.email }}&nbsp;</span>
+                            </div>
+
+                            <a href="#" data-url="{{ path('membership_add', {groupId: group.id, userId: user.id}) }}" class="add rounded">
+                                <i class="fa fa-plus"></i>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
     </div>
 
+    {% if is_granted('EDIT', group) %}
     <ul class="icons right">
         <li>
             <a id="edit_group" href="#"><i class="fa fa-edit"></i></a>
@@ -75,4 +98,5 @@
             <a id="delete_group" href="#"><i class="fa fa-trash"></i></a>
         </li>
     </ul>
+    {% endif %}
 </div>

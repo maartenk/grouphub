@@ -29,8 +29,18 @@ var grouphub = (function ($) {
         $('.button_edit').on('click', function () {
             $('body').addClass('modal-open');
 
-            $('#edit_group').load($(this).data('url'), function () {
+            $editGroup.load($(this).data('url'), function () {
                 $(this).removeClass('hidden');
+            });
+
+            return false;
+        });
+
+        $editGroup.on('click', '.add', function () {
+            var $this = $(this);
+
+            $.post($this.data('url'), function () {
+                // @todo: update counts, groups could need an update
             });
 
             return false;
@@ -40,6 +50,8 @@ var grouphub = (function ($) {
             var $this = $(this);
 
             $.post($this.data('url'), {'role': $this.val()});
+
+            // @todo: groups could need an update
         });
 
         $editGroup.on('click', '.delete', function () {
@@ -47,6 +59,8 @@ var grouphub = (function ($) {
 
             $.post($this.data('url'), function () {
                 $this.closest('li').remove();
+
+                // @todo: update counts, groups could need an update
             });
 
             return false;

@@ -15,7 +15,6 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  */
 class MembershipController extends Controller
 {
-
     /**
      * @Route("/group/{groupId}/user/{userId}/add", name="membership_add")
      * @Method("POST")

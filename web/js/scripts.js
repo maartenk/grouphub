@@ -2,6 +2,8 @@ var grouphub = (function ($) {
     'use strict';
 
     var init = function () {
+        var $editGroup = $('#edit_group');
+
         $("#searchInput").on('keyup', function (e) {
             var $this = $(this),
                 $searchContainer = $('#group_search'),
@@ -29,6 +31,22 @@ var grouphub = (function ($) {
 
             $('#edit_group').load($(this).data('url'), function () {
                 $(this).removeClass('hidden');
+            });
+
+            return false;
+        });
+
+        $editGroup.on('change', '.roles', function () {
+            var $this = $(this);
+
+            $.post($this.data('url'), {'role': $this.val()});
+        });
+
+        $editGroup.on('click', '.delete', function () {
+            var $this = $(this);
+
+            $.post($this.data('url'), function () {
+                $this.closest('li').remove();
             });
 
             return false;

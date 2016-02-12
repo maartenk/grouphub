@@ -88,4 +88,33 @@ class GroupManager
     {
         return $this->client->getGroup($id);
     }
+
+    /**
+     * @param int $id
+     *
+     * @return Membership[]
+     */
+    public function findGroupMemberships($id)
+    {
+        return $this->client->findGroupMemberships($id);
+    }
+
+    /**
+     * @param int    $groupId
+     * @param int    $userId
+     * @param string $role
+     */
+    public function updateMembership($groupId, $userId, $role)
+    {
+        $this->client->updateGroupUser($groupId, $userId, $role);
+    }
+
+    /**
+     * @param int $groupId
+     * @param int $userId
+     */
+    public function deleteMembership($groupId, $userId)
+    {
+        $this->client->removeGroupUser($groupId, $userId);
+    }
 }

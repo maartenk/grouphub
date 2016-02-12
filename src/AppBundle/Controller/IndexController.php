@@ -3,12 +3,14 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Form\GroupType;
+use AppBundle\Model\Membership;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
  * Class IndexController
@@ -92,7 +94,8 @@ class IndexController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->get('app.api_client')->addGroup($form->getData());
+            $group = $this->get('app.api_client')->addGroup($form->getData());
+            $this->get('app.grouphub_ldap_client')->addGroup($group);
 
             return $this->redirect($this->generateUrl('home'));
         }
@@ -106,7 +109,7 @@ class IndexController extends Controller
      *
      * @param int $id
      *
-     * @return string
+     * @return Response
      */
     public function groupDetailsAction($id)
     {
@@ -130,5 +133,60 @@ class IndexController extends Controller
                 'role'    => $role,
             ]
         );
+    }
+
+    /**
+     * @Route("/group/{groupId}/user/{userId}/update", name="membership_update")
+     * @Method("POST")
+     *
+     * @param int     $groupId
+     * @param int     $userId
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function updateMembershipAction($groupId, $userId, Request $request)
+    {
+        $group = $this->get('app.group_manager')->getGroup($groupId);
+
+        if (empty($group)) {
+            throw $this->createNotFoundException();
+        }
+
+        $this->denyAccessUnlessGranted('EDIT', $group);
+
+        $role = $request->request->get('role');
+
+        if (!in_array($role, [Membership::ROLE_ADMIN, Membership::ROLE_MEMBER])) {
+            throw new BadRequestHttpException('Invalid role');
+        }
+
+        $this->get('app.group_manager')->updateMembership($groupId, $userId, $role);
+
+        return new Response();
+    }
+
+    /**
+     * @Route("/group/{groupId}/user/{userId}/delete", name="membership_delete")
+     * @Method("POST")
+     *
+     * @param int $groupId
+     * @param int $userId
+     *
+     * @return Response
+     */
+    public function deleteMembershipAction($groupId, $userId)
+    {
+        $group = $this->get('app.group_manager')->getGroup($groupId);
+
+        if (empty($group)) {
+            throw $this->createNotFoundException();
+        }
+
+        $this->denyAccessUnlessGranted('EDIT', $group);
+
+        $this->get('app.group_manager')->deleteMembership($groupId, $userId);
+
+        return new Response();
     }
 }

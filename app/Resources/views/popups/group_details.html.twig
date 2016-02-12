@@ -35,13 +35,15 @@
                     <li>
                         <div>
                             <p>{{ member.user.name }}</p>
-                            <span>john.doe@example.com</span>
+                            <span>{{ member.user.email }}&nbsp;</span>
                         </div>
 
                         {% if role in ['owner', 'admin'] %}
-                            <a href="#" class="rounded"><i class="fa fa-minus"></i></a>
+                            <a href="#" data-url="{{ path('membership_delete', {groupId: group.id, userId: member.user.id}) }}" class="delete rounded">
+                                <i class="fa fa-minus"></i>
+                            </a>
 
-                            <select name="roles" id="roles">
+                            <select name="roles" class="roles" data-url="{{ path('membership_update', {groupId: group.id, userId: member.user.id}) }}">
                                 <option value="admin" {% if member.role == 'admin' %}selected{% endif %}>
                                     {{ 'Admin'|trans }}
                                 </option>

@@ -108,11 +108,11 @@ class GroupType extends AbstractType
                 'data_class' => Group::class,
                 'empty_data' => function (FormInterface $form) use ($user) {
                     $type = Group::TYPE_GROUPHUB;
-                    $parent = $form->get('parent')->getData();
+                    $parent = null;
 
-                    if (!empty($parent)) {
+                    if ($form->has('parent')) {
                         $type = Group::TYPE_FORMAL;
-                        $parent = $parent->getId();
+                        $parent = $form->get('parent')->getData()->getId();
                     }
 
                     return new Group(

@@ -36,7 +36,7 @@ services:
 
     app.group_manager:
         class: AppBundle\Manager\GroupManager
-        arguments: ["@app.api_client"]
+        arguments: ["@app.api_client", "@app.grouphub_ldap_client"]
 
     app.admin_voter:
         class: AppBundle\Security\AdminVoter

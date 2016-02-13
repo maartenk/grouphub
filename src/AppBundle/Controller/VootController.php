@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Model\Membership;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -24,16 +23,15 @@ class VootController extends Controller
      */
     public function groupsAction($loginName)
     {
-        $apiClient = $this->get('app.api_client');
+        $groupManager = $this->get('app.group_manager');
 
-        $user = $apiClient->getUserByLoginName($loginName);
+        $user = $groupManager->getUserByLoginName($loginName);
 
         if (empty($user)) {
             throw $this->createNotFoundException('User not found');
         }
 
-        /** @var Membership[] $memberships */
-        $memberships = $apiClient->findUserMemberships($user->getId());
+        $memberships = $groupManager->findUserMemberships($user->getId());
 
         $result = [];
 
@@ -62,15 +60,15 @@ class VootController extends Controller
      */
     public function groupAction($loginName, $groupId)
     {
-        $apiClient = $this->get('app.api_client');
+        $groupManager = $this->get('app.group_manager');
 
-        $user = $apiClient->getUserByLoginName($loginName);
+        $user = $groupManager->getUserByLoginName($loginName);
 
         if (empty($user)) {
             throw $this->createNotFoundException('User not found');
         }
 
-        $membership = $apiClient->findUserMembershipOfGroup($user->getId(), $groupId);
+        $membership = $groupManager->findUserMembershipOfGroup($groupId, $user->getId());
 
         if ($membership === null) {
             throw $this->createNotFoundException();

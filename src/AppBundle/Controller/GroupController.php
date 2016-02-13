@@ -30,11 +30,7 @@ class GroupController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $apiClient = $this->get('app.api_client');
-
-            $group = $apiClient->addGroup($form->getData());
-            $this->get('app.grouphub_ldap_client')->addGroup($group);
-            $apiClient->updateGroupReference($group->getId(), $group->getReference());
+            $this->get('app.group_manager')->addGroup($form->getData());
 
             return $this->redirect($this->generateUrl('home'));
         }
@@ -52,14 +48,15 @@ class GroupController extends Controller
      */
     public function groupDetailsAction($id)
     {
-        $group = $this->get('app.group_manager')->getGroup($id);
+        $groupManager = $this->get('app.group_manager');
+        $group = $groupManager->getGroup($id);
 
         if (!$group) {
             throw $this->createNotFoundException('Group not found');
         }
 
-        $members = $this->get('app.api_client')->findGroupMemberships($group->getId());
-        $users = $this->get('app.api_client')->findUsers();
+        $members = $groupManager->findGroupMemberships($group->getId());
+        $users = $groupManager->findUsers();
 
         return $this->render(
             ':popups:group_details.html.twig',
@@ -69,5 +66,29 @@ class GroupController extends Controller
                 'users'   => $users // @todo: find not-members or simply show edit actions for existing members
             ]
         );
+    }
+
+    /**
+     * @Route("/{_locale}/group/{id}/delete", name="delete_group")
+     * @Method("POST")
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function deleteGroupAction($id)
+    {
+        $groupManager = $this->get('app.group_manager');
+        $group = $groupManager->getGroup($id);
+
+        if (!$group) {
+            throw $this->createNotFoundException('Group not found');
+        }
+
+        $this->denyAccessUnlessGranted('EDIT', $group);
+
+        $groupManager->deleteGroup($group->getId());
+
+        return new Response();
     }
 }

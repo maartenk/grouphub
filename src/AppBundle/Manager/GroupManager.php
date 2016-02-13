@@ -3,6 +3,7 @@
 namespace AppBundle\Manager;
 
 use AppBundle\Api\ApiClient;
+use AppBundle\Ldap\GrouphubClient;
 use AppBundle\Model\Group;
 use AppBundle\Model\Membership;
 use AppBundle\Model\User;
@@ -17,12 +18,19 @@ class GroupManager
      */
     private $client;
 
-    /***
-     * @param ApiClient $client
+    /**
+     * @var GrouphubClient
      */
-    public function __construct(ApiClient $client)
+    private $ldapClient;
+
+    /***
+     * @param ApiClient      $client
+     * @param GrouphubClient $ldapClient
+     */
+    public function __construct(ApiClient $client, GrouphubClient $ldapClient)
     {
         $this->client = $client;
+        $this->ldapClient = $ldapClient;
     }
 
     /**
@@ -137,5 +145,52 @@ class GroupManager
     public function addMembership($groupId, $userId)
     {
         $this->client->addGroupUser($groupId, $userId);
+    }
+
+    /**
+     * @param int $id
+     */
+    public function deleteGroup($id)
+    {
+        $this->client->removeGroup($id);
+    }
+
+    /**
+     * @param Group $group
+     */
+    public function addGroup(Group $group)
+    {
+        $group = $this->client->addGroup($group);
+
+        $this->ldapClient->addGroup($group);
+        $this->client->updateGroupReference($group->getId(), $group->getReference());
+    }
+
+    /**
+     * @return User[]
+     */
+    public function findUsers()
+    {
+        return $this->client->findUsers();
+    }
+
+    /**
+     * @param string $loginName
+     *
+     * @return User
+     */
+    public function getUserByLoginName($loginName)
+    {
+        return $this->client->getUserByLoginName($loginName);
+    }
+
+    /**
+     * @param int $userId
+     *
+     * @return Membership[]
+     */
+    public function findUserMemberships($userId)
+    {
+        return $this->client->findUserMemberships($userId);
     }
 }

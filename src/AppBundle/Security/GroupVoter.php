@@ -53,7 +53,7 @@ class GroupVoter extends Voter
             return true;
         }
 
-        $membership = $this->groupManager->findUserMembershipOfGroup($user->getId(), $subject->getId());
+        $membership = $this->groupManager->findUserMembershipOfGroup($subject->getId(), $user->getId());
 
         if (!$membership) {
             return false;

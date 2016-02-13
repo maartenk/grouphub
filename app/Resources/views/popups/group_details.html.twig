@@ -89,13 +89,19 @@
     {% if is_granted('EDIT', group) %}
     <ul class="icons right">
         <li>
-            <a id="edit_group" href="#"><i class="fa fa-edit"></i></a>
+            <a id="edit_group" href="#">
+                <i class="fa fa-edit"></i>
+            </a>
         </li>
         <li>
-            <a id="download_group" href="#"><i class="fa fa-download"></i></a>
+            <a id="download_group" href="#">
+                <i class="fa fa-download"></i>
+            </a>
         </li>
         <li>
-            <a id="delete_group" href="#"><i class="fa fa-trash"></i></a>
+            <a id="delete_group" href="#" data-url="{{ path('delete_group', {'id': group.id}) }}">
+                <i class="fa fa-trash"></i>
+            </a>
         </li>
     </ul>
     {% endif %}

@@ -65,6 +65,17 @@ var grouphub = (function ($) {
 
             return false;
         });
+
+        $editGroup.on('click', '#delete_group', function () {
+            var $this = $(this);
+
+            // @todo: confirm popup
+            $.post($this.data('url'), function () {
+                // @todo: close modal, update groups, actual submit?
+            });
+
+            return false;
+        });
     };
 
     return {

@@ -55,8 +55,8 @@ class GroupController extends Controller
             throw $this->createNotFoundException('Group not found');
         }
 
-        $members = $groupManager->findGroupMemberships($group->getId());
-        $users = $groupManager->findUsers();
+        $members = $this->get('app.membership_manager')->findGroupMemberships($group->getId());
+        $users = $this->get('app.user_manager')->findUsers();
 
         $form = null;
         if ($this->isGranted('EDIT', $group)) {
@@ -150,7 +150,7 @@ class GroupController extends Controller
         }
 
         $query = $request->request->get('query');
-        $users = $groupManager->findUsers($query);
+        $users = $this->get('app.user_manager')->findUsers($query);
 
         return $this->render(
             ':popups:group_users.html.twig',
@@ -180,7 +180,7 @@ class GroupController extends Controller
         }
 
         $query = $request->request->get('query');
-        $members = $groupManager->findGroupMemberships($group->getId(), $query);
+        $members = $this->get('app.membership_manager')->findGroupMemberships($group->getId(), $query);
 
         return $this->render(
             ':popups:group_members.html.twig',

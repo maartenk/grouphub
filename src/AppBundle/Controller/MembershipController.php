@@ -34,7 +34,7 @@ class MembershipController extends Controller
 
         $this->denyAccessUnlessGranted('EDIT', $group);
 
-        $this->get('app.group_manager')->addMembership($groupId, $userId);
+        $this->get('app.membership_manager')->addMembership($groupId, $userId);
 
         return new Response();
     }
@@ -65,7 +65,7 @@ class MembershipController extends Controller
             throw new BadRequestHttpException('Invalid role');
         }
 
-        $this->get('app.group_manager')->updateMembership($groupId, $userId, $role);
+        $this->get('app.membership_manager')->updateMembership($groupId, $userId, $role);
 
         return new Response();
     }
@@ -89,7 +89,7 @@ class MembershipController extends Controller
 
         $this->denyAccessUnlessGranted('EDIT', $group);
 
-        $this->get('app.group_manager')->deleteMembership($groupId, $userId);
+        $this->get('app.membership_manager')->deleteMembership($groupId, $userId);
 
         return new Response();
     }

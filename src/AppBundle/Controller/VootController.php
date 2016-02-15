@@ -23,15 +23,13 @@ class VootController extends Controller
      */
     public function groupsAction($loginName)
     {
-        $groupManager = $this->get('app.group_manager');
-
-        $user = $groupManager->getUserByLoginName($loginName);
+        $user = $this->get('app.user_manager')->getUserByLoginName($loginName);
 
         if (empty($user)) {
             throw $this->createNotFoundException('User not found');
         }
 
-        $memberships = $groupManager->findUserMemberships($user->getId());
+        $memberships = $this->get('app.membership_manager')->findUserMemberships($user->getId());
 
         $result = [];
 
@@ -60,15 +58,13 @@ class VootController extends Controller
      */
     public function groupAction($loginName, $groupId)
     {
-        $groupManager = $this->get('app.group_manager');
-
-        $user = $groupManager->getUserByLoginName($loginName);
+        $user = $this->get('app.user_manager')->getUserByLoginName($loginName);
 
         if (empty($user)) {
             throw $this->createNotFoundException('User not found');
         }
 
-        $membership = $groupManager->findUserMembershipOfGroup($groupId, $user->getId());
+        $membership = $this->get('app.membership_manager')->findUserMembershipOfGroup($groupId, $user->getId());
 
         if ($membership === null) {
             throw $this->createNotFoundException();

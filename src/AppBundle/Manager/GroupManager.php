@@ -98,59 +98,6 @@ class GroupManager
     }
 
     /**
-     * @param int    $id
-     * @param string $query
-     * @param int    $offset
-     * @param int    $limit
-     *
-     * @return Membership[]
-     */
-    public function findGroupMemberships($id, $query = null, $offset = 0, $limit = 100)
-    {
-        return $this->client->findGroupMemberships($id, $query, $offset, $limit);
-    }
-
-    /**
-     * @param int $groupId
-     * @param int $userId
-     *
-     * @return Membership
-     * @todo: a user could have multiple memberships
-     */
-    public function findUserMembershipOfGroup($groupId, $userId)
-    {
-        return $this->client->findUserMembershipOfGroup($userId, $groupId);
-    }
-
-    /**
-     * @param int    $groupId
-     * @param int    $userId
-     * @param string $role
-     */
-    public function updateMembership($groupId, $userId, $role)
-    {
-        $this->client->updateGroupUser($groupId, $userId, $role);
-    }
-
-    /**
-     * @param int $groupId
-     * @param int $userId
-     */
-    public function deleteMembership($groupId, $userId)
-    {
-        $this->client->removeGroupUser($groupId, $userId);
-    }
-
-    /**
-     * @param int $groupId
-     * @param int $userId
-     */
-    public function addMembership($groupId, $userId)
-    {
-        $this->client->addGroupUser($groupId, $userId);
-    }
-
-    /**
      * @param int $id
      */
     public function deleteGroup($id)
@@ -175,37 +122,5 @@ class GroupManager
     public function updateGroup(Group $group)
     {
         $this->client->updateGroup($group->getId(), $group);
-    }
-
-    /**
-     * @param string $query
-     * @param int    $offset
-     * @param int    $limit
-     *
-     * @return User[]
-     */
-    public function findUsers($query = null, $offset = 0, $limit = 100)
-    {
-        return $this->client->findUsers($query, $offset, $limit);
-    }
-
-    /**
-     * @param string $loginName
-     *
-     * @return User
-     */
-    public function getUserByLoginName($loginName)
-    {
-        return $this->client->getUserByLoginName($loginName);
-    }
-
-    /**
-     * @param int $userId
-     *
-     * @return Membership[]
-     */
-    public function findUserMemberships($userId)
-    {
-        return $this->client->findUserMemberships($userId);
     }
 }

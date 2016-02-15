@@ -3,19 +3,20 @@
     <section class="background_grey">
         <a id="close_search" href="#" class="close"><i class="fa fa-times"></i></a>
 
-        <div class="sort">
-            <a href="#"><i class="fa fa-sort-amount-asc"></i></a>
+        <div id="sort_menu_grey" class="sort_grey">
+            <span><i class="fa fa-sort-amount-asc"></i></span>
             <span>{{ 'A-Z'|trans }}</span>
             <span class="sort_container">
-                <a id="sort_menu_grey" href="#"><i class="fa fa-sort-down"></i></a>
+                <span ><i class="fa fa-sort-down"></i></span>
             </span>
         </div>
 
         <div id="sort_drop_down_grey" class="hidden sort_drop_down_grey">
             <ul>
-                <li><a href="#" class="active">{{ 'Title'|trans }}</a></li>
-                <li><a href="#">{{ 'Description'|trans }}</a></li>
-                <li><a href="#">{{ 'Date'|trans }}</a></li>
+                <li><label for="name_up_grey">{{ 'A - Z'|trans }}</label><input type="radio" id="name_up_grey" name="sort_grey" checked></li>
+                <li><label for="name_down_grey">{{ 'Z - A'|trans }}</label><input type="radio" id="name_down_grey" name="sort_grey"></li>
+                <li><label for="date_up_grey">{{ 'Jan - Dec'|trans }}</label><input type="radio" id="date_up_grey" name="sort_grey"></li>
+                <li><label for="date_down_grey">{{ 'Dec - Jan'|trans }}</label><input type="radio" id="date_down_grey" name="sort_grey"></li>
             </ul>
         </div>
 

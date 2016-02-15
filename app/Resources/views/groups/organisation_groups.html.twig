@@ -3,19 +3,20 @@
     <section class="background_green">
         <a id="close_organisation_groups" href="#" class="close"><i class="fa fa-times"></i></a>
 
-        <div class="sort">
-            <a href="#"><i class="fa fa-sort-amount-asc"></i></a>
+        <div id="sort_menu_green" class="sort_green">
+            <span><i class="fa fa-sort-amount-asc"></i></span>
             <span>{{ 'A-Z'|trans }}</span>
             <span class="sort_container">
-                <a id="sort_menu_green" href="#"><i class="fa fa-sort-down"></i></a>
+                <span ><i class="fa fa-sort-down"></i></span>
             </span>
         </div>
 
         <div id="sort_drop_down_green" class="hidden sort_drop_down_green">
             <ul>
-                <li><a href="#" class="active">{{ 'Title'|trans }}</a></li>
-                <li><a href="#">{{ 'Description'|trans }}</a></li>
-                <li><a href="#">{{ 'Date'|trans }}</a></li>
+                <li><label for="name_up_green">{{ 'A - Z'|trans }}</label><input type="radio" id="name_up_green" name="sort_green" checked></li>
+                <li><label for="name_down_green">{{ 'Z - A'|trans }}</label><input type="radio" id="name_down_green" name="sort_green"></li>
+                <li><label for="date_up_green">{{ 'Jan - Dec'|trans }}</label><input type="radio" id="date_up_green" name="sort_green"></li>
+                <li><label for="date_down_green">{{ 'Dec - Jan'|trans }}</label><input type="radio" id="date_down_green" name="sort_green"></li>
             </ul>
         </div>
 

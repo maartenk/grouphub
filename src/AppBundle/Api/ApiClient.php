@@ -39,18 +39,20 @@ class ApiClient
     }
 
     /**
-     * @param int $offset
-     * @param int $limit
+     * @param string $query
+     * @param int    $offset
+     * @param int    $limit
      *
      * @return SynchronizableSequence
      */
-    public function findUsers($offset = 0, $limit = 100)
+    public function findUsers($query = null, $offset = 0, $limit = 100)
     {
         $data = $this->guzzle->get('users', [
             'query' => [
                 'offset' => $offset,
                 'limit'  => $limit,
                 'sort'   => 'reference',
+                'query'  => $query,
             ],
         ]);
 
@@ -156,19 +158,21 @@ class ApiClient
     }
 
     /**
-     * @param int $groupId
-     * @param int $offset
-     * @param int $limit
+     * @param int    $groupId
+     * @param string $query
+     * @param int    $offset
+     * @param int    $limit
      *
      * @return Sequence
      */
-    public function findGroupMemberships($groupId, $offset = 0, $limit = 100)
+    public function findGroupMemberships($groupId, $query = null, $offset = 0, $limit = 100)
     {
         $data = $this->guzzle->get('groups/' . $groupId . '/users', [
             'query' => [
                 'offset' => $offset,
                 'limit'  => $limit,
                 'sort'   => 'reference',
+                'query'  => $query
             ],
         ]);
 

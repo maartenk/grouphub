@@ -98,13 +98,16 @@ class GroupManager
     }
 
     /**
-     * @param int $id
+     * @param int    $id
+     * @param string $query
+     * @param int    $offset
+     * @param int    $limit
      *
      * @return Membership[]
      */
-    public function findGroupMemberships($id)
+    public function findGroupMemberships($id, $query = null, $offset = 0, $limit = 100)
     {
-        return $this->client->findGroupMemberships($id);
+        return $this->client->findGroupMemberships($id, $query, $offset, $limit);
     }
 
     /**
@@ -167,11 +170,15 @@ class GroupManager
     }
 
     /**
+     * @param string $query
+     * @param int    $offset
+     * @param int    $limit
+     *
      * @return User[]
      */
-    public function findUsers()
+    public function findUsers($query = null, $offset = 0, $limit = 100)
     {
-        return $this->client->findUsers();
+        return $this->client->findUsers($query, $offset, $limit);
     }
 
     /**

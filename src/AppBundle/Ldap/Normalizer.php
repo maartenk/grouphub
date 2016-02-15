@@ -21,7 +21,16 @@ class Normalizer
         for ($i = 0; $i < $users['count']; $i++) {
             $user = $users[$i];
 
-            $result[] = new User(null, $user['dn'], $user['givenname'][0], $user['sn'][0], $user['uid'][0]);
+            $result[] = new User(
+                null,
+                $user['dn'],
+                $user['givenname'][0],
+                $user['sn'][0],
+                $user['uid'][0],
+                [
+                    'email' => isset($user['mail'][0]) ? $user['mail'][0] : ''
+                ]
+            );
         }
 
         return $result;

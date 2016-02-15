@@ -43,19 +43,32 @@ class User implements Comparable, UserInterface, EquatableInterface, SamlUserInt
     private $samlAttributes;
 
     /**
+     * @var array
+     */
+    private $annotations = [];
+
+    /**
      * @param int    $id
      * @param string $reference
      * @param string $firstName
      * @param string $lastName
      * @param string $loginName
+     * @param array  $annotations
      */
-    public function __construct($id = null, $reference = '', $firstName = '', $lastName = '', $loginName = '')
-    {
+    public function __construct(
+        $id = null,
+        $reference = '',
+        $firstName = '',
+        $lastName = '',
+        $loginName = '',
+        array $annotations = []
+    ) {
         $this->id = $id;
         $this->reference = $reference;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->loginName = $loginName;
+        $this->annotations = $annotations;
     }
 
     /**
@@ -107,6 +120,14 @@ class User implements Comparable, UserInterface, EquatableInterface, SamlUserInt
     }
 
     /**
+     * @return array
+     */
+    public function getAnnotations()
+    {
+        return $this->annotations;
+    }
+
+    /**
      * @inheritdoc
      *
      * @param User $other
@@ -144,6 +165,10 @@ class User implements Comparable, UserInterface, EquatableInterface, SamlUserInt
         }
 
         if ($other->getLoginName() !== $this->loginName) {
+            return false;
+        }
+
+        if ($other->getEmail() !== $this->getEmail()) {
             return false;
         }
 
@@ -219,6 +244,10 @@ class User implements Comparable, UserInterface, EquatableInterface, SamlUserInt
      */
     public function getEmail()
     {
+        if (isset($this->annotations['email'])) {
+            return $this->annotations['email'];
+        }
+
         if (isset($this->samlAttributes['urn:mace:dir:attribute-def:mail'][0])) {
             return $this->samlAttributes['urn:mace:dir:attribute-def:mail'][0];
         }

@@ -47,7 +47,7 @@ class SyncService
         $this->logger->info('Processing users ' . $offset . ' to ' . self::BATCH_SIZE . '...');
 
         $ldapUsers = $this->ldap->findUsers($offset, self::BATCH_SIZE);
-        $grouphubUsers = $this->api->findUsers($offset, self::BATCH_SIZE);
+        $grouphubUsers = $this->api->findUsers(null, $offset, self::BATCH_SIZE);
 
         if (count($ldapUsers) === 0 && count($grouphubUsers) === 0) {
             $this->logger->info('Done syncing users!');

@@ -19,11 +19,17 @@ class Normalizer
      */
     public function normalizeUser(User $user)
     {
+        $annotations = [];
+        foreach ($user->getAnnotations() as $key => $annotation) {
+            $annotations[] = ['key' => $key, 'value' => $annotation];
+        }
+
         return [
-            'reference' => $user->getReference(),
-            'firstName' => $user->getFirstName(),
-            'lastName'  => $user->getLastName(),
-            'loginName' => $user->getLoginName(),
+            'reference'   => $user->getReference(),
+            'firstName'   => $user->getFirstName(),
+            'lastName'    => $user->getLastName(),
+            'loginName'   => $user->getLoginName(),
+            'annotations' => $annotations,
         ];
     }
 
@@ -64,12 +70,20 @@ class Normalizer
      */
     public function denormalizeUser(array $user)
     {
+        $annotations = [];
+        if (isset($user['annotations'])) {
+            foreach ($user['annotations'] as $annotation) {
+                $annotations[$annotation['attribute']] = $annotation['value'];
+            }
+        }
+
         return new User(
             $user['id'],
             $user['reference'],
             isset($user['first_name']) ? $user['first_name'] : '',
             isset($user['last_name']) ? $user['last_name'] : '',
-            isset($user['login_name']) ? $user['login_name'] : ''
+            isset($user['login_name']) ? $user['login_name'] : '',
+            $annotations
         );
     }
 

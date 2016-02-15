@@ -1348,3 +1348,14 @@ footer a {
 .edit_group_container form a {
     margin: inherit;
 }
+
+.edit_group_container div.edit_group header select {
+    width: 600px;
+    color: white;
+    text-align: center;
+    line-height: 14px;
+    background-color: #359bb7;
+    border: 1.5px solid #2f8aa3;
+    font-size: 14px;
+    margin: 5px 40px 0px 40px;
+}

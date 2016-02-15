@@ -36,6 +36,26 @@ var grouphub = (function ($) {
             return false;
         });
 
+        $editGroup.on('click', '#show_group_details', function() {
+            $('#group_details').toggleClass('hidden');
+        });
+
+        $editGroup.on('click', '#add_members', function() {
+            $('#group_members').removeClass('active');
+            $('#group_members_tab').addClass('hidden');
+
+            $('#add_members').addClass('active');
+            $('#add_members_tab').removeClass('hidden');
+        });
+
+        $editGroup.on('click', '#group_members', function() {
+            $('#group_members').addClass('active');
+            $('#group_members_tab').removeClass('hidden');
+
+            $('#add_members').removeClass('active');
+            $('#add_members_tab').addClass('hidden');
+        });
+
         $editGroup.on('click', '.add', function () {
             var $this = $(this);
 
@@ -66,11 +86,9 @@ var grouphub = (function ($) {
             return false;
         });
 
-        $editGroup.on('click', '#edit', function () {
-            var $this = $(this),
-                $form = $this.closest('.edit_group').find('form');
-
-            $form.toggleClass('hidden');
+        $editGroup.on('click', '#edit_group_link', function () {
+            $('#group_details').addClass('hidden');
+            $('#group_title, #group_name, #edit_group_details').toggleClass('hidden');
 
             return false;
         });
@@ -84,13 +102,26 @@ var grouphub = (function ($) {
             });
         });
 
-        $editGroup.on('click', '#delete_group', function () {
+        $editGroup.on('click', '#delete_group_link', function () {
+            $('#group_deletion_confirmation').toggleClass('hidden');
+
+            return false;
+        });
+
+        $editGroup.on('click', 'a.confirm', function () {
             var $this = $(this);
 
-            // @todo: confirm popup
             $.post($this.data('url'), function () {
-                // @todo: close modal, update groups, actual submit?
+                $('body').removeClass('modal-open');
+                $this.closest('.edit_group_container').addClass('hidden');
+                // @todo: update groups, actual submit?
             });
+
+            return false;
+        });
+
+        $editGroup.on('click', 'a.cancel', function () {
+            $('#group_deletion_confirmation').toggleClass('hidden');
 
             return false;
         });

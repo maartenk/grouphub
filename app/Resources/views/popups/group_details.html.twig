@@ -1,26 +1,54 @@
 <div class="edit_group">
     <div class="left">
         <header>
-            {% if is_granted('EDIT', group) %}
-            {{ form_start(form, {'action': path('edit_group', {'id': group.id}), 'attr': {'class': 'hidden'} }) }}
-                {{ form_widget(form.name) }}
-                {{ form_widget(form.description) }}
-                {% if is_granted('ROLE_ADMIN') %}
-                {{ form_widget(form.parent) }}
-                {% endif %}
-                {{ form_rest(form) }}
-            {{ form_end(form) }}
+            {% if form %}
+                {{ form_start(form, {'action': path('edit_group', {'id': group.id}) }) }}
             {% endif %}
 
-            <a id="edit_group_close" href="#" class="close_modal close-modal"><i class="fa fa-times"></i></a>
-            <p>{{ group.name }}</p>
-            <i class="fa fa-angle-double-down"></i>
-            <div class="hidden">{{ group.description }}</div>
+            <div>
+                <a id="edit_group_close" href="#" class="close_modal close-modal"><i class="fa fa-times"></i></a>
+                <p id="group_title">{{ group.name }}</p>
+                {% if form %}
+                    {{ form_widget(form.name, {'attr': {'class': 'hidden'}}) }}
+                {% endif %}
+                <a id="show_group_details" class="show_details" href="#"><i class="fa fa-angle-double-down"></i></a>
+            </div>
+
+            <div id="group_details" class="hidden details">{{ group.description }}</div>
+
+            {% if form %}
+                <div id="edit_group_details" class="hidden details">
+                    {{ form_widget(form.description) }}
+
+                    {% if form.parent %}
+                        {{ form_widget(form.parent) }}
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            {% if form %}
+                {{ form_rest(form) }}
+                {{ form_end(form) }}
+            {% endif %}
+
+            {% if is_granted('EDIT', group) %}
+            <section id="group_deletion_confirmation" class="hidden">
+                <form action="">
+                    <p>{{ 'Deze groep verwijderen?'|trans }}</p>
+                    <a href="#" class="button_blue pull-left confirm" data-url="{{ path('delete_group', {'id': group.id}) }}">
+                        {{ 'Ja'|trans }}
+                    </a>
+                    <a href="#" class="button_dark_grey pull-right cancel">
+                        {{ 'Nee'|trans }}
+                    </a>
+                </form>
+            </section>
+            {% endif %}
         </header>
 
         <ul class="tabs">
             <li>
-                <a id="group_members" href="#">
+                <a id="group_members" href="#" class="active">
                     {{ 'Group members'|trans }}
                 </a>
             </li>
@@ -47,7 +75,7 @@
         </div>
 
         {% if is_granted('EDIT', group) %}
-            <div id="add_members_tab hidden">
+            <div id="add_members_tab" class="hidden">
                 <div class="search_container">
                     <div class="input_container">
                         <i class="fa fa-search"></i>
@@ -65,17 +93,17 @@
     {% if is_granted('EDIT', group) %}
         <ul class="icons right">
             <li>
-                <a id="edit" href="#">
+                <a id="edit_group_link" href="#">
                     <i class="fa fa-edit"></i>
                 </a>
             </li>
             <li>
-                <a id="download" href="#">
+                <a id="download_group_link" href="#">
                     <i class="fa fa-download"></i>
                 </a>
             </li>
             <li>
-                <a id="delete_group" href="#" data-url="{{ path('delete_group', {'id': group.id}) }}">
+                <a id="delete_group_link" href="#">
                     <i class="fa fa-trash"></i>
                 </a>
             </li>

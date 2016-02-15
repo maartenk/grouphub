@@ -16,9 +16,10 @@ Terms & conditions: 'Algemene voorwaarden'
 Privacy: 'Privacy'
 
 A-Z: 'A-Z'
-Title: 'Titel'
-Description: 'Beschrijving'
-Date: 'Datum'
+A - Z: 'A - Z'
+Z - A: 'Z - A'
+Jan - Dec: 'Jan - Dec'
+Dec - Jan: 'Dec - Jan'
 
 MEMBER: 'LID'
 LEAVE: 'VERLATEN'
@@ -53,3 +54,7 @@ Group members: 'Groep leden'
 Add members: 'Lid toevoegen'
 
 Admin: 'Beheerder'
+
+Deze groep verwijderen?: 'Deze groep verwijderen?'
+Ja: 'Ja'
+Nee: 'Nee'

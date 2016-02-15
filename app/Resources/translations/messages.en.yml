@@ -16,9 +16,10 @@ Terms & conditions: 'Terms & conditions'
 Privacy: 'Privacy'
 
 A-Z: 'A-Z'
-Title: 'Title'
-Description: 'Description'
-Date: 'Date'
+A - Z: 'A - Z'
+Z - A: 'Z - A'
+Jan - Dec: 'Jan - Dec'
+Dec - Jan: 'Dec - Jan'
 
 MEMBER: 'MEMBER'
 LEAVE: 'LEAVE'
@@ -53,3 +54,7 @@ Group members: 'Group members'
 Add members: 'Add members'
 
 Admin: 'Administrator'
+
+Deze groep verwijderen?: 'Delete this group?'
+Ja: 'Yes'
+Nee: 'No'

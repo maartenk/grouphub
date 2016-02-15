@@ -58,14 +58,53 @@ class GroupController extends Controller
         $members = $groupManager->findGroupMemberships($group->getId());
         $users = $groupManager->findUsers();
 
+        $form = null;
+        if ($this->isGranted('EDIT', $group)) {
+            $form = $this->createForm(GroupType::class, $group);
+        }
+
         return $this->render(
             ':popups:group_details.html.twig',
             [
                 'group'   => $group,
                 'members' => $members,
-                'users'   => $users // @todo: find not-members or simply show edit actions for existing members
+                'users'   => $users, // @todo: find not-members or simply show edit actions for existing members
+                'form'    => $form->createView(),
             ]
         );
+    }
+
+    /**
+     * @Route("/{_locale}/group/{id}/edit", name="edit_group")
+     * @Method("POST")
+     *
+     * @param int     $id
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function editGroupAction($id, Request $request)
+    {
+        $groupManager = $this->get('app.group_manager');
+        $group = $groupManager->getGroup($id);
+
+        if (!$group) {
+            throw $this->createNotFoundException('Group not found');
+        }
+
+        $this->denyAccessUnlessGranted('EDIT', $group);
+
+        $form = $this->createForm(GroupType::class, $group);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->get('app.group_manager')->updateGroup($group);
+
+            return new Response();
+        }
+
+        return new Response($form->getErrors(true));
     }
 
     /**

@@ -75,6 +75,16 @@ class GroupType extends AbstractType
                 }
 
                 $form = $event->getForm();
+                $group = $event->getData();
+
+                $parent = null;
+                if (!empty($group)) {
+                    $parentId = $group->getParentId();
+
+                    if (!empty($parentId)) {
+                        $parent = $groupManager->getGroup($parentId);
+                    }
+                }
 
                 $form->add(
                     'parent',
@@ -84,10 +94,33 @@ class GroupType extends AbstractType
                         'choices'      => $groupManager->findFormalGroups(),
                         'mapped'       => false,
                         'choice_label' => 'name',
+                        'choice_value' => 'id',
                         'required'     => false,
                         'placeholder'  => 'Ad hoc',
+                        'data'         => $parent
                     ]
                 );
+            }
+        );
+
+        $builder->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event) {
+                /** @var Group $group */
+                $group = $event->getData();
+                $form = $event->getForm();
+
+                if (empty($group) || !$form->has('parent')) {
+                    return;
+                }
+
+                if (!empty($form->get('parent')->getData())) {
+                    $group->setType(Group::TYPE_FORMAL);
+                    $group->setParentId($form->get('parent')->getData()->getId());
+                } else {
+                    $group->setType(Group::TYPE_GROUPHUB);
+                    $group->setParentId(null);
+                }
             }
         );
     }
@@ -110,7 +143,7 @@ class GroupType extends AbstractType
                     $type = Group::TYPE_GROUPHUB;
                     $parent = null;
 
-                    if ($form->has('parent')) {
+                    if ($form->has('parent') && !empty($form->get('parent')->getData())) {
                         $type = Group::TYPE_FORMAL;
                         $parent = $form->get('parent')->getData()->getId();
                     }

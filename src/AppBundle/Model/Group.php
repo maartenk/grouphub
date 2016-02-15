@@ -152,6 +152,14 @@ class Group implements Comparable
     }
 
     /**
+     * @param string $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    /**
      * @return int
      */
     public function getOwnerId()
@@ -165,6 +173,14 @@ class Group implements Comparable
     public function getParentId()
     {
         return $this->parentId;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setParentId($id)
+    {
+        $this->parentId = $id;
     }
 
     /**

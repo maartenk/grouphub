@@ -170,6 +170,14 @@ class GroupManager
     }
 
     /**
+     * @param Group $group
+     */
+    public function updateGroup(Group $group)
+    {
+        $this->client->updateGroup($group->getId(), $group);
+    }
+
+    /**
      * @param string $query
      * @param int    $offset
      * @param int    $limit

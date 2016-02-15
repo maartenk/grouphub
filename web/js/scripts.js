@@ -66,6 +66,24 @@ var grouphub = (function ($) {
             return false;
         });
 
+        $editGroup.on('click', '#edit', function () {
+            var $this = $(this),
+                $form = $this.closest('.edit_group').find('form');
+
+            $form.toggleClass('hidden');
+
+            return false;
+        });
+
+        $editGroup.on('change', 'header form :input', function () {
+            var $this = $(this),
+                $form = $this.closest('form');
+
+            $.post($form.attr('action'), $form.serialize(), function () {
+                // @todo: update groups/description
+            });
+        });
+
         $editGroup.on('click', '#delete_group', function () {
             var $this = $(this);
 

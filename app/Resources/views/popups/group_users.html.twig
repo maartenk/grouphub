@@ -1,0 +1,12 @@
+{% for user in users %}
+    <li>
+        <div>
+            <p>{{ user.name }}</p>
+            <span>{{ user.email }}&nbsp;</span>
+        </div>
+
+        <a href="#" data-url="{{ path('membership_add', {groupId: group.id, userId: user.id}) }}" class="add rounded">
+            <i class="fa fa-plus"></i>
+        </a>
+    </li>
+{% endfor %}

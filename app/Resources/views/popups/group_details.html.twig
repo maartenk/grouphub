@@ -26,36 +26,12 @@
             <div class="search_container">
                 <div class="input_container">
                     <i class="fa fa-search"></i>
-                    <input id="searchInput" type="text"/>
+                    <input class="searchInput" type="text"/>
                 </div>
             </div>
 
-            <ul class="users">
-                {% for member in members %}
-                    <li>
-                        <div>
-                            <p>{{ member.user.name }}</p>
-                            <span>{{ member.user.email }}&nbsp;</span>
-                        </div>
-
-                        {% if is_granted('EDIT', group) %}
-                            <a href="#" data-url="{{ path('membership_delete', {groupId: group.id, userId: member.user.id}) }}" class="delete rounded">
-                                <i class="fa fa-minus"></i>
-                            </a>
-
-                            <select name="roles" class="roles" data-url="{{ path('membership_update', {groupId: group.id, userId: member.user.id}) }}">
-                                <option value="admin" {% if member.role == 'admin' %}selected{% endif %}>
-                                    {{ 'Admin'|trans }}
-                                </option>
-                                <option value="member" {% if member.role == 'member' %}selected{% endif %}>
-                                    {{ 'Member'|trans }}
-                                </option>
-                            </select>
-                        {% else %}
-                            {{ member.role }}
-                        {% endif %}
-                    </li>
-                {% endfor %}
+            <ul class="users" data-url="{{ path('search_group_members', {'id': group.id}) }}">
+                {{ include(':popups:group_members.html.twig') }}
             </ul>
         </div>
 
@@ -64,23 +40,12 @@
                 <div class="search_container">
                     <div class="input_container">
                         <i class="fa fa-search"></i>
-                        <input id="searchInput" type="text"/>
+                        <input class="searchInput" type="text"/>
                     </div>
                 </div>
 
-                <ul class="users">
-                    {% for user in users %}
-                        <li>
-                            <div>
-                                <p>{{ user.name }}</p>
-                                <span>{{ user.email }}&nbsp;</span>
-                            </div>
-
-                            <a href="#" data-url="{{ path('membership_add', {groupId: group.id, userId: user.id}) }}" class="add rounded">
-                                <i class="fa fa-plus"></i>
-                            </a>
-                        </li>
-                    {% endfor %}
+                <ul class="users" data-url="{{ path('search_group_users', {'id': group.id}) }}">
+                    {{ include(':popups:group_users.html.twig') }}
                 </ul>
             </div>
         {% endif %}

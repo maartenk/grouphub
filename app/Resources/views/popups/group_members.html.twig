@@ -1,0 +1,25 @@
+{% for member in members %}
+    <li>
+        <div>
+            <p>{{ member.user.name }}</p>
+            <span>{{ member.user.email }}&nbsp;</span>
+        </div>
+
+        {% if is_granted('EDIT', group) %}
+            <a href="#" data-url="{{ path('membership_delete', {groupId: group.id, userId: member.user.id}) }}" class="delete rounded">
+                <i class="fa fa-minus"></i>
+            </a>
+
+            <select name="roles" class="roles" data-url="{{ path('membership_update', {groupId: group.id, userId: member.user.id}) }}">
+                <option value="admin" {% if member.role == 'admin' %}selected{% endif %}>
+                    {{ 'Admin'|trans }}
+                </option>
+                <option value="member" {% if member.role == 'member' %}selected{% endif %}>
+                    {{ 'Member'|trans }}
+                </option>
+            </select>
+        {% else %}
+            {{ member.role }}
+        {% endif %}
+    </li>
+{% endfor %}

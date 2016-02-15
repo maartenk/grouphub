@@ -91,4 +91,64 @@ class GroupController extends Controller
 
         return new Response();
     }
+
+    /**
+     * @Route("/{_locale}/group/{id}/users/search", name="search_group_users")
+     * @Method("POST")
+     *
+     * @param int     $id
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function searchUsersAction($id, Request $request)
+    {
+        $groupManager = $this->get('app.group_manager');
+        $group = $groupManager->getGroup($id);
+
+        if (!$group) {
+            throw $this->createNotFoundException('Group not found');
+        }
+
+        $query = $request->request->get('query');
+        $users = $groupManager->findUsers($query);
+
+        return $this->render(
+            ':popups:group_users.html.twig',
+            [
+                'group' => $group,
+                'users' => $users
+            ]
+        );
+    }
+
+    /**
+     * @Route("/{_locale}/group/{id}/members/search", name="search_group_members")
+     * @Method("POST")
+     *
+     * @param int     $id
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function searchMembersAction($id, Request $request)
+    {
+        $groupManager = $this->get('app.group_manager');
+        $group = $groupManager->getGroup($id);
+
+        if (!$group) {
+            throw $this->createNotFoundException('Group not found');
+        }
+
+        $query = $request->request->get('query');
+        $members = $groupManager->findGroupMemberships($group->getId(), $query);
+
+        return $this->render(
+            ':popups:group_members.html.twig',
+            [
+                'group'   => $group,
+                'members' => $members,
+            ]
+        );
+    }
 }

@@ -76,6 +76,19 @@ var grouphub = (function ($) {
 
             return false;
         });
+
+        $editGroup.on('keyup', '.searchInput', function (e) {
+            var $this = $(this),
+                $searchResults = $this.closest('.search_container').next('ul');
+
+            if (e.which != 13) {
+                return;
+            }
+
+            $.post($searchResults.data('url'), {query: $this.val()}, function (data) {
+                $searchResults.html(data);
+            });
+        });
     };
 
     return {

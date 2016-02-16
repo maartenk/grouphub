@@ -4,15 +4,14 @@ namespace AppBundle\Security;
 
 use AppBundle\Manager\MembershipManager;
 use AppBundle\Model\Group;
-use AppBundle\Model\Membership;
 use AppBundle\Model\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 /**
- * Class GroupVoter
+ * Class MembershipVoter
  */
-class GroupVoter extends Voter
+class MembershipVoter extends Voter
 {
     /**
      * @var MembershipManager
@@ -32,7 +31,7 @@ class GroupVoter extends Voter
      */
     protected function supports($attribute, $subject)
     {
-        return ($subject instanceof Group && $attribute === 'EDIT');
+        return ($subject instanceof Group && $attribute === 'EDIT_MEMBERSHIP');
     }
 
     /**
@@ -49,17 +48,8 @@ class GroupVoter extends Voter
             return false;
         }
 
-        if ($subject->getOwnerId() == $user->getId()) {
-            return true;
-        }
-
-        $membership = $this->membershipManager->findUserMembershipOfGroup($subject->getId(), $user->getId());
-
-        if (!$membership) {
-            return false;
-        }
-
-        if ($membership->getRole() === Membership::ROLE_ADMIN) {
+        // A user is allowed to edit his own membership of grouphub groups
+        if ($subject->getType() === Group::TYPE_GROUPHUB) {
             return true;
         }
 

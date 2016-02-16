@@ -60,6 +60,13 @@ services:
             - { name: security.voter }
         public: false
 
+    app.membership_voter:
+        class: AppBundle\Security\MembershipVoter
+        arguments: ["@app.membership_manager"]
+        tags:
+            - { name: security.voter }
+        public: false
+
     app.form.group:
         class: AppBundle\Form\GroupType
         arguments: ['@security.authorization_checker', '@app.group_manager', '@security.token_storage']

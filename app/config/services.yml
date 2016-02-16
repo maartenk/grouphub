@@ -55,7 +55,7 @@ services:
 
     app.group_voter:
         class: AppBundle\Security\GroupVoter
-        arguments: ["@app.group_manager"]
+        arguments: ["@app.membership_manager"]
         tags:
             - { name: security.voter }
         public: false

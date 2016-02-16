@@ -2,7 +2,7 @@
 
 namespace AppBundle\Security;
 
-use AppBundle\Manager\GroupManager;
+use AppBundle\Manager\MembershipManager;
 use AppBundle\Model\Group;
 use AppBundle\Model\Membership;
 use AppBundle\Model\User;
@@ -15,16 +15,16 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 class GroupVoter extends Voter
 {
     /**
-     * @var GroupManager
+     * @var MembershipManager
      */
-    private $groupManager;
+    private $membershipManager;
 
     /**
-     * @param GroupManager $groupManager
+     * @param MembershipManager $membershipManager
      */
-    public function __construct(GroupManager $groupManager)
+    public function __construct(MembershipManager $membershipManager)
     {
-        $this->groupManager = $groupManager;
+        $this->membershipManager = $membershipManager;
     }
 
     /**
@@ -53,7 +53,7 @@ class GroupVoter extends Voter
             return true;
         }
 
-        $membership = $this->groupManager->findUserMembershipOfGroup($subject->getId(), $user->getId());
+        $membership = $this->membershipManager->findUserMembershipOfGroup($subject->getId(), $user->getId());
 
         if (!$membership) {
             return false;

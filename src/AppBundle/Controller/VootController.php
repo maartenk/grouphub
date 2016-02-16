@@ -39,6 +39,7 @@ class VootController extends Controller
                 'displayName' => $membership->getGroup()->getName(),
                 'description' => $membership->getGroup()->getDescription(),
                 'sourceID'    => $membership->getGroup()->getReference(),
+                'type'        => $this->mapGroupType($membership->getGroup()->getType()),
                 'membership'  => [
                     'basic' => $membership->getRole(),
                 ],
@@ -75,5 +76,21 @@ class VootController extends Controller
         ];
 
         return new JsonResponse($result);
+    }
+
+    /**
+     * @param string $type
+     *
+     * @return string
+     */
+    private function mapGroupType($type)
+    {
+        $mapping = [
+            'formal'   => '???formal', // @todo: determine mapping
+            'ldap'     => '???ldap', // @todo: determine mapping
+            'grouphub' => 'voot:adhoc',
+        ];
+
+        return $mapping[$type];
     }
 }

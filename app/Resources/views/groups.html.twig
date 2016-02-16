@@ -4,3 +4,15 @@
     {{ include(':groups:all_groups.html.twig') }}
     {{ include(':groups:search.html.twig') }}
 </div>
+
+<section id="group_leave_confirmation" class="modal_container hidden">
+    <div class="modal">
+        <p>{{ 'Deze groep verlaten?'|trans }}</p>
+        <a href="#" class="button_blue pull-left confirm" data-url="">
+            {{ 'Ja'|trans }}
+        </a>
+        <a href="#" class="button_dark_grey pull-right cancel">
+            {{ 'Nee'|trans }}
+        </a>
+    </div>
+</section>

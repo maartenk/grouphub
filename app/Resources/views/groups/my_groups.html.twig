@@ -101,7 +101,8 @@
                         <p>{{ group.timeStamp|localizeddate('medium', 'none') }}</p>
                     </div>
                     <div>
-                        <a class="button_member blue" href="#" data-hover="{{ 'LEAVE'|trans }}">
+                        <a class="button_member blue" href="#" data-hover="{{ 'LEAVE'|trans }}"
+                           data-url="{{ path('my_membership_delete', {'groupId': group.id}) }}">
                             <span>{{ 'MEMBER'|trans }}</span>
                         </a>
                     </div>

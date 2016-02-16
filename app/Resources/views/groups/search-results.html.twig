@@ -20,7 +20,8 @@
         </div>
         <div>
             {% if attribute(memberGrouphubGroups, group.id) is defined %}
-                <a class="button_member grey" href="#" data-hover="{{ 'LEAVE'|trans }}">
+                <a class="button_member grey" href="#" data-hover="{{ 'LEAVE'|trans }}"
+                   data-url="{{ path('my_membership_delete', {'groupId': group.id}) }}">
                     <span>{{ 'MEMBER'|trans }}</span>
                 </a>
             {% elseif attribute(memberOtherGroups, group.id) is defined %}

@@ -2,7 +2,9 @@ var grouphub = (function ($) {
     'use strict';
 
     var init = function () {
-        var $editGroup = $('#edit_group');
+        var $editGroup = $('#edit_group'),
+            $leaveConfirm = $('#group_leave_confirmation'),
+            $groupContainer = $('.groups');
 
         $("#searchInput").on('keyup', function (e) {
             var $this = $(this),
@@ -26,7 +28,35 @@ var grouphub = (function ($) {
             return false;
         });
 
-        $('.group_section, .button_edit').on('click', function () {
+        $groupContainer.on('click', '.button_member', function () {
+            var url =  $(this).data('url');
+
+            if (!url) {
+                return false;
+            }
+
+            $leaveConfirm.find('.confirm').data('url', url);
+            $leaveConfirm.toggleClass('hidden');
+
+            return false;
+        });
+
+        $leaveConfirm.on('click', '.confirm', function () {
+            $.post($(this).data('url'), function () {
+                $leaveConfirm.toggleClass('hidden');
+                // @todo: Update groups
+            });
+
+            return false;
+        });
+
+        $leaveConfirm.on('click', '.cancel', function () {
+            $leaveConfirm.toggleClass('hidden');
+
+            return false;
+        });
+
+        $groupContainer.on('click', '.group_section, .button_edit', function () {
             $('body').addClass('modal-open');
 
             $editGroup.load($(this).data('url'), function () {

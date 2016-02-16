@@ -52,13 +52,13 @@
                     {{ 'Group members'|trans }}
                 </a>
             </li>
-            {% if is_granted('EDIT', group) %}
-                <li>
-                    <a id="add_members" href="#">
-                        <i class="rounded fa fa-plus"></i>{{ 'Add members'|trans }}
-                    </a>
-                </li>
-            {% endif %}
+            <li>
+                {% if is_granted('EDIT', group) %}
+                <a id="add_members" href="#">
+                    <i class="rounded fa fa-plus"></i>{{ 'Add members'|trans }}
+                </a>
+                {% endif %}
+            </li>
         </ul>
 
         <div id="group_members_tab">

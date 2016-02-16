@@ -60,7 +60,7 @@ class GroupController extends Controller
 
         $form = null;
         if ($this->isGranted('EDIT', $group)) {
-            $form = $this->createForm(GroupType::class, $group);
+            $form = $this->createForm(GroupType::class, $group)->createView();
         }
 
         return $this->render(
@@ -69,7 +69,7 @@ class GroupController extends Controller
                 'group'   => $group,
                 'members' => $members,
                 'users'   => $users, // @todo: find not-members or simply show edit actions for existing members
-                'form'    => $form->createView(),
+                'form'    => $form,
             ]
         );
     }

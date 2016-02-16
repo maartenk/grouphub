@@ -34,7 +34,7 @@
 
         <ul>
             {% for group in ownerOtherGroups %}
-                <li class="group_section">
+                <li class="group_section edit" data-url="{{ path('group_details', {'id': group.id}) }}">
                     <div>
                         <i class="fa fa-user green"></i>
                         <span>12</span>
@@ -45,7 +45,7 @@
                         <p>{{ group.timeStamp|localizeddate('medium', 'none') }}</p>
                     </div>
                     <div>
-                        <a class="button_edit" href="#" data-url="{{ path('group_details', {'id': group.id}) }}">
+                        <a class="button_edit green" href="#" data-url="{{ path('group_details', {'id': group.id}) }}">
                             <span>{{ 'EDIT'|trans }}</span>
                         </a>
                     </div>
@@ -62,7 +62,7 @@
 
         <ul>
             {% for group in adminOtherGroups %}
-                <li class="group_section">
+                <li class="group_section edit" data-url="{{ path('group_details', {'id': group.id}) }}">
                     <div>
                         <i class="fa fa-user green"></i>
                         <span>12</span>
@@ -73,7 +73,7 @@
                         <p>{{ group.timeStamp|localizeddate('medium', 'none') }}</p>
                     </div>
                     <div>
-                        <a class="button_edit" href="#" data-url="{{ path('group_details', {'id': group.id}) }}">
+                        <a class="button_edit green" href="#" data-url="{{ path('group_details', {'id': group.id}) }}">
                             <span>{{ 'EDIT'|trans }}</span>
                         </a>
                     </div>
@@ -90,7 +90,7 @@
 
         <ul>
             {% for group in memberOtherGroups %}
-                <li class="group_section">
+                <li class="group_section member" data-url="{{ path('group_details', {'id': group.id}) }}">
                     <div>
                         <i class="fa fa-user green"></i>
                         <span>12</span>
@@ -101,7 +101,7 @@
                         <p>{{ group.timeStamp|localizeddate('medium', 'none') }}</p>
                     </div>
                     <div>
-                        <a class="button_member" href="#">
+                        <a class="button_member green" href="#">
                             <span>{{ 'MEMBER'|trans }}</span>
                         </a>
                     </div>

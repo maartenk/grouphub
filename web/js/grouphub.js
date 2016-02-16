@@ -124,12 +124,12 @@
                 }), document.querySelector("#join_group_close").addEventListener("click", function (e) {
                     return t(e, "#join_group")
                 });
-                var r = Array.from(document.querySelectorAll(".group_section.edit"));
-                r.forEach(function (e) {
-                    return e.addEventListener("click", function (e) {
-                        return t(e, "#edit_group")
-                    })
-                })
+                //var r = Array.from(document.querySelectorAll(".group_section.edit"));
+                //r.forEach(function (e) {
+                //    return e.addEventListener("click", function (e) {
+                //        return t(e, "#edit_group")
+                //    })
+                //})
             }
         }, {
             key: "editGroup", value: function () {

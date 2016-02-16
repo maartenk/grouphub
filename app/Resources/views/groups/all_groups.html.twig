@@ -28,7 +28,16 @@
 
     <ul>
         {% for group in groups %}
-            <li class="group_section">
+            {% set class = 'none' %}
+            {% if attribute(memberGrouphubGroups, group.id) is defined %}
+                {% set class = 'member' %}
+            {% elseif attribute(memberOtherGroups, group.id) is defined %}
+                {% set class = 'member' %}
+            {% elseif group.type == 'grouphub' %}
+                {% set class = 'member' %}
+            {% endif %}
+
+            <li class="group_section {{ class }}" data-url="{{ path('group_details', {'id': group.id}) }}">
                 <div>
                     <i class="fa fa-user purple"></i>
                     <span>12</span>
@@ -40,15 +49,15 @@
                 </div>
                 <div>
                     {% if attribute(memberGrouphubGroups, group.id) is defined %}
-                        <a class="button_member" href="#" data-hover="{{ 'LEAVE'|trans }}">
+                        <a class="button_member purple" href="#" data-hover="{{ 'LEAVE'|trans }}">
                             <span>{{ 'MEMBER'|trans }}</span>
                         </a>
                     {% elseif attribute(memberOtherGroups, group.id) is defined %}
-                        <a class="button_member" href="#">
+                        <a class="button_member purple" href="#">
                             <span>{{ 'MEMBER'|trans }}</span>
                         </a>
                     {% elseif group.type == 'grouphub' %}
-                        <a class="button_join" href="#">
+                        <a class="button_join purple" href="#">
                             <span>{{ 'JOIN'|trans }}</span>
                         </a>
                     {% endif %}

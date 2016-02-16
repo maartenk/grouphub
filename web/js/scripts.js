@@ -26,7 +26,7 @@ var grouphub = (function ($) {
             return false;
         });
 
-        $('.button_edit').on('click', function () {
+        $('.group_section, .button_edit').on('click', function () {
             $('body').addClass('modal-open');
 
             $editGroup.load($(this).data('url'), function () {

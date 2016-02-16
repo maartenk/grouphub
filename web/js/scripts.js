@@ -38,6 +38,8 @@ var grouphub = (function ($) {
 
         $editGroup.on('click', '#show_group_details', function() {
             $('#group_details').toggleClass('hidden');
+
+            return false;
         });
 
         $editGroup.on('click', '#add_members', function() {
@@ -46,6 +48,8 @@ var grouphub = (function ($) {
 
             $('#add_members').addClass('active');
             $('#add_members_tab').removeClass('hidden');
+
+            return false;
         });
 
         $editGroup.on('click', '#group_members', function() {
@@ -54,6 +58,8 @@ var grouphub = (function ($) {
 
             $('#add_members').removeClass('active');
             $('#add_members_tab').addClass('hidden');
+
+            return false;
         });
 
         $editGroup.on('click', '.add', function () {

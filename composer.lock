@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "adaf0491f15b039f6025b9877b012653",
-    "content-hash": "db2e0af2cca0883c6b44320a9d169d9d",
+    "hash": "00252da9d875e1919d408b1ef90ca188",
+    "content-hash": "20ec023ce0a3125ad5a622d295bd71d4",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -785,20 +785,20 @@
         },
         {
             "name": "hslavich/simplesamlphp-bundle",
-            "version": "dev-master",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/ibuildingsnl/SimplesamlphpBundle.git",
-                "reference": "6ae71bebe94761c6392c6f8c508a909b961d37b6"
+                "url": "https://github.com/hslavich/SimplesamlphpBundle.git",
+                "reference": "44d42fe0016e0c325e5fb2b622f392f23aff91fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ibuildingsnl/SimplesamlphpBundle/zipball/6ae71bebe94761c6392c6f8c508a909b961d37b6",
-                "reference": "6ae71bebe94761c6392c6f8c508a909b961d37b6",
+                "url": "https://api.github.com/repos/hslavich/SimplesamlphpBundle/zipball/44d42fe0016e0c325e5fb2b622f392f23aff91fa",
+                "reference": "44d42fe0016e0c325e5fb2b622f392f23aff91fa",
                 "shasum": ""
             },
             "require": {
-                "simplesamlphp/simplesamlphp": "dev-master",
+                "simplesamlphp/simplesamlphp": "~1.13",
                 "symfony/symfony": ">=2.8"
             },
             "type": "symfony-bundle",
@@ -807,6 +807,7 @@
                     "Hslavich\\SimplesamlphpBundle\\": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "authors": [
                 {
                     "name": "hslavich",
@@ -822,10 +823,7 @@
                 "saml",
                 "simplesamlphp"
             ],
-            "support": {
-                "source": "https://github.com/ibuildingsnl/SimplesamlphpBundle/tree/master"
-            },
-            "time": "2016-02-12 13:25:57"
+            "time": "2016-02-16 18:08:26"
         },
         {
             "name": "incenteev/composer-parameter-handler",
@@ -1033,55 +1031,6 @@
             "time": "2015-10-14 12:51:02"
         },
         {
-            "name": "openid/php-openid",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/openid/php-openid.git",
-                "reference": "ee669c6a9d4d95b58ecd9b6945627276807694fb"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/openid/php-openid/zipball/924f9aa42453cd0f9dba72587b4e2cdf7f4de874",
-                "reference": "ee669c6a9d4d95b58ecd9b6945627276807694fb",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "ext-dom": "*",
-                "ext-gmp": "*",
-                "php": ">=4.3"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "Auth"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                "."
-            ],
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "JanRain Inc.",
-                    "homepage": "http://www.openidenabled.com"
-                }
-            ],
-            "description": "OpenID library for PHP5",
-            "homepage": "http://github.com/openid/php-openid",
-            "keywords": [
-                "Authentication",
-                "OpenId",
-                "auth",
-                "yadis"
-            ],
-            "time": "2013-10-03 21:21:20"
-        },
-        {
             "name": "paragonie/random_compat",
             "version": "v1.2.0",
             "source": {
@@ -1259,16 +1208,16 @@
         },
         {
             "name": "sensio/distribution-bundle",
-            "version": "v5.0.3",
+            "version": "v5.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioDistributionBundle.git",
-                "reference": "419c1824af940e2be0f833aca2327e1181a6b503"
+                "reference": "2c167426fc24f9de116345195bc1697a748ee847"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/419c1824af940e2be0f833aca2327e1181a6b503",
-                "reference": "419c1824af940e2be0f833aca2327e1181a6b503",
+                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/2c167426fc24f9de116345195bc1697a748ee847",
+                "reference": "2c167426fc24f9de116345195bc1697a748ee847",
                 "shasum": ""
             },
             "require": {
@@ -1307,7 +1256,7 @@
                 "configuration",
                 "distribution"
             ],
-            "time": "2015-12-18 17:44:11"
+            "time": "2016-02-12 16:21:30"
         },
         {
             "name": "sensio/framework-extra-bundle",
@@ -1459,16 +1408,16 @@
         },
         {
             "name": "simplesamlphp/simplesamlphp",
-            "version": "dev-master",
+            "version": "v1.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/simplesamlphp/simplesamlphp.git",
-                "reference": "159e29f698c2ef5fb494e42ec52b5cd280014fae"
+                "reference": "03c6303dfee814450836c4ee3d07d51e628e4d4e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simplesamlphp/simplesamlphp/zipball/159e29f698c2ef5fb494e42ec52b5cd280014fae",
-                "reference": "159e29f698c2ef5fb494e42ec52b5cd280014fae",
+                "url": "https://api.github.com/repos/simplesamlphp/simplesamlphp/zipball/03c6303dfee814450836c4ee3d07d51e628e4d4e",
+                "reference": "03c6303dfee814450836c4ee3d07d51e628e4d4e",
                 "shasum": ""
             },
             "require": {
@@ -1503,23 +1452,21 @@
                 {
                     "name": "Andreas Åkre Solberg",
                     "email": "andreas.solberg@uninett.no"
-                },
-                {
-                    "name": "Jaime Perez",
-                    "email": "jaime.perez@uninett.no"
                 }
             ],
-            "description": "A PHP implementation of a SAML 2.0 service provider and identity provider, also compatible with Shibboleth 1.3 and 2.0.",
+            "description": "A PHP implementation of SAML 2.0 service provider and identity provider functionality. And is also compatible with Shibboleth 1.3 and 2.0.",
             "homepage": "http://simplesamlphp.org",
             "keywords": [
+                "OpenId",
                 "SAML2",
+                "aselect",
                 "idp",
                 "oauth",
                 "shibboleth",
                 "sp",
                 "ws-federation"
             ],
-            "time": "2016-02-09 11:07:23"
+            "time": "2016-02-15 12:18:12"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -2538,22 +2485,24 @@
         },
         {
             "name": "phpspec/prophecy",
-            "version": "v1.5.0",
+            "version": "v1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "4745ded9307786b730d7a60df5cb5a6c43cf95f7"
+                "reference": "3c91bdf81797d725b14cb62906f9a4ce44235972"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/4745ded9307786b730d7a60df5cb5a6c43cf95f7",
-                "reference": "4745ded9307786b730d7a60df5cb5a6c43cf95f7",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/3c91bdf81797d725b14cb62906f9a4ce44235972",
+                "reference": "3c91bdf81797d725b14cb62906f9a4ce44235972",
                 "shasum": ""
             },
             "require": {
                 "doctrine/instantiator": "^1.0.2",
+                "php": "^5.3|^7.0",
                 "phpdocumentor/reflection-docblock": "~2.0",
-                "sebastian/comparator": "~1.1"
+                "sebastian/comparator": "~1.1",
+                "sebastian/recursion-context": "~1.0"
             },
             "require-dev": {
                 "phpspec/phpspec": "~2.0"
@@ -2561,7 +2510,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.4.x-dev"
+                    "dev-master": "1.5.x-dev"
                 }
             },
             "autoload": {
@@ -2594,7 +2543,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2015-08-13 10:07:40"
+            "time": "2016-02-15 07:46:21"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -3652,11 +3601,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "openid/php-openid": 20,
-        "simplesamlphp/simplesamlphp": 20,
-        "hslavich/simplesamlphp-bundle": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

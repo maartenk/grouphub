@@ -56,10 +56,10 @@ class GroupController extends Controller
         }
 
         $members = $this->get('app.membership_manager')->findGroupMemberships($group->getId());
-        $users = $this->get('app.user_manager')->findUsers();
 
-        $form = null;
+        $users = $form = null;
         if ($this->isGranted('EDIT', $group)) {
+            $users = $this->get('app.user_manager')->findUsers();
             $form = $this->createForm(GroupType::class, $group)->createView();
         }
 

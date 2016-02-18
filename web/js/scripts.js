@@ -205,6 +205,22 @@ var grouphub = (function ($) {
                 $searchResults.html(data);
             });
         });
+
+        $('#notifications').on('click', '.confirm, .cancel', function () {
+            var $this = $(this);
+
+            $.post($this.data('url'), function () {
+                var $article = $this.closest('article');
+
+                console.log($article.data('url'));
+                $.post($article.data('url'), function () {
+                    $article.remove();
+                    // @todo: update groups, update count
+                });
+            });
+
+            return false;
+        });
     };
 
     return {

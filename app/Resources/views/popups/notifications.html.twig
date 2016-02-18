@@ -2,162 +2,40 @@
     <div class="notifications">
         <header>
             <a id="notifications_close" href="#" class="close_modal"><i class="fa fa-times"></i></a>
-            <p>NOTIFICATIONS</p>
+            <p>{{ 'NOTIFICATIONS'|trans }}</p>
         </header>
-        <article class="notification">
-            <table>
-                <tr>
-                    <td>Datum</td>
-                    <td>1 januari 2016 14:38</td>
-                </tr>
-                <tr>
-                    <td>Groep</td>
-                    <td>Data Management Landscape</td>
-                </tr>
-                <tr>
-                    <td>Gebruiker</td>
-                    <td>John Doe</td>
-                </tr>
-                <tr>
-                    <td>Bericht</td>
-                    <td>mag ik lid worden van deze groep</td>
-                </tr>
-            </table>
-            <a href="#" class="button_blue">Accepteer</a>
-            <a href="#" class="button_grey">Annuleer</a>
-        </article>
-        <article class="notification">
-            <table>
-                <tr>
-                    <td>Datum</td>
-                    <td>1 januari 2016 14:38</td>
-                </tr>
-                <tr>
-                    <td>Groep</td>
-                    <td>Data Management Landscape</td>
-                </tr>
-                <tr>
-                    <td>Gebruiker</td>
-                    <td>John Doe</td>
-                </tr>
-                <tr>
-                    <td>Bericht</td>
-                    <td>mag ik lid worden van deze groep</td>
-                </tr>
-            </table>
-            <a href="#" class="button_blue">Accepteer</a>
-            <a href="#" class="button_grey">Annuleer</a>
-        </article>
-        <article class="notification">
-            <table>
-                <tr>
-                    <td>Datum</td>
-                    <td>1 januari 2016 14:38</td>
-                </tr>
-                <tr>
-                    <td>Groep</td>
-                    <td>Data Management Landscape</td>
-                </tr>
-                <tr>
-                    <td>Gebruiker</td>
-                    <td>John Doe</td>
-                </tr>
-                <tr>
-                    <td>Bericht</td>
-                    <td>mag ik lid worden van deze groep</td>
-                </tr>
-            </table>
-            <a href="#" class="button_blue">Accepteer</a>
-            <a href="#" class="button_grey">Annuleer</a>
-        </article>
-        <article class="notification">
-            <table>
-                <tr>
-                    <td>Datum</td>
-                    <td>1 januari 2016 14:38</td>
-                </tr>
-                <tr>
-                    <td>Groep</td>
-                    <td>Data Management Landscape</td>
-                </tr>
-                <tr>
-                    <td>Gebruiker</td>
-                    <td>John Doe</td>
-                </tr>
-                <tr>
-                    <td>Bericht</td>
-                    <td>mag ik lid worden van deze groep</td>
-                </tr>
-            </table>
-            <a href="#" class="button_blue">Accepteer</a>
-            <a href="#" class="button_grey">Annuleer</a>
-        </article>
-        <article class="notification">
-            <table>
-                <tr>
-                    <td>Datum</td>
-                    <td>1 januari 2016 14:38</td>
-                </tr>
-                <tr>
-                    <td>Groep</td>
-                    <td>Data Management Landscape</td>
-                </tr>
-                <tr>
-                    <td>Gebruiker</td>
-                    <td>John Doe</td>
-                </tr>
-                <tr>
-                    <td>Bericht</td>
-                    <td>mag ik lid worden van deze groep</td>
-                </tr>
-            </table>
-            <a href="#" class="button_blue">Accepteer</a>
-            <a href="#" class="button_grey">Annuleer</a>
-        </article>
-        <article class="notification">
-            <table>
-                <tr>
-                    <td>Datum</td>
-                    <td>1 januari 2016 14:38</td>
-                </tr>
-                <tr>
-                    <td>Groep</td>
-                    <td>Data Management Landscape</td>
-                </tr>
-                <tr>
-                    <td>Gebruiker</td>
-                    <td>John Doe</td>
-                </tr>
-                <tr>
-                    <td>Bericht</td>
-                    <td>mag ik lid worden van deze groep</td>
-                </tr>
-            </table>
-            <a href="#" class="button_blue">Accepteer</a>
-            <a href="#" class="button_grey">Annuleer</a>
-        </article>
-        <article class="notification">
-            <table>
-                <tr>
-                    <td>Datum</td>
-                    <td>1 januari 2016 14:38</td>
-                </tr>
-                <tr>
-                    <td>Groep</td>
-                    <td>Data Management Landscape</td>
-                </tr>
-                <tr>
-                    <td>Gebruiker</td>
-                    <td>John Doe</td>
-                </tr>
-                <tr>
-                    <td>Bericht</td>
-                    <td>mag ik lid worden van deze groep</td>
-                </tr>
-            </table>
-            <a href="#" class="button_blue">Accepteer</a>
-            <a href="#" class="button_grey">Annuleer</a>
-        </article>
-    </div>
 
+        {% for notification in notifications %}
+            <article class="notification" data-url="{{ path('notification_process', {'id': notification.id}) }}">
+                <table>
+                    <tr>
+                        <td>{{ 'Datum'|trans }}</td>
+                        <td>{{ notification.created|localizeddate('medium', 'none') }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ 'Groep'|trans }}</td>
+                        <td>{{ notification.group.name }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ 'Gebruiker'|trans }}</td>
+                        <td>{{ notification.from.name }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ 'Bericht'|trans }}</td>
+                        <td>{{ notification.message }}</td>
+                    </tr>
+                </table>
+
+                <a href="#" class="button_blue confirm"
+                   data-url="{{ path('membership_confirm', {'groupId': notification.group.id, 'userId': notification.from.id}) }}">
+                    {{ 'Accepteer'|trans }}
+                </a>
+                <a href="#" class="button_grey cancel"
+                   data-url="{{ path('membership_delete', {'groupId': notification.group.id, 'userId': notification.from.id}) }}">
+                    {{ 'Annuleer'|trans }}
+                </a>
+            </article>
+        {% endfor %}
+
+    </div>
 </section>

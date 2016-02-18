@@ -8,6 +8,7 @@ use AppBundle\Model\User;
 use AppBundle\Sequence;
 use AppBundle\SynchronizableSequence;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 use RuntimeException;
 
 /**
@@ -369,7 +370,38 @@ class ApiClient
      */
     public function removeGroupUser($groupId, $userId)
     {
-        $this->guzzle->delete('groups/' . $groupId . '/users/' . $userId);
+        try {
+            $this->guzzle->delete('groups/' . $groupId . '/users/' . $userId);
+        } catch (ClientException $e) {
+            if ($e->getResponse()->getStatusCode() !== 404) {
+                throw $e;
+            }
+
+            // Ignore not found when trying to delete the exact resource
+        }
+    }
+
+    /**
+     * @param int $userId
+     *
+     * @return Sequence
+     */
+    public function findNotifications($userId)
+    {
+        $data = $this->guzzle->get('users/' . $userId . '/notifications');
+
+        $data = $this->decode($data->getBody());
+
+        return new Sequence($this->normalizer->denormalizeNotifications($data));
+    }
+
+    /**
+     * @param int $userId
+     * @param int $notificationId
+     */
+    public function removeNotification($userId, $notificationId)
+    {
+        $this->guzzle->delete('users/' . $userId . '/notifications/' . $notificationId);
     }
 
     /**

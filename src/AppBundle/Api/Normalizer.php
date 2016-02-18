@@ -4,6 +4,7 @@ namespace AppBundle\Api;
 
 use AppBundle\Model\Group;
 use AppBundle\Model\Membership;
+use AppBundle\Model\Notification;
 use AppBundle\Model\User;
 use DateTime;
 
@@ -164,6 +165,38 @@ class Normalizer
             $membership['role'],
             isset($membership['group']) ? $this->denormalizeGroup($membership['group']) : null,
             isset($membership['user']) ? $this->denormalizeUser($membership['user']) : null
+        );
+    }
+
+    /**
+     * @param array $notifications
+     *
+     * @return array
+     */
+    public function denormalizeNotifications(array $notifications)
+    {
+        $result = [];
+        foreach ($notifications as $notification) {
+            $result[] = $this->denormalizeNotification($notification);
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param array $notification
+     *
+     * @return Notification
+     */
+    private function denormalizeNotification(array $notification)
+    {
+        return new Notification(
+            $notification['id'],
+            $this->denormalizeUser($notification['from']),
+            new DateTime($notification['created']),
+            $notification['type'],
+            isset($notification['message']) ? $notification['message'] : '',
+            isset($notification['group']) ? $this->denormalizeGroup($notification['group']) : null
         );
     }
 }

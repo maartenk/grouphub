@@ -46,6 +46,10 @@ services:
         class: AppBundle\Manager\UserManager
         arguments: ["@app.api_client"]
 
+    app.notification_manager:
+        class: AppBundle\Manager\NotificationManager
+        arguments: ["@app.api_client"]
+
     app.admin_voter:
         class: AppBundle\Security\AdminVoter
         arguments: ["@app.group_manager"]

@@ -22,6 +22,7 @@ Jan - Dec: 'Jan - Dec'
 Dec - Jan: 'Dec - Jan'
 
 MEMBER: 'LID'
+PROSPECT: 'ASPIRANT'
 LEAVE: 'VERLATEN'
 JOIN: 'AANSLUITEN'
 EDIT: 'BEWERKEN'
@@ -60,3 +61,9 @@ Ja: 'Ja'
 Nee: 'Nee'
 
 Deze groep verlaten?: 'Deze groep verlaten?'
+
+Lidmaatschap aanvragen: 'Lidmaatschap aanvragen'
+Naam group: 'Naam group:'
+Persoonlijk bericht: 'Persoonlijk bericht:'
+Aanvragen: 'Aanvragen'
+Annuleren: 'Annuleren'

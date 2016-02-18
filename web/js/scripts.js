@@ -3,6 +3,7 @@ var grouphub = (function ($) {
 
     var init = function () {
         var $editGroup = $('#edit_group'),
+            $joinConfirm = $('#join_group'),
             $leaveConfirm = $('#group_leave_confirmation'),
             $groupContainer = $('.groups');
 
@@ -24,6 +25,36 @@ var grouphub = (function ($) {
         $('section').on('click', '.close-modal', function () {
             $('body').removeClass('modal-open');
             $(this).closest('section').addClass('hidden');
+
+            return false;
+        });
+
+        $groupContainer.on('click', '.button_join', function () {
+            var url =  $(this).data('url');
+
+            if (!url) {
+                return false;
+            }
+
+            $joinConfirm.find('.group-name').html($(this).data('name'));
+            $joinConfirm.find('.confirm').data('url', url);
+            $joinConfirm.toggleClass('hidden');
+
+            return false;
+        });
+
+        $joinConfirm.on('click', '.confirm', function () {
+            var $this = $(this);
+
+            $.post($this.data('url'), $this.closest('form').serialize(), function () {
+                $joinConfirm.toggleClass('hidden');
+            });
+
+            return false;
+        });
+
+        $joinConfirm.on('click', '.cancel', function () {
+            $joinConfirm.toggleClass('hidden');
 
             return false;
         });

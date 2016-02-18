@@ -85,4 +85,14 @@ class MembershipManager
     {
         $this->client->addGroupUser($groupId, $userId);
     }
+
+    /**
+     * @param int    $groupId
+     * @param int    $userId
+     * @param string $message
+     */
+    public function requestMembership($groupId, $userId, $message)
+    {
+        $this->client->addGroupUser($groupId, $userId, Membership::ROLE_PROSPECT, $message);
+    }
 }

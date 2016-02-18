@@ -95,6 +95,32 @@ class MembershipController extends Controller
     }
 
     /**
+     * @Route("/group/{groupId}/me/add", name="my_membership_add")
+     * @Method("POST")
+     *
+     * @param int     $groupId
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function addMyMembership($groupId, Request $request)
+    {
+        $group = $this->get('app.group_manager')->getGroup($groupId);
+
+        if (empty($group)) {
+            throw $this->createNotFoundException();
+        }
+
+        $this->denyAccessUnlessGranted('EDIT_MEMBERSHIP', $group);
+
+        $message = $request->request->get('personal_message');
+
+        $this->get('app.membership_manager')->requestMembership($groupId, $this->getUser()->getId(), $message);
+
+        return new Response();
+    }
+
+    /**
      * @Route("/group/{groupId}/me/delete", name="my_membership_delete")
      * @Method("POST")
      *

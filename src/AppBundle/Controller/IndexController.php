@@ -45,6 +45,7 @@ class IndexController extends Controller
                 'memberOtherGroups'      => isset($groups['other']['member']) ? $groups['other']['member'] : [],
                 'groups'                 => $this->get('app.group_manager')->findGroups(),
                 'add_form'               => $addForm->createView(),
+                'notifications'          => $this->get('app.notification_manager')->findNotifications($this->getUser()->getId())
             ]
         );
     }

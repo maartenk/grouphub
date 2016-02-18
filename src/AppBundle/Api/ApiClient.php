@@ -293,10 +293,11 @@ class ApiClient
      * @param int    $groupId
      * @param int    $userId
      * @param string $role
+     * @param string $message
      */
-    public function addGroupUser($groupId, $userId, $role = 'member')
+    public function addGroupUser($groupId, $userId, $role = 'member', $message = '')
     {
-        $data = $this->encode(['userInGroup' => ['user' => $userId, 'role' => $role]]);
+        $data = $this->encode(['userInGroup' => ['user' => $userId, 'role' => $role, 'message' => $message]]);
 
         $this->guzzle->post('groups/' . $groupId . '/users', ['body' => $data]);
     }

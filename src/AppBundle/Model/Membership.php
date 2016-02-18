@@ -9,6 +9,7 @@ class Membership
 {
     const ROLE_ADMIN = 'admin';
     const ROLE_MEMBER = 'member';
+    const ROLE_PROSPECT = 'prospect';
 
     /**
      * @var string

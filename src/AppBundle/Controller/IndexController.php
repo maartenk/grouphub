@@ -36,14 +36,15 @@ class IndexController extends Controller
         return $this->render(
             '::base.html.twig',
             [
-                'ownerGrouphubGroups'  => isset($groups['grouphub']['owner']) ? $groups['grouphub']['owner'] : [],
-                'adminGrouphubGroups'  => isset($groups['grouphub']['admin']) ? $groups['grouphub']['admin'] : [],
-                'memberGrouphubGroups' => isset($groups['grouphub']['member']) ? $groups['grouphub']['member'] : [],
-                'ownerOtherGroups'     => isset($groups['other']['owner']) ? $groups['other']['owner'] : [],
-                'adminOtherGroups'     => isset($groups['other']['admin']) ? $groups['other']['admin'] : [],
-                'memberOtherGroups'    => isset($groups['other']['member']) ? $groups['other']['member'] : [],
-                'groups'               => $this->get('app.group_manager')->findGroups(),
-                'add_form'             => $addForm->createView(),
+                'ownerGrouphubGroups'    => isset($groups['grouphub']['owner']) ? $groups['grouphub']['owner'] : [],
+                'adminGrouphubGroups'    => isset($groups['grouphub']['admin']) ? $groups['grouphub']['admin'] : [],
+                'memberGrouphubGroups'   => isset($groups['grouphub']['member']) ? $groups['grouphub']['member'] : [],
+                'prospectGrouphubGroups' => isset($groups['grouphub']['prospect']) ? $groups['grouphub']['prospect'] : [],
+                'ownerOtherGroups'       => isset($groups['other']['owner']) ? $groups['other']['owner'] : [],
+                'adminOtherGroups'       => isset($groups['other']['admin']) ? $groups['other']['admin'] : [],
+                'memberOtherGroups'      => isset($groups['other']['member']) ? $groups['other']['member'] : [],
+                'groups'                 => $this->get('app.group_manager')->findGroups(),
+                'add_form'               => $addForm->createView(),
             ]
         );
     }
@@ -65,14 +66,15 @@ class IndexController extends Controller
         return $this->render(
             ':groups:search-results.html.twig',
             [
-                'ownerGrouphubGroups'  => isset($groups['grouphub']['owner']) ? $groups['grouphub']['owner'] : [],
-                'adminGrouphubGroups'  => isset($groups['grouphub']['admin']) ? $groups['grouphub']['admin'] : [],
-                'memberGrouphubGroups' => isset($groups['grouphub']['member']) ? $groups['grouphub']['member'] : [],
-                'ownerOtherGroups'     => isset($groups['other']['owner']) ? $groups['other']['owner'] : [],
-                'adminOtherGroups'     => isset($groups['other']['admin']) ? $groups['other']['admin'] : [],
-                'memberOtherGroups'    => isset($groups['other']['member']) ? $groups['other']['member'] : [],
-                'groups'               => $this->get('app.group_manager')->findGroups($query),
-                'query'                => $query,
+                'ownerGrouphubGroups'    => isset($groups['grouphub']['owner']) ? $groups['grouphub']['owner'] : [],
+                'adminGrouphubGroups'    => isset($groups['grouphub']['admin']) ? $groups['grouphub']['admin'] : [],
+                'memberGrouphubGroups'   => isset($groups['grouphub']['member']) ? $groups['grouphub']['member'] : [],
+                'prospectGrouphubGroups' => isset($groups['grouphub']['prospect']) ? $groups['grouphub']['prospect'] : [],
+                'ownerOtherGroups'       => isset($groups['other']['owner']) ? $groups['other']['owner'] : [],
+                'adminOtherGroups'       => isset($groups['other']['admin']) ? $groups['other']['admin'] : [],
+                'memberOtherGroups'      => isset($groups['other']['member']) ? $groups['other']['member'] : [],
+                'groups'                 => $this->get('app.group_manager')->findGroups($query),
+                'query'                  => $query,
             ]
         );
     }

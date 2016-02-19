@@ -68,7 +68,7 @@ class GroupController extends Controller
             [
                 'group'   => $group,
                 'members' => $members,
-                'users'   => $users, // @todo: find not-members or simply show edit actions for existing members
+                'users'   => $users,
                 'form'    => $form,
             ]
         );

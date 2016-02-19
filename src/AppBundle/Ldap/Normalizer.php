@@ -112,7 +112,7 @@ class Normalizer
     {
         return [
             'cn'          => $group->getName(),
-            'objectClass' => 'groupOfNames',  // @todo: inject??
+            'objectClass' => 'groupOfNames',
             'member'      => '',
         ];
     }

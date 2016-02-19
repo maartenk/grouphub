@@ -37,7 +37,7 @@
                 {% set class = 'member' %}
             {% endif %}
 
-            <li class="group_section {{ class }}" data-url="{{ path('group_details', {'id': group.id}) }}">
+            <li class="group_section edit {{ class }}" data-url="{{ path('group_details', {'id': group.id}) }}">
                 <div>
                     <i class="fa fa-user purple"></i>
                     <span>12</span>
@@ -51,10 +51,10 @@
                     {% if attribute(memberGrouphubGroups, group.id) is defined %}
                         <a class="button_member purple" href="#" data-hover="{{ 'LEAVE'|trans }}"
                            data-url="{{ path('my_membership_delete', {'groupId': group.id}) }}">
-                            <span>{{ 'MEMBER'|trans }}</span>
+                            <span>{{ 'LEAVE'|trans }}</span>
                         </a>
                     {% elseif attribute(memberOtherGroups, group.id) is defined %}
-                        <a class="button_member purple" href="#">
+                        <a class="button_join purple" href="#">
                             <span>{{ 'MEMBER'|trans }}</span>
                         </a>
                     {% elseif attribute(prospectGrouphubGroups, group.id) is defined %}

@@ -145,13 +145,19 @@ class ApiClient
     }
 
     /**
-     * @param int $userId
+     * @param int    $userId
+     * @param string $sortColumn
+     * @param int    $sortDirection 0 => asc, 1 => desc
      *
      * @return Sequence
      */
-    public function findUserMemberships($userId)
+    public function findUserMemberships($userId, $sortColumn = 'name', $sortDirection = 0)
     {
-        $data = $this->guzzle->get('users/' . $userId . '/groups');
+        $data = $this->guzzle->get('users/' . $userId . '/groups', [
+            'query' => [
+                'sort' => ($sortDirection ? '-' : '') . $sortColumn
+            ]
+        ]);
 
         $data = $this->decode($data->getBody());
 
@@ -213,31 +219,28 @@ class ApiClient
     }
 
     /**
-     * @param int $offset
-     * @param int $limit
-     *
-     * @return SynchronizableSequence
-     */
-    public function findFormalGroups($offset = 0, $limit = 100)
-    {
-        return $this->findGroups(null, 'formal', $offset, $limit);
-    }
-
-    /**
      * @param string $query
      * @param string $type
      * @param int    $offset
      * @param int    $limit
+     * @param string $sortColumn
+     * @param int    $sortDirection
      *
      * @return SynchronizableSequence
      */
-    public function findGroups($query = null, $type = null, $offset = 0, $limit = 100)
-    {
+    public function findGroups(
+        $query = null,
+        $type = null,
+        $offset = 0,
+        $limit = 100,
+        $sortColumn = 'reference',
+        $sortDirection = 0
+    ) {
         $data = $this->guzzle->get('groups', [
             'query' => [
                 'offset' => $offset,
                 'limit'  => $limit,
-                'sort'   => 'reference',
+                'sort'   => ($sortDirection ? '-' : '') . $sortColumn,
                 'type'   => $type,
                 'query'  => $query,
             ],

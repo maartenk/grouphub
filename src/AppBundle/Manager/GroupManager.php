@@ -34,22 +34,16 @@ class GroupManager
     }
 
     /**
-     * @param User $user
+     * @param User   $user
+     * @param string $sortColumn
+     * @param int    $sortDirection
      *
      * @return array
-     *
-     * @todo: revise into more solid caching..
      */
-    public function getMyGroups(User $user)
+    public function getMyGroups(User $user, $sortColumn = 'name', $sortDirection = 0)
     {
-        static $cache;
-
-        if (isset($cache[$user->getId()])) {
-            return $cache[$user->getId()];
-        }
-
         /** @var Membership[] $memberships */
-        $memberships = $this->client->findUserMemberships($user->getId());
+        $memberships = $this->client->findUserMemberships($user->getId(), $sortColumn, $sortDirection);
 
         // Regroup memberships to make them a little more accessible
         $groups = [];
@@ -60,7 +54,7 @@ class GroupManager
             $groups[$type][$role][$group->getGroup()->getId()] = $group->getGroup();
         }
 
-        return $cache[$user->getId()] = $groups;
+        return $groups;
     }
 
     /**
@@ -68,12 +62,20 @@ class GroupManager
      * @param string $type
      * @param int    $offset
      * @param int    $limit
+     * @param string $sortColumn
+     * @param int    $sortDirection
      *
      * @return Group[]
      */
-    public function findGroups($query = null, $type = null, $offset = 0, $limit = 100)
-    {
-        return $this->client->findGroups($query, $type, $offset, $limit);
+    public function findGroups(
+        $query = null,
+        $type = null,
+        $offset = 0,
+        $limit = 100,
+        $sortColumn = 'name',
+        $sortDirection = 0
+    ) {
+        return $this->client->findGroups($query, $type, $offset, $limit, $sortColumn, $sortDirection);
     }
 
     /**
@@ -84,7 +86,7 @@ class GroupManager
      */
     public function findFormalGroups($offset = 0, $limit = 100)
     {
-        return $this->client->findFormalGroups($offset, $limit);
+        return $this->client->findGroups(null, 'formal', $offset, $limit);
     }
 
     /**

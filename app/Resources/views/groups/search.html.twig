@@ -1,24 +1,10 @@
-<div id="group_search" class="group hidden">
+<div id="group_search" class="group {% if not query %}hidden{% endif %}"
+     data-url="{{ path('groups', {'type': 'search'}) }}">
 
-    <section class="background_grey">
+    <section class="background_grey sort">
         <a id="close_search" href="#" class="close"><i class="fa fa-times"></i></a>
 
-        <div id="sort_menu_grey" class="sort_grey">
-            <span><i class="fa fa-sort-amount-asc"></i></span>
-            <span>{{ 'A-Z'|trans }}</span>
-            <span class="sort_container">
-                <span ><i class="fa fa-sort-down"></i></span>
-            </span>
-        </div>
-
-        <div id="sort_drop_down_grey" class="hidden sort_drop_down_grey">
-            <ul>
-                <li><label for="name_up_grey">{{ 'A - Z'|trans }}</label><input type="radio" id="name_up_grey" name="sort_grey" checked></li>
-                <li><label for="name_down_grey">{{ 'Z - A'|trans }}</label><input type="radio" id="name_down_grey" name="sort_grey"></li>
-                <li><label for="date_up_grey">{{ 'Jan - Dec'|trans }}</label><input type="radio" id="date_up_grey" name="sort_grey"></li>
-                <li><label for="date_down_grey">{{ 'Dec - Jan'|trans }}</label><input type="radio" id="date_down_grey" name="sort_grey"></li>
-            </ul>
-        </div>
+        {% include ':groups:_sort.html.twig' with {'color': 'grey'} %}
 
         <div>
             <h3>{{ 'SEARCH'|trans }}</h3>
@@ -26,8 +12,10 @@
         </div>
     </section>
 
-    <ul data-url="{{ path('search') }}">
-
+    <ul data-url="{{ path('groups', {'type': 'results'}) }}">
+        {% if query %}
+            {% include ':groups:search-results.html.twig' %}
+        {% endif %}
     </ul>
 
 </div>

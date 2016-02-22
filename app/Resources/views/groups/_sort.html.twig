@@ -1,0 +1,40 @@
+<div id="sort_menu_{{ color }}" class="sort_{{ color }}">
+    <span>
+        <i class="fa fa-sort-amount-{% if '-' in sort %}desc{% else %}asc{% endif %}"></i>
+    </span>
+    <span>
+        {% if 'name' in sort %}
+            {{ 'A - Z'|trans }}
+        {% else %}
+            {{ 'Jan - Dec'|trans }}
+        {% endif %}
+    </span>
+    <span class="sort_container">
+        <span><i class="fa fa-sort-down"></i></span>
+    </span>
+</div>
+
+<div id="sort_drop_down_{{ color }}" class="hidden sort_drop_down_{{ color }}">
+    <ul>
+        <li>
+            <label for="name_up_{{ color }}">{{ 'A - Z'|trans }}</label>
+            <input type="radio" id="name_up_{{ color }}" name="sort{{ color }}" value="name"
+                   {% if sort == 'name' %}checked{% endif %}>
+        </li>
+        <li>
+            <label for="name_down_{{ color }}">{{ 'Z - A'|trans }}</label>
+            <input type="radio" id="name_down_{{ color }}" name="sort{{ color }}" value="-name"
+                   {% if sort == '-name' %}checked{% endif %}>
+        </li>
+        <li>
+            <label for="date_up_{{ color }}">{{ 'Jan - Dec'|trans }}</label>
+            <input type="radio" id="date_up_{{ color }}" name="sort{{ color }}" value="timestamp"
+                   {% if sort == 'timestamp' %}checked{% endif %}>
+        </li>
+        <li>
+            <label for="date_down_{{ color }}">{{ 'Dec - Jan'|trans }}</label>
+            <input type="radio" id="date_down_{{ color }}" name="sort{{ color }}" value="-timestamp"
+                   {% if sort == '-timestamp' %}checked{% endif %}>
+        </li>
+    </ul>
+</div>

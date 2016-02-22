@@ -27,13 +27,29 @@ var grouphub = (function ($) {
             $leaveConfirm = $('#group_leave_confirmation'),
             $groupContainer = $('.groups');
 
-        $("#searchInput").on('keyup', $.debounce(250, searchGroups));
+        $('#searchInput').on('keyup', $.debounce(250, searchGroups));
 
         $('section').on('click', '.close-modal', function () {
             $('body').removeClass('modal-open');
             $(this).closest('section').addClass('hidden');
 
             return false;
+        });
+
+        $groupContainer.on('click', '#sort_menu_blue, #sort_menu_green, #sort_menu_purple, #sort_menu_grey', function () {
+            $(this).next('div').toggleClass('hidden');
+        });
+
+        $groupContainer.on('change', '.sort', function () {
+            var $this = $(this),
+                $container = $this.closest('.group'),
+                $sort = $this.find('input:checked'),
+                isSearch = $container.is('#group_search'),
+                query = isSearch ? $('#searchInput').val() : '';
+
+            $.post($container.data('url'), {query: query, sort: $sort.val()}, function (data) {
+                $container.replaceWith(data);
+            });
         });
 
         $groupContainer.on('click', '.button_join', function () {

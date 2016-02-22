@@ -57,19 +57,19 @@
             }
         }, {
             key: "sortingSelector", value: function () {
-                var e = this;
-                ["blue", "green", "purple", "grey"].forEach(function (t) {
-                    var n = document.querySelector("#sort_menu_" + t);
-                    n.addEventListener("click", function (n) {
-                        return e.toggleHidden(n, "#sort_drop_down_" + t)
-                    });
-                    var o = Array.from(document.querySelectorAll("#sort_drop_down_" + t + " a"));
-                    o.forEach(function (n) {
-                        return n.addEventListener("click", function (n) {
-                            return e.toggleHidden(n, "#sort_drop_down_" + t)
-                        })
-                    })
-                })
+                //var e = this;
+                //["blue", "green", "purple", "grey"].forEach(function (t) {
+                //    var n = document.querySelector("#sort_menu_" + t);
+                //    n.addEventListener("click", function (n) {
+                //        return e.toggleHidden(n, "#sort_drop_down_" + t)
+                //    });
+                //    var o = Array.from(document.querySelectorAll("#sort_drop_down_" + t + " a"));
+                //    o.forEach(function (n) {
+                //        return n.addEventListener("click", function (n) {
+                //            return e.toggleHidden(n, "#sort_drop_down_" + t)
+                //        })
+                //    })
+                //})
             }
         }, {
             key: "groupsSelector", value: function () {

@@ -1,24 +1,9 @@
-<div id="group_my_groups" class="group ">
+<div id="group_my_groups" class="group" data-url="{{ path('groups', {'type': 'my'}) }}">
 
-    <section class="background_blue">
+    <section class="background_blue sort">
         <a id="close_my_groups" href="#" class="close"><i class="fa fa-times"></i></a>
 
-        <div id="sort_menu_blue" class="sort_blue">
-            <span><i class="fa fa-sort-amount-asc"></i></span>
-            <span>{{ 'A-Z'|trans }}</span>
-            <span class="sort_container">
-                <span ><i class="fa fa-sort-down"></i></span>
-            </span>
-        </div>
-
-        <div id="sort_drop_down_blue" class="hidden sort_drop_down_blue">
-            <ul>
-                <li><label for="name_up_blue">{{ 'A - Z'|trans }}</label><input type="radio" id="name_up_blue" name="sort_blue" checked></li>
-                <li><label for="name_down_blue">{{ 'Z - A'|trans }}</label><input type="radio" id="name_down_blue" name="sort_blue"></li>
-                <li><label for="date_up_blue">{{ 'Jan - Dec'|trans }}</label><input type="radio" id="date_up_blue" name="sort_blue"></li>
-                <li><label for="date_down_blue">{{ 'Dec - Jan'|trans }}</label><input type="radio" id="date_down_blue" name="sort_blue"></li>
-            </ul>
-        </div>
+        {% include ':groups:_sort.html.twig' with {'color': 'blue'} %}
 
         <div>
             <h3>{{ 'MY GROUPS'|trans }}</h3>

@@ -1,26 +1,33 @@
 var grouphub = (function ($) {
     'use strict';
 
+    var searchGroups = function () {
+        var $this = $(this),
+            $searchContainer = $('#group_search'),
+            $searchResults = $searchContainer.children('ul').first();
+
+        $.post($searchResults.data('url'), {query: $this.val()}, function (data) {
+            $searchContainer.removeClass('hidden');
+            $searchResults.html(data);
+        });
+    };
+
+    var searchUsers = function () {
+        var $this = $(this),
+            $searchResults = $this.closest('.search_container').next('ul');
+
+        $.post($searchResults.data('url'), {query: $this.val()}, function (data) {
+            $searchResults.html(data);
+        });
+    };
+
     var init = function () {
         var $editGroup = $('#edit_group'),
             $joinConfirm = $('#join_group'),
             $leaveConfirm = $('#group_leave_confirmation'),
             $groupContainer = $('.groups');
 
-        $("#searchInput").on('keyup', function (e) {
-            var $this = $(this),
-                $searchContainer = $('#group_search'),
-                $searchResults = $searchContainer.children('ul').first();
-
-            if (e.which != 13) {
-                return;
-            }
-
-            $.post($searchResults.data('url'), {query: $this.val()}, function (data) {
-                $searchContainer.removeClass('hidden');
-                $searchResults.html(data);
-            });
-        });
+        $("#searchInput").on('keyup', $.debounce(250, searchGroups));
 
         $('section').on('click', '.close-modal', function () {
             $('body').removeClass('modal-open');
@@ -193,18 +200,7 @@ var grouphub = (function ($) {
             return false;
         });
 
-        $editGroup.on('keyup', '.searchInput', function (e) {
-            var $this = $(this),
-                $searchResults = $this.closest('.search_container').next('ul');
-
-            if (e.which != 13) {
-                return;
-            }
-
-            $.post($searchResults.data('url'), {query: $this.val()}, function (data) {
-                $searchResults.html(data);
-            });
-        });
+        $editGroup.on('keyup', '.searchInput', $.debounce(250, searchUsers));
 
         $('#notifications').on('click', '.confirm, .cancel', function () {
             var $this = $(this);

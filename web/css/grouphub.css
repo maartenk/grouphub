@@ -1363,3 +1363,29 @@ footer a {
 header .username {
     margin-right: 7px;
 }
+
+#group_my_groups section.owned {
+    background-color: #bce5f0;
+    color: #359bb7;
+}
+
+#group_organisation_groups section.owned {
+    background-color: #99bb9d;
+    color: #3f6944;
+}
+
+#group_my_groups li.group_section.edit:hover {
+    background-color: #e6f5f9;
+}
+
+#group_organisation_groups li.group_section.edit:hover {
+    background-color: #caddcd;
+}
+
+#group_all_groups li.group_section.edit:hover {
+    background-color: #cb98cd;
+}
+
+#group_search li.group_section.edit:hover {
+    background-color: #ffffff;
+}

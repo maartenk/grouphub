@@ -45,7 +45,11 @@
                 <div>
                     <p>{{ group.name }}</p>
                     <p>{{ group.description }}&nbsp;</p>
-                    <p>{{ group.timeStamp|localizeddate('medium', 'none') }}</p>
+                    <p>{{ group.timeStamp|localizeddate('medium', 'none') }}
+                        {% if group.ownerId > 2 %}
+                        - {{ group.owner.name }}
+                        {% endif %}
+                    </p>
                 </div>
                 <div>
                     {% if attribute(memberGrouphubGroups, group.id) is defined %}

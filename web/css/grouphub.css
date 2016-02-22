@@ -1389,3 +1389,19 @@ header .username {
 #group_search li.group_section.edit:hover {
     background-color: #ffffff;
 }
+
+#group_my_groups div:nth-child(2) p:last-child {
+    color: #52b2cd;
+}
+
+#group_organisation_groups div:nth-child(2) p:last-child {
+    color: #548c5b;
+}
+
+#group_all_groups div:nth-child(2) p:last-child {
+    color: #8e5290;
+}
+
+#group_search div:nth-child(2) p:last-child {
+    color: #a6a6a6;
+}

@@ -5,23 +5,26 @@
             <span>{{ user.email }}&nbsp;</span>
         </div>
 
-        <a href="#" data-url="{{ path('membership_add', {groupId: group.id, userId: user.id}) }}" class="add rounded">
-            <i class="fa fa-plus"></i>
-        </a>
+        {% if attribute(members, user.id) is not defined %}
+            <a href="#" class="add rounded"
+               data-url="{{ path('membership_add', {groupId: group.id, userId: user.id}) }}">
+                <i class="fa fa-plus"></i>
+            </a>
+        {% else %}
+            <a href="#" class="delete rounded"
+               data-url="{{ path('membership_delete', {groupId: group.id, userId: user.id}) }}">
+                <i class="fa fa-minus"></i>
+            </a>
+
+            <select name="roles" class="roles"
+                    data-url="{{ path('membership_update', {groupId: group.id, userId: user.id}) }}">
+                <option value="admin" {% if attribute(members, user.id).role == 'admin' %}selected{% endif %}>
+                    {{ 'Admin'|trans }}
+                </option>
+                <option value="member" {% if attribute(members, user.id).role == 'member' %}selected{% endif %}>
+                    {{ 'Member'|trans }}
+                </option>
+            </select>
+        {% endif %}
     </li>
 {% endfor %}
-
-<li class="separator">Nieuw toegevoegd</li>
-
-<li>
-    <div>
-        <p>Mary Doe</p>
-        <span>mary.doe@example.com</span>
-    </div>
-    <a href="#" class="rounded"><i class="fa fa-minus"></i></a>
-    <select name="roles" id="roles">
-        <option value="admin">Admin</option>
-        <option value="manager" selected>Member</option>
-        <option value="member">Manager</option>
-    </select>
-</li>

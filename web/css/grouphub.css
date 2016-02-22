@@ -1359,3 +1359,7 @@ footer a {
     font-size: 14px;
     margin: 5px 40px 0px 40px;
 }
+
+header .username {
+    margin-right: 7px;
+}

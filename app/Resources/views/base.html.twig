@@ -41,6 +41,7 @@
                 {{ 'Info'|trans }}
             </a>
         </li>
+        <li class="username">{{ app.user.username }}</li>
         <li class="language-selector">
             {% set selectedLang = app.request.locale %}
             {% set otherLang = selectedLang == 'en' ? 'nl' : 'en' %}

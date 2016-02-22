@@ -105,7 +105,9 @@ var grouphub = (function ($) {
         });
 
         $editGroup.on('click', '#show_group_details', function() {
-            $('#group_details').toggleClass('hidden');
+            if (!$('#group_title').hasClass('hidden')) {
+                $('#group_details').toggleClass('hidden');
+            }
 
             return false;
         });

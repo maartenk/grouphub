@@ -53,7 +53,7 @@ class Normalizer
                 $group['cn'][0],
                 isset($group['description'][0]) ? $group['description'][0] : '',
                 'ldap',
-                1
+                new User(1)
             );
         }
 

@@ -154,7 +154,7 @@ class GroupType extends AbstractType
                         $form->get('name')->getData(),
                         $form->get('description')->getData(),
                         $type,
-                        $user->getId(),
+                        $user,
                         $parent
                     );
                 },

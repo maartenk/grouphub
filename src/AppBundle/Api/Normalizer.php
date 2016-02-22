@@ -133,7 +133,7 @@ class Normalizer
             isset($group['name']) ? $group['name'] : '',
             isset($group['description']) ? $group['description'] : '',
             isset($group['type']) ? $group['type'] : '',
-            isset($group['owner']['id']) ? $group['owner']['id'] : null,
+            isset($group['owner']) ? $this->denormalizeUser($group['owner']) : null,
             isset($group['parent']['id']) ? $group['parent']['id'] : null,
             isset($group['timestamp']) ? new DateTime($group['timestamp']) : null
         );

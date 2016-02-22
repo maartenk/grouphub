@@ -43,9 +43,9 @@ class Group implements Comparable
     private $type;
 
     /**
-     * @var int
+     * @var User
      */
-    private $ownerId;
+    private $owner;
 
     /**
      * @var int
@@ -63,7 +63,7 @@ class Group implements Comparable
      * @param string   $name
      * @param string   $description
      * @param string   $type
-     * @param int      $ownerId
+     * @param User     $owner
      * @param int      $parentId
      * @param DateTime $timeStamp
      */
@@ -73,7 +73,7 @@ class Group implements Comparable
         $name = '',
         $description = '',
         $type = '',
-        $ownerId = null,
+        User $owner = null,
         $parentId = null,
         DateTime $timeStamp = null
     ) {
@@ -82,7 +82,7 @@ class Group implements Comparable
         $this->name = $name;
         $this->description = $description;
         $this->type = $type;
-        $this->ownerId = $ownerId;
+        $this->owner = $owner;
         $this->parentId = $parentId;
         $this->timeStamp = $timeStamp;
     }
@@ -160,11 +160,23 @@ class Group implements Comparable
     }
 
     /**
+     * @return User
+     */
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+
+    /**
      * @return int
      */
     public function getOwnerId()
     {
-        return $this->ownerId;
+        if (!$this->owner) {
+            return null;
+        }
+
+        return $this->owner->getId();
     }
 
     /**

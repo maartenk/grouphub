@@ -27,6 +27,10 @@ var grouphub = (function ($) {
             $leaveConfirm = $('#group_leave_confirmation'),
             $groupContainer = $('.groups');
 
+        $('#language_selector_link').on('click', function () {
+            $('#language_selector_menu').toggleClass('hidden');
+        });
+
         $('#searchInput').on('keyup', $.debounce(250, searchGroups));
 
         $('section').on('click', '.close-modal', function () {

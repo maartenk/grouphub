@@ -153,12 +153,12 @@
             }
         }, {
             key: "languageSelector", value: function () {
-                var e = this;
-                ["#language_selector_link", "#language_selector_menu"].forEach(function (t) {
-                    return document.querySelector(t).addEventListener("click", function (t) {
-                        return e.toggleHidden(t, "#language_selector_menu")
-                    })
-                })
+                //var e = this;
+                //["#language_selector_link", "#language_selector_menu"].forEach(function (t) {
+                //    return document.querySelector(t).addEventListener("click", function (t) {
+                //        return e.toggleHidden(t, "#language_selector_menu")
+                //    })
+                //})
             }
         }]), e
     }();

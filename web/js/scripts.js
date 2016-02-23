@@ -249,5 +249,7 @@ var grouphub = (function ($) {
 jQuery().ready(function () {
     'use strict';
 
+    Pace.options.ajax.trackMethods.push('POST');
+
     grouphub.init();
 });

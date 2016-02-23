@@ -113,7 +113,7 @@ class Normalizer
      */
     public function denormalizeGroups(array $groups)
     {
-        if (!isset($groups['items']) || !is_array($groups['items'] || !isset($groups['count']))) {
+        if (!isset($groups['items']) || !is_array($groups['items']) || !isset($groups['count'])) {
             throw new \InvalidArgumentException('Unable to denormalize groups');
         }
 

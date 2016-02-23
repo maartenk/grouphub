@@ -12,8 +12,6 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
  * Class IndexController
- *
- * @todo: refactor, also reorder templates
  */
 class IndexController extends Controller
 {

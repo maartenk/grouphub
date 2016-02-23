@@ -2,6 +2,7 @@
 
 namespace AppBundle\Api;
 
+use AppBundle\Model\Collection;
 use AppBundle\Model\Group;
 use AppBundle\Model\Membership;
 use AppBundle\Model\Notification;
@@ -112,12 +113,16 @@ class Normalizer
      */
     public function denormalizeGroups(array $groups)
     {
+        if (!isset($groups['items']) || !is_array($groups['items'] || !isset($groups['count']))) {
+            throw new \InvalidArgumentException('Unable to denormalize groups');
+        }
+
         $result = [];
-        foreach ($groups as $group) {
+        foreach ($groups['items'] as $group) {
             $result[] = $this->denormalizeGroup($group);
         }
 
-        return $result;
+        return new Collection($result, $groups['count']);
     }
 
     /**
@@ -135,7 +140,8 @@ class Normalizer
             isset($group['type']) ? $group['type'] : '',
             isset($group['owner']) ? $this->denormalizeUser($group['owner']) : null,
             isset($group['parent']['id']) ? $group['parent']['id'] : null,
-            isset($group['timestamp']) ? new DateTime($group['timestamp']) : null
+            isset($group['timestamp']) ? new DateTime($group['timestamp']) : null,
+            isset($group['user_count']) ? $group['user_count'] : 0
         );
     }
 

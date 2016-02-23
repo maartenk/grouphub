@@ -58,6 +58,11 @@ class Group implements Comparable
     private $timeStamp;
 
     /**
+     * @var int
+     */
+    private $userCount;
+
+    /**
      * @param int      $id
      * @param string   $reference
      * @param string   $name
@@ -66,6 +71,7 @@ class Group implements Comparable
      * @param User     $owner
      * @param int      $parentId
      * @param DateTime $timeStamp
+     * @param int      $userCount
      */
     public function __construct(
         $id = null,
@@ -75,7 +81,8 @@ class Group implements Comparable
         $type = '',
         User $owner = null,
         $parentId = null,
-        DateTime $timeStamp = null
+        DateTime $timeStamp = null,
+        $userCount = 0
     ) {
         $this->id = $id;
         $this->reference = $reference;
@@ -85,6 +92,7 @@ class Group implements Comparable
         $this->owner = $owner;
         $this->parentId = $parentId;
         $this->timeStamp = $timeStamp;
+        $this->userCount = $userCount;
     }
 
     /**
@@ -241,5 +249,13 @@ class Group implements Comparable
         }
 
         return true;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserCount()
+    {
+        return $this->userCount;
     }
 }

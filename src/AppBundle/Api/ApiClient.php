@@ -2,6 +2,7 @@
 
 namespace AppBundle\Api;
 
+use AppBundle\Model\Collection;
 use AppBundle\Model\Group;
 use AppBundle\Model\Membership;
 use AppBundle\Model\User;
@@ -226,7 +227,7 @@ class ApiClient
      * @param string $sortColumn
      * @param int    $sortDirection
      *
-     * @return SynchronizableSequence
+     * @return Collection
      */
     public function findGroups(
         $query = null,
@@ -248,7 +249,7 @@ class ApiClient
 
         $data = $this->decode($data->getBody());
 
-        return new SynchronizableSequence($this->normalizer->denormalizeGroups($data));
+        return $this->normalizer->denormalizeGroups($data);
     }
 
     /**

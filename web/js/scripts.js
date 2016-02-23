@@ -230,7 +230,6 @@ var grouphub = (function ($) {
             $.post($this.data('url'), function () {
                 var $article = $this.closest('article');
 
-                console.log($article.data('url'));
                 $.post($article.data('url'), function () {
                     $article.remove();
                     // @todo: update groups, update count

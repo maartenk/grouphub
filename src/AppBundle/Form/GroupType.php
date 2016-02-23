@@ -90,7 +90,7 @@ class GroupType extends AbstractType
                     'parent',
                     ChoiceType::class,
                     [
-                        // @todo: load all, pagination, autocomplete, tree view??
+                        // @todo: load all, autocomplete, tree view??
                         'choices'      => $groupManager->findFormalGroups(),
                         'mapped'       => false,
                         'choice_label' => 'name',

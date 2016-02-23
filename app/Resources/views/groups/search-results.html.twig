@@ -11,7 +11,7 @@
     <li class="group_section edit {{ class }}" data-url="{{ path('group_details', {'id': group.id}) }}">
         <div>
             <i class="fa fa-user grey"></i>
-            <span>12</span>
+            <span>{{ group.userCount }}</span>
         </div>
         <div>
             <p>{{ group.name }}</p>

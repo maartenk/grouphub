@@ -7,7 +7,7 @@
 
         <div>
             <h3>{{ 'ALL GROUPS'|trans }}</h3>
-            <p>{{ 'There is a total of %count% groups'|trans({'%count%': 213}) }}</p>
+            <p>{{ 'There is a total of %count% groups'|trans({'%count%': groups.totalCount}) }}</p>
         </div>
     </section>
 
@@ -25,7 +25,7 @@
             <li class="group_section edit {{ class }}" data-url="{{ path('group_details', {'id': group.id}) }}">
                 <div>
                     <i class="fa fa-user purple"></i>
-                    <span>12</span>
+                    <span>{{ group.userCount }}</span>
                 </div>
                 <div>
                     <p>{{ group.name }}</p>

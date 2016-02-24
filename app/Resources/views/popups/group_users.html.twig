@@ -11,20 +11,24 @@
                 <i class="fa fa-plus"></i>
             </a>
         {% else %}
-            <a href="#" class="delete rounded"
-               data-url="{{ path('membership_delete', {groupId: group.id, userId: user.id}) }}">
-                <i class="fa fa-minus"></i>
-            </a>
+            {% if attribute(members, user.id).role == 'prospect' %}
+                Prospect: {{ attribute(notifications, user.id).message }}
+            {% else %}
+                <a href="#" class="delete rounded"
+                   data-url="{{ path('membership_delete', {groupId: group.id, userId: user.id}) }}">
+                    <i class="fa fa-minus"></i>
+                </a>
 
-            <select name="roles" class="roles"
-                    data-url="{{ path('membership_update', {groupId: group.id, userId: user.id}) }}">
-                <option value="admin" {% if attribute(members, user.id).role == 'admin' %}selected{% endif %}>
-                    {{ 'Admin'|trans }}
-                </option>
-                <option value="member" {% if attribute(members, user.id).role == 'member' %}selected{% endif %}>
-                    {{ 'Member'|trans }}
-                </option>
-            </select>
+                <select name="roles" class="roles"
+                        data-url="{{ path('membership_update', {groupId: group.id, userId: user.id}) }}">
+                    <option value="admin" {% if attribute(members, user.id).role == 'admin' %}selected{% endif %}>
+                        {{ 'Admin'|trans }}
+                    </option>
+                    <option value="member" {% if attribute(members, user.id).role == 'member' %}selected{% endif %}>
+                        {{ 'Member'|trans }}
+                    </option>
+                </select>
+            {% endif %}
         {% endif %}
     </li>
 {% endfor %}

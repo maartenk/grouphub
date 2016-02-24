@@ -40,7 +40,6 @@ class MembershipManager
      * @param int    $limit
      *
      * @return Membership[]
-     * @todo: a user could have multiple memberships
      */
     public function findGroupMemberships($id, $query = null, $offset = 0, $limit = 100)
     {
@@ -60,7 +59,6 @@ class MembershipManager
      * @param int $userId
      *
      * @return Membership
-     * @todo: a user could have multiple memberships
      */
     public function findUserMembershipOfGroup($groupId, $userId)
     {

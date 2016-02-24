@@ -35,6 +35,25 @@ class NotificationManager
 
     /**
      * @param int $userId
+     * @param int $groupId
+     *
+     * @return Notification[]
+     */
+    public function findNotificationsForGroup($userId, $groupId)
+    {
+        /** @var Notification[] $notifications */
+        $notifications = $this->client->findNotifications($userId, $groupId);
+
+        $result = [];
+        foreach ($notifications as $notification) {
+            $result[$notification->getFrom()->getId()] = $notification;
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param int $userId
      * @param int $id
      */
     public function processNotification($userId, $id)

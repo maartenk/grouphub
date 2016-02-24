@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Form\GroupType;
+use AppBundle\Model\Group;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -48,28 +49,29 @@ class GroupController extends Controller
      */
     public function groupDetailsAction($id)
     {
-        $groupManager = $this->get('app.group_manager');
-        $group = $groupManager->getGroup($id);
-
-        if (!$group) {
-            throw $this->createNotFoundException('Group not found');
-        }
+        $group = $this->getGroup($id);
 
         $members = $this->get('app.membership_manager')->findGroupMemberships($group->getId());
 
-        $users = $form = null;
+        $users = $form = $notifications = null;
         if ($this->isGranted('EDIT', $group)) {
             $users = $this->get('app.user_manager')->findUsers();
             $form = $this->createForm(GroupType::class, $group)->createView();
+
+            $notifications = $this->get('app.notification_manager')->findNotificationsForGroup(
+                $this->getUser()->getId(),
+                $group->getId()
+            );
         }
 
         return $this->render(
             ':popups:group_details.html.twig',
             [
-                'group'   => $group,
-                'members' => $members,
-                'users'   => $users,
-                'form'    => $form,
+                'group'         => $group,
+                'members'       => $members,
+                'users'         => $users,
+                'form'          => $form,
+                'notifications' => $notifications,
             ]
         );
     }
@@ -85,12 +87,7 @@ class GroupController extends Controller
      */
     public function editGroupAction($id, Request $request)
     {
-        $groupManager = $this->get('app.group_manager');
-        $group = $groupManager->getGroup($id);
-
-        if (!$group) {
-            throw $this->createNotFoundException('Group not found');
-        }
+        $group = $this->getGroup($id);
 
         $this->denyAccessUnlessGranted('EDIT', $group);
 
@@ -117,16 +114,11 @@ class GroupController extends Controller
      */
     public function deleteGroupAction($id)
     {
-        $groupManager = $this->get('app.group_manager');
-        $group = $groupManager->getGroup($id);
-
-        if (!$group) {
-            throw $this->createNotFoundException('Group not found');
-        }
+        $group = $this->getGroup($id);
 
         $this->denyAccessUnlessGranted('EDIT', $group);
 
-        $groupManager->deleteGroup($group->getId());
+        $this->get('app.group_manager')->deleteGroup($group->getId());
 
         return new Response();
     }
@@ -142,21 +134,25 @@ class GroupController extends Controller
      */
     public function searchUsersAction($id, Request $request)
     {
-        $groupManager = $this->get('app.group_manager');
-        $group = $groupManager->getGroup($id);
-
-        if (!$group) {
-            throw $this->createNotFoundException('Group not found');
-        }
+        $group = $this->getGroup($id);
 
         $query = $request->request->get('query');
         $users = $this->get('app.user_manager')->findUsers($query);
 
+        $notifications = null;
+        if ($this->isGranted('EDIT', $group)) {
+            $notifications = $this->get('app.notification_manager')->findNotificationsForGroup(
+                $this->getUser()->getId(),
+                $group->getId()
+            );
+        }
+
         return $this->render(
             ':popups:group_users.html.twig',
             [
-                'group' => $group,
-                'users' => $users
+                'group'         => $group,
+                'users'         => $users,
+                'notifications' => $notifications,
             ]
         );
     }
@@ -172,22 +168,42 @@ class GroupController extends Controller
      */
     public function searchMembersAction($id, Request $request)
     {
-        $groupManager = $this->get('app.group_manager');
-        $group = $groupManager->getGroup($id);
+        $group = $this->getGroup($id);
+
+        $query = $request->request->get('query');
+        $members = $this->get('app.membership_manager')->findGroupMemberships($group->getId(), $query);
+
+        $notifications = null;
+        if ($this->isGranted('EDIT', $group)) {
+            $notifications = $this->get('app.notification_manager')->findNotificationsForGroup(
+                $this->getUser()->getId(),
+                $group->getId()
+            );
+        }
+
+        return $this->render(
+            ':popups:group_members.html.twig',
+            [
+                'group'         => $group,
+                'members'       => $members,
+                'notifications' => $notifications,
+            ]
+        );
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return Group
+     */
+    private function getGroup($id)
+    {
+        $group = $this->get('app.group_manager')->getGroup($id);
 
         if (!$group) {
             throw $this->createNotFoundException('Group not found');
         }
 
-        $query = $request->request->get('query');
-        $members = $this->get('app.membership_manager')->findGroupMemberships($group->getId(), $query);
-
-        return $this->render(
-            ':popups:group_members.html.twig',
-            [
-                'group'   => $group,
-                'members' => $members,
-            ]
-        );
+        return $group;
     }
 }

@@ -387,12 +387,18 @@ class ApiClient
 
     /**
      * @param int $userId
+     * @param int $groupId
      *
      * @return Sequence
      */
-    public function findNotifications($userId)
+    public function findNotifications($userId, $groupId = null)
     {
-        $data = $this->guzzle->get('users/' . $userId . '/notifications');
+        $options = [];
+        if ($groupId) {
+            $options['query'] = ['group' => $groupId];
+        }
+
+        $data = $this->guzzle->get('users/' . $userId . '/notifications', $options);
 
         $data = $this->decode($data->getBody());
 

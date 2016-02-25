@@ -9,6 +9,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Class GroupController
@@ -189,6 +191,61 @@ class GroupController extends Controller
                 'notifications' => $notifications,
             ]
         );
+    }
+
+    /**
+     * @Route("/group/{id}/members/export", name="group_export_members")
+     * @Method("GET")
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function downloadMembersAction($id)
+    {
+        $group = $this->getGroup($id);
+
+        $response = new StreamedResponse();
+        $response->setCallback(
+            function () use ($group) {
+
+                $handle = fopen('php://output', 'w+');
+
+                fputcsv($handle, ['Role', 'Id', 'Login name', 'First name', 'Last name', 'Email'], ';');
+
+                $memberships = $this->get('app.membership_manager')->findGroupMemberships($group->getId());
+
+                foreach ($memberships as $membership) {
+                    $user = $membership->getUser();
+
+                    fputcsv(
+                        $handle,
+                        [
+                            $membership->getRole(),
+                            $user->getId(),
+                            $user->getLoginName(),
+                            $user->getFirstName(),
+                            $user->getLastName(),
+                            $user->getEmail(),
+                        ],
+                        ';'
+                    );
+                }
+
+                fclose($handle);
+            }
+        );
+
+        $response->headers->set('Content-Type', 'text/csv; charset=utf-8');
+        $response->headers->set(
+            'Content-Disposition',
+            $response->headers->makeDisposition(
+                ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+                'grouphub-group-export.csv'
+            )
+        );
+
+        return $response;
     }
 
     /**

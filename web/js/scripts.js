@@ -1,14 +1,23 @@
 var grouphub = (function ($) {
     'use strict';
 
+    var groupSearchReq, userSearchReq;
+
     var searchGroups = function () {
         var $this = $(this),
             $searchContainer = $('#group_search'),
             $searchResults = $searchContainer.children('ul').first();
 
-        $.post($searchResults.data('url'), {query: $this.val()}, function (data) {
-            $searchContainer.removeClass('hidden');
-            $searchResults.html(data);
+        groupSearchReq = $.post({
+            url: $searchResults.data('url'),
+            data: {query: $this.val()},
+            beforeSend: function () {
+                groupSearchReq && groupSearchReq.abort();
+            },
+            success: function (data) {
+                $searchContainer.removeClass('hidden');
+                $searchResults.html(data);
+            }
         });
     };
 
@@ -16,8 +25,15 @@ var grouphub = (function ($) {
         var $this = $(this),
             $searchResults = $this.closest('.search_container').next('ul');
 
-        $.post($searchResults.data('url'), {query: $this.val()}, function (data) {
-            $searchResults.html(data);
+        userSearchReq = $.post({
+            url: $searchResults.data('url'),
+            data: {query: $this.val()},
+            beforeSend: function () {
+                userSearchReq && userSearchReq.abort();
+            },
+            success: function (data) {
+                $searchResults.html(data);
+            }
         });
     };
 

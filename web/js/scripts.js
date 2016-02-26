@@ -220,7 +220,7 @@ var grouphub = (function ($) {
             return false;
         });
 
-        $editGroup.on('click', 'a.confirm', function () {
+        $editGroup.on('click', '#group_deletion_confirmation a.confirm', function () {
             var $this = $(this);
 
             $.post($this.data('url'), function () {
@@ -232,13 +232,33 @@ var grouphub = (function ($) {
             return false;
         });
 
-        $editGroup.on('click', 'a.cancel', function () {
+        $editGroup.on('click', '#group_deletion_confirmation a.cancel', function () {
             $('#group_deletion_confirmation').toggleClass('hidden');
 
             return false;
         });
 
         $editGroup.on('keyup', '.searchInput', $.debounce(250, searchUsers));
+
+        $editGroup.on('click', '.prospect .confirm, .prospect .cancel', function () {
+            var $this = $(this),
+                $container = $this.closest('.prospect');
+
+            $.post($this.data('url'), function () {
+                var $article = $container.find('article');
+
+                $container.remove();
+                // @todo: add membership, update groups, update count
+
+                if (!$article.length) {
+                    return;
+                }
+
+                $.post($article.data('url'), function () {
+                    // @todo: remove notifications from popup
+                });
+            });
+        });
 
         $('#notifications').on('click', '.confirm, .cancel', function () {
             var $this = $(this);

@@ -12,7 +12,40 @@
             </a>
         {% else %}
             {% if attribute(members, user.id).role == 'prospect' %}
-                Prospect: {{ attribute(notifications, user.id).message }}
+                <div class="prospect">
+                    Prospect
+                    {% if attribute(notifications, user.id) is defined %}
+                        {% set notification = attribute(notifications, user.id) %}
+                        <article class="notification" data-url="{{ path('notification_process', {'id': notification.id}) }}">
+                            <table>
+                                <tr>
+                                    <td>{{ 'Datum'|trans }}</td>
+                                    <td>{{ notification.created|localizeddate('medium', 'none') }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ 'Groep'|trans }}</td>
+                                    <td>{{ notification.group.name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ 'Gebruiker'|trans }}</td>
+                                    <td>{{ notification.from.name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ 'Bericht'|trans }}</td>
+                                    <td>{{ notification.message }}</td>
+                                </tr>
+                            </table>
+                        </article>
+                    {% endif %}
+                    <a href="#" class="button_blue confirm"
+                       data-url="{{ path('membership_confirm', {'groupId': group.id, 'userId': user.id}) }}">
+                        {{ 'Accepteer'|trans }}
+                    </a>
+                    <a href="#" class="button_grey cancel"
+                       data-url="{{ path('membership_delete', {'groupId': group.id, 'userId': user.id}) }}">
+                        {{ 'Afwijzen'|trans }}
+                    </a>
+                </div>
             {% else %}
                 <a href="#" class="delete rounded"
                    data-url="{{ path('membership_delete', {groupId: group.id, userId: user.id}) }}">

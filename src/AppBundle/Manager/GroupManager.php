@@ -39,9 +39,18 @@ class GroupManager
      * @param int    $sortDirection
      *
      * @return array
+     * @todo: integrate better way of caching
      */
     public function getMyGroups(User $user, $sortColumn = 'name', $sortDirection = 0)
     {
+        static $cache;
+
+        $key = md5(json_encode([$user->getId(), $sortColumn, $sortDirection]));
+
+        if (isset($cache[$key])) {
+            return $cache[$key];
+        }
+
         /** @var Membership[] $memberships */
         $memberships = $this->client->findUserMemberships($user->getId(), $sortColumn, $sortDirection);
 
@@ -53,6 +62,8 @@ class GroupManager
 
             $groups[$type][$role][$group->getGroup()->getId()] = $group->getGroup();
         }
+
+        $cache[$key] = $groups;
 
         return $groups;
     }

@@ -1,4 +1,5 @@
-<div id="group_all_groups" class="group" data-url="{{ path('groups', {'type': 'all'}) }}">
+<div id="group_all_groups" class="group"
+     data-url="{{ path('groups', {'type': 'all'}) }}">
 
     <section class="background_purple sort">
         <a id="close_all_groups" href="#" class="close"><i class="fa fa-times"></i></a>
@@ -12,53 +13,7 @@
     </section>
 
     <ul>
-        {% for group in groups %}
-            {% set class = 'none' %}
-            {% if attribute(memberGrouphubGroups, group.id) is defined %}
-                {% set class = 'member' %}
-            {% elseif attribute(memberOtherGroups, group.id) is defined %}
-                {% set class = 'member' %}
-            {% elseif group.type == 'grouphub' %}
-                {% set class = 'member' %}
-            {% endif %}
-
-            <li class="group_section edit {{ class }}" data-url="{{ path('group_details', {'id': group.id}) }}">
-                <div>
-                    <i class="fa fa-user purple"></i>
-                    <span>{{ group.userCount }}</span>
-                </div>
-                <div>
-                    <p>{{ group.name }}</p>
-                    <p>{{ group.description }}&nbsp;</p>
-                    <p>{{ group.timeStamp|localizeddate('medium', 'none') }}
-                        {% if group.ownerId > 2 %}
-                        - {{ group.owner.name }}
-                        {% endif %}
-                    </p>
-                </div>
-                <div>
-                    {% if attribute(memberGrouphubGroups, group.id) is defined %}
-                        <a class="button_member purple" href="#" data-hover="{{ 'LEAVE'|trans }}"
-                           data-url="{{ path('my_membership_delete', {'groupId': group.id}) }}">
-                            <span>{{ 'LEAVE'|trans }}</span>
-                        </a>
-                    {% elseif attribute(memberOtherGroups, group.id) is defined %}
-                        <a class="button_join purple" href="#">
-                            <span>{{ 'MEMBER'|trans }}</span>
-                        </a>
-                    {% elseif attribute(prospectGrouphubGroups, group.id) is defined %}
-                        <a class="button_join purple" href="#">
-                            <span>{{ 'PROSPECT'|trans }}</span>
-                        </a>
-                    {% elseif group.type == 'grouphub' %}
-                        <a class="button_join purple" href="#" data-name="{{ group.name }}"
-                            data-url="{{ path('my_membership_add', {'groupId': group.id}) }}">
-                            <span>{{ 'JOIN'|trans }}</span>
-                        </a>
-                    {% endif %}
-                </div>
-            </li>
-        {% endfor %}
+        {% include ':groups:all_groups-groups.html.twig' %}
     </ul>
 
 </div>

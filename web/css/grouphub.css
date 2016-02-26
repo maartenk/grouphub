@@ -544,6 +544,12 @@ form a {
 form a.button_dark_grey {
     margin-left: 0; }
 
+header.header {
+    position: absolute;
+    height: 67px;
+    width: 100%;
+}
+
 /* line 2, _mixins.scss */
 header.header:after {
     content: "";
@@ -600,7 +606,12 @@ header.header li.language-selector a:last-child {
 /* line 1, _navigation.scss */
 nav {
     background-color: black;
-    padding: 5px 0; }
+    padding: 5px 0;
+    position: absolute;
+    height: 58px;
+    top: 67px;
+    width: 100%;
+}
 /* line 2, _mixins.scss */
 nav:after {
     content: "";
@@ -676,8 +687,13 @@ nav .search_container .input_container input:focus {
 
 /* line 1, _groups.scss */
 .groups {
+    position: absolute;
+    top: 125px;
+    bottom: 47px;
     background-color: black;
-    padding: 0 5px; }
+    padding: 0 5px;
+    width: 100%;
+}
 @media screen and (min-width: 1200px) {
     /* line 1, _groups.scss */
     .groups {
@@ -695,8 +711,7 @@ nav .search_container .input_container input:focus {
         overflow-y: scroll;
         overflow: auto; }
     /* line 10, _group.scss */
-    .group ul:last-child {
-        margin: 0 0 225px 0; } }
+}
 /* line 15, _group.scss */
 .group h3, .group p {
     margin: 0;
@@ -935,8 +950,12 @@ li.group_section div:last-child .button_join.grey:hover {
 
 /* line 1, _footer.scss */
 footer {
+    position: absolute;
+    height: 47px;
     background-color: black;
-    padding: 0; }
+    padding: 0;
+    width: 100%;
+}
 /* line 2, _mixins.scss */
 footer:after {
     content: "";

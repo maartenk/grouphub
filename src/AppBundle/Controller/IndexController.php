@@ -47,7 +47,6 @@ class IndexController extends Controller
 
     /**
      * @Route("/{_locale}/groups", defaults={"_locale": "en"}, requirements={"_locale": "en|nl"}, name="groups")
-     * @Method("POST")
      *
      * @param Request $request
      *
@@ -56,8 +55,10 @@ class IndexController extends Controller
     public function groupsAction(Request $request)
     {
         $type = $request->get('type', 'results');
-        $query = $request->request->get('query');
-        $sort = $request->request->get('sort', 'name');
+        $query = $request->get('query');
+        $sort = $request->get('sort', 'name');
+        $offset = $request->get('offset', 0);
+        $limit = $request->get('limit', 5);
 
         if (!in_array($sort, ['name', 'timestamp', '-name', '-timestamp'])) {
             throw new BadRequestHttpException();
@@ -65,17 +66,19 @@ class IndexController extends Controller
 
         return $this->render(
             $this->getTemplate($type),
-            $this->getGroups($query, $sort)
+            $this->getGroups($query, $sort, $offset, $limit)
         );
     }
 
     /**
      * @param string $searchQuery
      * @param string $sort
+     * @param int    $offset
+     * @param int    $limit
      *
      * @return array
      */
-    private function getGroups($searchQuery = '', $sort = 'name')
+    private function getGroups($searchQuery = '', $sort = 'name', $offset = 0, $limit = 5)
     {
         $sortColumn = $sort;
         $sortDirection = 0;
@@ -85,7 +88,7 @@ class IndexController extends Controller
         }
 
         $myGroups = $this->get('app.group_manager')->getMyGroups($this->getUser(), $sortColumn, $sortDirection);
-        $groups = $this->get('app.group_manager')->findGroups($searchQuery, null, 0, 100, $sortColumn, $sortDirection);
+        $groups = $this->get('app.group_manager')->findGroups($searchQuery, null, $offset, $limit, $sortColumn, $sortDirection);
 
         return [
             'ownerGrouphubGroups'    => isset($myGroups['grouphub']['owner']) ? $myGroups['grouphub']['owner'] : [],
@@ -97,6 +100,8 @@ class IndexController extends Controller
             'memberOtherGroups'      => isset($myGroups['other']['member']) ? $myGroups['other']['member'] : [],
             'groups'                 => $groups,
             'sort'                   => $sort,
+            'offset'                 => $offset,
+            'limit'                  => $limit,
             'query'                  => $searchQuery,
         ];
     }
@@ -109,11 +114,12 @@ class IndexController extends Controller
     private function getTemplate($type)
     {
         $mapping = [
-            'results' => ':groups:search-results.html.twig',
-            'search'  => ':groups:search.html.twig',
-            'my'      => ':groups:my_groups.html.twig',
-            'all'     => ':groups:all_groups.html.twig',
-            'org'     => ':groups:organisation_groups.html.twig',
+            'my'         => ':groups:my_groups.html.twig',
+            'org'        => ':groups:organisation_groups.html.twig',
+            'all'        => ':groups:all_groups.html.twig',
+            'all-groups' => ':groups:all_groups-groups.html.twig',
+            'search'     => ':groups:search.html.twig',
+            'results'    => ':groups:search-results.html.twig',
         ];
 
         if (!array_key_exists($type, $mapping)) {

@@ -1,0 +1,54 @@
+{% for group in groups %}
+    {% set class = 'none' %}
+    {% if attribute(memberGrouphubGroups, group.id) is defined %}
+        {% set class = 'member' %}
+    {% elseif attribute(memberOtherGroups, group.id) is defined %}
+        {% set class = 'member' %}
+    {% elseif group.type == 'grouphub' %}
+        {% set class = 'member' %}
+    {% endif %}
+
+    <li class="group_section edit {{ class }}" data-url="{{ path('group_details', {'id': group.id}) }}">
+        <div>
+            <i class="fa fa-user {{ color }}"></i>
+            <span>{{ group.userCount }}</span>
+        </div>
+        <div>
+            <p>{{ group.name }}</p>
+            <p>{{ group.description }}&nbsp;</p>
+            <p>{{ group.timeStamp|localizeddate('medium', 'none') }}
+                {% if group.ownerId > 2 %}
+                    - {{ group.owner.name }}
+                {% endif %}
+            </p>
+        </div>
+        <div>
+            {% if attribute(memberGrouphubGroups, group.id) is defined %}
+                <a class="button_member {{ color }}" href="#" data-hover="{{ 'LEAVE'|trans }}"
+                   data-url="{{ path('my_membership_delete', {'groupId': group.id}) }}">
+                    <span>{{ 'LEAVE'|trans }}</span>
+                </a>
+            {% elseif attribute(memberOtherGroups, group.id) is defined %}
+                <a class="button_join {{ color }}" href="#">
+                    <span>{{ 'MEMBER'|trans }}</span>
+                </a>
+            {% elseif attribute(prospectGrouphubGroups, group.id) is defined %}
+                <a class="button_join {{ color }}" href="#">
+                    <span>{{ 'PROSPECT'|trans }}</span>
+                </a>
+            {% elseif group.type == 'grouphub' %}
+                <a class="button_join {{ color }}" href="#" data-name="{{ group.name }}"
+                   data-url="{{ path('my_membership_add', {'groupId': group.id}) }}">
+                    <span>{{ 'JOIN'|trans }}</span>
+                </a>
+            {% endif %}
+        </div>
+    </li>
+{% endfor %}
+
+{% set offset = offset + limit %}
+    {% if offset < groups.totalCount %}
+    <div class="pagination">
+        <a class="groups-next" href="{{ path('groups', {'type': type, 'query': query, 'sort': sort, 'offset': offset, 'limit': limit}) }}"></a>
+    </div>
+{% endif %}

@@ -75,8 +75,8 @@
             key: "groupsSelector", value: function () {
                 var e = this;
                 ["all_groups", "organisation_groups", "my_groups", "search"].forEach(function (t) {
-                    var n = document.getElementById("group_" + t);
-                    n.style.height = screen.height - 200 + "px";
+                    //var n = document.getElementById("group_" + t);
+                    //n.style.height = window.innerHeight - 200 + "px";
                     var o = document.querySelector("#close_" + t);
                     o.addEventListener("click", function (n) {
                         e.toggleHidden(n, "#group_" + t, !0);

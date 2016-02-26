@@ -80,3 +80,7 @@ services:
     app.user_provider:
         class: AppBundle\Security\UserProvider
         arguments: ['@app.api_client']
+
+    app.exporter:
+        class: AppBundle\Manager\Exporter
+        arguments: ['@app.membership_manager']

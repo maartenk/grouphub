@@ -208,31 +208,7 @@ class GroupController extends Controller
         $response = new StreamedResponse();
         $response->setCallback(
             function () use ($group) {
-
-                $handle = fopen('php://output', 'w+');
-
-                fputcsv($handle, ['Role', 'Id', 'Login name', 'First name', 'Last name', 'Email'], ';');
-
-                $memberships = $this->get('app.membership_manager')->findGroupMemberships($group->getId());
-
-                foreach ($memberships as $membership) {
-                    $user = $membership->getUser();
-
-                    fputcsv(
-                        $handle,
-                        [
-                            $membership->getRole(),
-                            $user->getId(),
-                            $user->getLoginName(),
-                            $user->getFirstName(),
-                            $user->getLastName(),
-                            $user->getEmail(),
-                        ],
-                        ';'
-                    );
-                }
-
-                fclose($handle);
+                $this->get('app.exporter')->exportGroupMembers($group, 'php://output');
             }
         );
 

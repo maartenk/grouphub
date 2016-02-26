@@ -5,6 +5,7 @@ namespace AppBundle\Ldap;
 use AppBundle\Model\Group;
 use AppBundle\Sequence;
 use AppBundle\SynchronizableSequence;
+use InvalidArgumentException;
 
 /**
  * Class GrouphubClient
@@ -37,13 +38,25 @@ class GrouphubClient
     private $grouphubDn;
 
     /**
+     * @var string
+     */
+    private $formalDn;
+
+    /**
+     * @var string
+     */
+    private $adhocDn;
+
+    /**
      * @param LdapClient $ldap
      * @param Normalizer $normalizer
      * @param string     $usersDn
      * @param string     $groupsDn
      * @param string     $grouphubDn
+     * @param string     $formalDn
+     * @param string     $adhocDn
      */
-    public function __construct(LdapClient $ldap, $normalizer, $usersDn, $groupsDn, $grouphubDn)
+    public function __construct(LdapClient $ldap, $normalizer, $usersDn, $groupsDn, $grouphubDn, $formalDn, $adhocDn)
     {
         $this->ldap = $ldap;
         $this->normalizer = $normalizer;
@@ -51,6 +64,8 @@ class GrouphubClient
         $this->usersDn = $usersDn;
         $this->groupsDn = $groupsDn;
         $this->grouphubDn = $grouphubDn;
+        $this->formalDn = $formalDn;
+        $this->adhocDn = $adhocDn;
     }
 
     /**
@@ -149,7 +164,22 @@ class GrouphubClient
      */
     public function addGroup(Group $group)
     {
-        $dn = 'cn=' . $group->getId() . ',' . $this->grouphubDn;
+        $cn = $group->getName() . ':' . $group->getId();
+
+        $dn = null;
+        switch ($group->getType()) {
+            case Group::TYPE_FORMAL:
+                $dn = $this->formalDn;
+                break;
+            case Group::TYPE_GROUPHUB:
+                $dn = $this->adhocDn;
+                break;
+            default:
+                throw new InvalidArgumentException('Invalid group');
+        }
+
+        $dn = 'cn=' . $cn . ',' . $dn;
+
         $group->setReference($dn);
 
         $data = $this->normalizer->normalizeGroup($group);

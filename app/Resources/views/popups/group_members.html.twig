@@ -8,7 +8,7 @@
         {% if is_granted('EDIT', group) %}
             {% if member.role == 'prospect' %}
                 <div class="prospect">
-                    Prospect
+                    {{ 'Prospect'|trans }}
                     {% if attribute(notifications, member.user.id) is defined %}
                         {% set notification = attribute(notifications, member.user.id) %}
                         <article class="notification" data-url="{{ path('notification_process', {'id': notification.id}) }}">
@@ -16,14 +16,6 @@
                                 <tr>
                                     <td>{{ 'Datum'|trans }}</td>
                                     <td>{{ notification.created|localizeddate('medium', 'none') }}</td>
-                                </tr>
-                                <tr>
-                                    <td>{{ 'Groep'|trans }}</td>
-                                    <td>{{ notification.group.name }}</td>
-                                </tr>
-                                <tr>
-                                    <td>{{ 'Gebruiker'|trans }}</td>
-                                    <td>{{ notification.from.name }}</td>
                                 </tr>
                                 <tr>
                                     <td>{{ 'Bericht'|trans }}</td>

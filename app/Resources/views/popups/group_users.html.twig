@@ -13,7 +13,7 @@
         {% else %}
             {% if attribute(members, user.id).role == 'prospect' %}
                 <div class="prospect">
-                    Prospect
+                    {{ 'Prospect'|trans }}
                     {% if attribute(notifications, user.id) is defined %}
                         {% set notification = attribute(notifications, user.id) %}
                         <article class="notification" data-url="{{ path('notification_process', {'id': notification.id}) }}">
@@ -21,14 +21,6 @@
                                 <tr>
                                     <td>{{ 'Datum'|trans }}</td>
                                     <td>{{ notification.created|localizeddate('medium', 'none') }}</td>
-                                </tr>
-                                <tr>
-                                    <td>{{ 'Groep'|trans }}</td>
-                                    <td>{{ notification.group.name }}</td>
-                                </tr>
-                                <tr>
-                                    <td>{{ 'Gebruiker'|trans }}</td>
-                                    <td>{{ notification.from.name }}</td>
                                 </tr>
                                 <tr>
                                     <td>{{ 'Bericht'|trans }}</td>

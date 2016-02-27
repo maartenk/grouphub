@@ -67,6 +67,13 @@ assetic:
     filters:
         cssrewrite:
             apply_to: '\.css$'
+        uglifyjs2:
+            bin: '/usr/bin/uglifyjs'
+            apply_to: '\.js$'
+        uglifycss:
+            bin: '/usr/bin/uglifycss'
+            apply_to: '\.css$'
+            ugly_comments: true
 
 hslavich_simplesamlphp:
     sp: default-sp

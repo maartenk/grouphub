@@ -11,10 +11,6 @@
     {% stylesheets 'css/*' output='compiled/css/grouphub.css' %}
     <link rel="stylesheet" href="{{ asset_url }}"/>
     {% endstylesheets %}
-
-    {% javascripts 'js/*'  output='compiled/js/grouphub.js' %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
 </head>
 
 <body class="index">
@@ -100,6 +96,10 @@
 <section id="edit_group" class="edit_group_container hidden"></section>
 
 {{ include(':popups:join_group.html.twig') }}
+
+{% javascripts 'js/*'  output='compiled/js/grouphub.js' %}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
 
 </body>
 </html>

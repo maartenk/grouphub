@@ -27,6 +27,7 @@ class MembershipManager
      * @param int $userId
      *
      * @return Membership[]
+     * @todo: find a way to use offset/limit
      */
     public function findUserMemberships($userId)
     {
@@ -38,6 +39,7 @@ class MembershipManager
      * @param string $query
      *
      * @return Membership[]
+     * @todo: find a way to use offset/limit
      */
     public function findGroupMemberships($id, $query = null)
     {

@@ -40,6 +40,7 @@ class GroupManager
      *
      * @return array
      * @todo: integrate better way of caching
+     * @todo: find a way to use offset/limit
      */
     public function getMyGroups(User $user, $sortColumn = 'name', $sortDirection = 0)
     {

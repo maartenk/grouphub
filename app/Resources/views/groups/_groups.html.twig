@@ -47,8 +47,6 @@
 {% endfor %}
 
 {% set offset = offset + limit %}
-    {% if offset < groups.totalCount %}
-    <div class="pagination">
-        <a class="groups-next" href="{{ path('groups', {'type': type, 'query': query, 'sort': sort, 'offset': offset, 'limit': limit}) }}"></a>
-    </div>
+{% if offset < groups.totalCount %}
+    <a class="groups-next" href="{{ path('groups', {'type': type, 'query': query, 'sort': sort, 'offset': offset, 'limit': limit}) }}"></a>
 {% endif %}

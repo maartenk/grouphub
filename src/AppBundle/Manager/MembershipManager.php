@@ -36,15 +36,13 @@ class MembershipManager
     /**
      * @param int    $id
      * @param string $query
-     * @param int    $offset
-     * @param int    $limit
      *
      * @return Membership[]
      */
-    public function findGroupMemberships($id, $query = null, $offset = 0, $limit = 100)
+    public function findGroupMemberships($id, $query = null)
     {
         /** @var Membership[] $memberships */
-        $memberships = $this->client->findGroupMemberships($id, $query, $offset, $limit);
+        $memberships = $this->client->findGroupMemberships($id, $query);
 
         $result = [];
         foreach ($memberships as $membership) {

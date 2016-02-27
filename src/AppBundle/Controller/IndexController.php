@@ -58,7 +58,7 @@ class IndexController extends Controller
         $query = $request->get('query');
         $sort = $request->get('sort', 'name');
         $offset = $request->get('offset', 0);
-        $limit = $request->get('limit', 5);
+        $limit = $request->get('limit', 12);
 
         if (!in_array($sort, ['name', 'timestamp', '-name', '-timestamp'])) {
             throw new BadRequestHttpException();
@@ -78,7 +78,7 @@ class IndexController extends Controller
      *
      * @return array
      */
-    private function getGroups($searchQuery = '', $sort = 'name', $offset = 0, $limit = 5)
+    private function getGroups($searchQuery = '', $sort = 'name', $offset = 0, $limit = 12)
     {
         $sortColumn = $sort;
         $sortDirection = 0;

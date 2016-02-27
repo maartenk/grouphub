@@ -42,12 +42,16 @@ class Normalizer
      */
     public function denormalizeUsers(array $users)
     {
+        if (!isset($users['items']) || !is_array($users['items']) || !isset($users['count'])) {
+            throw new \InvalidArgumentException('Unable to denormalize users');
+        }
+
         $result = [];
-        foreach ($users as $user) {
+        foreach ($users['items'] as $user) {
             $result[] = $this->denormalizeUser($user);
         }
 
-        return $result;
+        return new Collection($result, $users['count']);
     }
 
     /**

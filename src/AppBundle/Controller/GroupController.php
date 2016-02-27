@@ -57,7 +57,7 @@ class GroupController extends Controller
 
         $users = $form = $notifications = null;
         if ($this->isGranted('EDIT', $group)) {
-            $users = $this->get('app.user_manager')->findUsers();
+            $users = $this->get('app.user_manager')->findUsers(null, 0, 12);
             $form = $this->createForm(GroupType::class, $group)->createView();
 
             $notifications = $this->get('app.notification_manager')->findNotificationsForGroup(
@@ -74,6 +74,9 @@ class GroupController extends Controller
                 'users'         => $users,
                 'form'          => $form,
                 'notifications' => $notifications,
+                'query'         => '',
+                'offset'        => 0,
+                'limit'         => 12
             ]
         );
     }
@@ -127,7 +130,6 @@ class GroupController extends Controller
 
     /**
      * @Route("/{_locale}/group/{id}/users/search", name="search_group_users")
-     * @Method("POST")
      *
      * @param int     $id
      * @param Request $request
@@ -138,23 +140,30 @@ class GroupController extends Controller
     {
         $group = $this->getGroup($id);
 
-        $query = $request->request->get('query');
-        $users = $this->get('app.user_manager')->findUsers($query);
+        $this->denyAccessUnlessGranted('EDIT', $group);
 
-        $notifications = null;
-        if ($this->isGranted('EDIT', $group)) {
-            $notifications = $this->get('app.notification_manager')->findNotificationsForGroup(
-                $this->getUser()->getId(),
-                $group->getId()
-            );
-        }
+        $query = $request->get('query');
+        $offset = $request->get('offset', 0);
+        $limit = $request->get('limit', 12);
+
+        $users = $this->get('app.user_manager')->findUsers($query, $offset, $limit);
+        $members = $this->get('app.membership_manager')->findGroupMemberships($group->getId(), $query);
+
+        $notifications = $this->get('app.notification_manager')->findNotificationsForGroup(
+            $this->getUser()->getId(),
+            $group->getId()
+        );
 
         return $this->render(
             ':popups:group_users.html.twig',
             [
                 'group'         => $group,
+                'members'       => $members,
                 'users'         => $users,
                 'notifications' => $notifications,
+                'query'         => $query,
+                'offset'        => $offset,
+                'limit'         => $limit
             ]
         );
     }

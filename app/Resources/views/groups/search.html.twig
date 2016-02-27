@@ -15,6 +15,8 @@
     <ul data-url="{{ path('groups', {'type': 'results'}) }}">
         {% if query %}
             {% include ':groups:search-results.html.twig' %}
+        {% else %}
+            <div class="jscroll-inner"></div>
         {% endif %}
     </ul>
 

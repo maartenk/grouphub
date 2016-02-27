@@ -17,6 +17,7 @@ var grouphub = (function ($) {
             success: function (data) {
                 $searchContainer.removeClass('hidden');
                 $searchResults.html(data);
+                initScroll('#group_search');
             }
         });
     };
@@ -33,7 +34,17 @@ var grouphub = (function ($) {
             },
             success: function (data) {
                 $searchResults.html(data);
+                initScroll('#add_members_tab ul');
             }
+        });
+    };
+
+    var initScroll = function (el) {
+        var $el = $(el);
+
+        $el.jscroll({
+            nextSelector: 'a.groups-next',
+            loadingHtml: '<li class="spinner"><i class="fa fa-spinner fa-spin"></li>'
         });
     };
 
@@ -69,6 +80,7 @@ var grouphub = (function ($) {
 
             $.post($container.data('url'), {query: query, sort: $sort.val()}, function (data) {
                 $container.replaceWith(data);
+                initScroll('#group_all_groups, #group_search');
             });
         });
 
@@ -154,6 +166,8 @@ var grouphub = (function ($) {
 
             $('#add_members').addClass('active');
             $('#add_members_tab').removeClass('hidden');
+
+            initScroll('#add_members_tab ul');
 
             return false;
         });
@@ -274,6 +288,8 @@ var grouphub = (function ($) {
 
             return false;
         });
+
+        initScroll('#group_all_groups');
     };
 
     return {

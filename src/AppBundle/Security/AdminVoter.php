@@ -51,7 +51,7 @@ class AdminVoter extends Voter
         }
 
         foreach ($groups['other'] as $otherGroups) {
-            if (in_array(1, array_keys($otherGroups), true)) {
+            if (array_key_exists(1, $otherGroups)) {
                 return true;
             }
         }

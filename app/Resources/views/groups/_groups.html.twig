@@ -1,8 +1,8 @@
 {% for group in groups %}
     {% set class = 'none' %}
-    {% if attribute(memberGrouphubGroups, group.id) is defined %}
+    {% if attribute(memberOtherGroups, group.id) is defined %}
         {% set class = 'member' %}
-    {% elseif attribute(memberOtherGroups, group.id) is defined %}
+    {% elseif attribute(adminOtherGroups, group.id) is defined %}
         {% set class = 'member' %}
     {% elseif group.type == 'grouphub' %}
         {% set class = 'member' %}
@@ -23,12 +23,12 @@
             </p>
         </div>
         <div>
-            {% if attribute(memberGrouphubGroups, group.id) is defined %}
+            {% if attribute(memberGrouphubGroups, group.id) is defined or attribute(adminGrouphubGroups, group.id) is defined %}
                 <a class="button_member {{ color }}" href="#" data-hover="{{ 'LEAVE'|trans }}"
                    data-url="{{ path('my_membership_delete', {'groupId': group.id}) }}">
                     <span>{{ 'LEAVE'|trans }}</span>
                 </a>
-            {% elseif attribute(memberOtherGroups, group.id) is defined %}
+            {% elseif attribute(memberOtherGroups, group.id) is defined or attribute(adminOtherGroups, group.id) is defined %}
                 <a class="button_join {{ color }}" href="#">
                     <span>{{ 'MEMBER'|trans }}</span>
                 </a>

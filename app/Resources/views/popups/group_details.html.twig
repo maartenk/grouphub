@@ -33,7 +33,7 @@
 
             {% if is_granted('EDIT', group) %}
             <section id="group_deletion_confirmation" class="hidden">
-                <form action="">
+                <form action="" method="post">
                     <p>{{ 'Deze groep verwijderen?'|trans }}</p>
                     <a href="#" class="button_blue pull-left confirm" data-url="{{ path('delete_group', {'id': group.id}) }}">
                         {{ 'Ja'|trans }}

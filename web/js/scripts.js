@@ -244,13 +244,11 @@ var grouphub = (function ($) {
         });
 
         $editGroup.on('click', '#group_deletion_confirmation a.confirm', function () {
-            var $this = $(this);
+            var $this = $(this),
+                $form = $this.closest('form');
 
-            $.post($this.data('url'), function () {
-                $('body').removeClass('modal-open');
-                $this.closest('.edit_group_container').addClass('hidden');
-                // @todo: update groups, actual submit?
-            });
+            $form.attr('action', $this.data('url'));
+            $form.submit();
 
             return false;
         });

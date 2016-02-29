@@ -124,7 +124,7 @@ class GroupController extends Controller
 
         $this->get('app.group_manager')->deleteGroup($group->getId());
 
-        return new Response();
+        return $this->redirect($this->generateUrl('home'));
     }
 
     /**

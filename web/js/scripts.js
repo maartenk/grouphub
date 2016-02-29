@@ -106,11 +106,11 @@ var grouphub = (function ($) {
         });
 
         $joinConfirm.on('click', '.confirm', function () {
-            var $this = $(this);
+            var $this = $(this),
+                $form = $this.closest('form');
 
-            $.post($this.data('url'), $this.closest('form').serialize(), function () {
-                $joinConfirm.toggleClass('hidden');
-            });
+            $form.attr('action', $this.data('url'));
+            $form.submit();
 
             return false;
         });
@@ -135,10 +135,12 @@ var grouphub = (function ($) {
         });
 
         $leaveConfirm.on('click', '.confirm', function () {
-            $.post($(this).data('url'), function () {
-                $leaveConfirm.toggleClass('hidden');
-                // @todo: Update groups
+            var $form = $('<form>', {
+                action: $(this).data('url'),
+                method: 'post'
             });
+
+            $form.submit();
 
             return false;
         });

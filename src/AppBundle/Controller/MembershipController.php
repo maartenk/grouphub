@@ -141,7 +141,7 @@ class MembershipController extends Controller
 
         $this->get('app.membership_manager')->requestMembership($groupId, $this->getUser()->getId(), $message);
 
-        return new Response();
+        return $this->redirect($this->generateUrl('home'));
     }
 
     /**
@@ -164,6 +164,6 @@ class MembershipController extends Controller
 
         $this->get('app.membership_manager')->deleteMembership($groupId, $this->getUser()->getId());
 
-        return new Response();
+        return $this->redirect($this->generateUrl('home'));
     }
 }

@@ -67,6 +67,13 @@ var grouphub = (function ($) {
             return false;
         });
 
+        $groupContainer.on('click', '.group .owned i', function () {
+            $(this).toggleClass('fa-angle-down').toggleClass('fa-angle-right');
+            $(this).closest('.owned').next('ul').toggleClass('hidden');
+
+            return false;
+        });
+
         $groupContainer.on('click', '#sort_menu_blue, #sort_menu_green, #sort_menu_purple, #sort_menu_grey', function () {
             $(this).next('div').toggleClass('hidden');
         });

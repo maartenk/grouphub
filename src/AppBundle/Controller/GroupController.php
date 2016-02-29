@@ -24,7 +24,6 @@ class GroupController extends Controller
      * @param Request $request
      *
      * @return Response
-     * @todo: convert to AJAX action?
      */
     public function addGroupAction(Request $request)
     {

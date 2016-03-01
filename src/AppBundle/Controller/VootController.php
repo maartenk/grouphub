@@ -86,9 +86,9 @@ class VootController extends Controller
     private function mapGroupType($type)
     {
         $mapping = [
-            'formal'   => '???formal', // @todo: determine mapping
-            'ldap'     => '???ldap', // @todo: determine mapping
-            'grouphub' => 'voot:adhoc',
+            'formal'   => 'grouphub:org',
+            'ldap'     => 'grouphub:orgunit',
+            'grouphub' => 'grouphub:adhoc',
         ];
 
         return $mapping[$type];

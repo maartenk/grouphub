@@ -21,7 +21,7 @@ framework:
     #serializer:      { enable_annotations: true }
     templating:
         engines: ['twig']
-        #assets_version: SomeVersionScheme
+        assets_version: 1
     default_locale:  "%locale%"
     trusted_hosts:   ~
     trusted_proxies: ~
@@ -78,3 +78,7 @@ assetic:
 hslavich_simplesamlphp:
     sp: default-sp
     authentication_attribute: urn:mace:dir:attribute-def:uid
+
+accelerator_cache:
+    host: %url%
+    web_dir: %kernel.root_dir%/../web

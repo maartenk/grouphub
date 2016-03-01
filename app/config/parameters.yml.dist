@@ -10,7 +10,7 @@ parameters:
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
 
-    grouphub_api_url: http://api.grouphub.org
+    grouphub_api_url: http://api.grouphub.surfuni.org
     grouphub_api_username: 'grouphub'
     grouphub_api_password: ~
 
@@ -32,3 +32,5 @@ parameters:
     simplesamlphp.technical_contact_name: ~
     simplesamlphp.technical_contact_email: ~
     simplesamlphp.idp: http://idp.surfuni.org/simplesaml/saml2/idp/metadata.php
+
+    url: http://grouphub.surfuni.org

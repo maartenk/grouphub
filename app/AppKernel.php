@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new EightPoints\Bundle\GuzzleBundle\GuzzleBundle(),
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Hslavich\SimplesamlphpBundle\HslavichSimplesamlphpBundle(),
+            new SmartCore\Bundle\AcceleratorCacheBundle\AcceleratorCacheBundle(),
             // custom bundles
             new AppBundle\AppBundle(),
         ];

@@ -91,14 +91,25 @@ class GroupManager
     }
 
     /**
-     * @param int $offset
-     * @param int $limit
+     * @param int $userId
      *
      * @return Group[]
      */
-    public function findFormalGroups($offset = 0, $limit = 100)
+    public function findFormalGroups($userId)
     {
-        return $this->client->findGroups(null, 'formal', $offset, $limit);
+        /** @var Membership[] $memberships */
+        $memberships = $this->client->findUserMemberships($userId, 'name', 0, 'formal');
+
+        $result = [];
+        foreach ($memberships as $membership) {
+            $group = $membership->getGroup();
+
+            if (empty($group->getParentId()) || $group->getParentId() === 1) {
+                $result[] = $group;
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -124,10 +135,7 @@ class GroupManager
      */
     public function addGroup(Group $group)
     {
-        $group = $this->client->addGroup($group);
-
-        $this->ldapClient->addGroup($group);
-        $this->client->updateGroupReference($group->getId(), $group->getReference());
+        $this->client->addGroup($group);
     }
 
     /**

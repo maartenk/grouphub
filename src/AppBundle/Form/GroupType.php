@@ -86,12 +86,13 @@ class GroupType extends AbstractType
                     }
                 }
 
+                $user = $this->tokenStorage->getToken()->getUser();
+
                 $form->add(
                     'parent',
                     ChoiceType::class,
                     [
-                        // @todo: load all, autocomplete, tree view??
-                        'choices'      => $groupManager->findFormalGroups(),
+                        'choices'      => $groupManager->findFormalGroups($user->getId()),
                         'mapped'       => false,
                         'choice_label' => 'name',
                         'choice_value' => 'id',

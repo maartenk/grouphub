@@ -78,7 +78,7 @@ class ApiClient
 
         $data = $this->decode($data->getBody());
 
-        if (empty($data) || empty($data['count'])) {
+        if (empty($data) || (isset($data['count']) && empty($data['count']))) {
             return null;
         }
 
@@ -149,14 +149,16 @@ class ApiClient
      * @param int    $userId
      * @param string $sortColumn
      * @param int    $sortDirection 0 => asc, 1 => desc
+     * @param string $type
      *
      * @return Sequence
      */
-    public function findUserMemberships($userId, $sortColumn = 'name', $sortDirection = 0)
+    public function findUserMemberships($userId, $sortColumn = 'name', $sortDirection = 0, $type = '')
     {
         $data = $this->guzzle->get('users/' . $userId . '/groups', [
             'query' => [
-                'sort' => ($sortDirection ? '-' : '') . $sortColumn
+                'sort' => ($sortDirection ? '-' : '') . $sortColumn,
+                'type' => $type
             ]
         ]);
 

@@ -100,7 +100,7 @@ class ApiClient
 
         $data = $this->decode($data->getBody());
 
-        if (empty($data)) {
+        if (empty($data) || (isset($data['count']) && empty($data['count']))) {
             return null;
         }
 

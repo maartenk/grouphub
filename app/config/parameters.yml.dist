@@ -33,4 +33,12 @@ parameters:
     simplesamlphp.technical_contact_email: ~
     simplesamlphp.idp: http://idp.surfuni.org/simplesaml/saml2/idp/metadata.php
 
+    application_title: 'SURFuni'
     url: http://grouphub.surfuni.org
+
+    my_groups_column_title_en: My groups
+    my_groups_column_title_nl: Mijn groepen
+    org_groups_column_title_en: Organisation groups
+    org_groups_column_title_nl: Organisatie groepen
+    all_groups_column_title_en: All groups
+    all_groups_column_title_nl: Alle groepen

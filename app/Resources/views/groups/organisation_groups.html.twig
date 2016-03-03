@@ -6,7 +6,7 @@
         {% include ':groups:_sort.html.twig' with {'color': 'green'} %}
 
         <div>
-            <h3>{{ 'ORGANISATION GROUPS'|trans }}</h3>
+            <h3>{{ attribute(_context, 'org_groups_column_title_' ~ selectedLang)|upper }}</h3>
             <p>{{ 'You are a member of these groups'|trans }}</p>
         </div>
     </section>

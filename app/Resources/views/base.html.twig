@@ -6,7 +6,7 @@
     <meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"
           name="viewport">
 
-    <title>{{ 'Surfnet'|trans }} - {{ 'GroupHUB'|trans }}</title>
+    <title>{{ application_title }} - {{ 'GroupHUB'|trans }}</title>
 
     {% stylesheets 'css/*' output='compiled/css/grouphub.css' %}
     <link rel="stylesheet" href="{{ asset_url }}"/>
@@ -18,7 +18,7 @@
 <header class="header">
     <ul>
         <li><a href="{{ path('home') }}">{{ 'GroupHUB'|trans }}</a></li>
-        <li><a href="{{ path('home') }}">{{ 'Surfnet'|trans }}</a></li>
+        <li><a href="{{ path('home') }}">{{ application_title }}</a></li>
     </ul>
 
     <ul>
@@ -33,11 +33,11 @@
             </a>
         </li>
         <li>
-            <a class="button_grey" href="#">
+            <a class="button_grey" href="#" target="_blank">
                 {{ 'Info'|trans }}
             </a>
         </li>
-        <li class="username">{{ app.user.username }}</li>
+        <li class="username">{{ app.user.username }} <i class="fa fa-question-circle"></i></li>
         <li class="language-selector">
             {% set selectedLang = app.request.locale %}
             {% set otherLang = selectedLang == 'en' ? 'nl' : 'en' %}
@@ -53,21 +53,21 @@
             <input id="select_my_groups" type="checkbox" checked/>
             <label class="background_blue" for="select_my_groups"><span><i class="fa fa-check"></i></span></label>
             <label class="white" for="select_my_groups">
-                {{ 'My groups'|trans }}
+                {{ attribute(_context, 'my_groups_column_title_' ~ selectedLang) }}
             </label>
         </li>
         <li>
             <input id="select_organisation_groups" type="checkbox" checked/>
             <label class="background_green" for="select_organisation_groups"><span><i class="fa fa-check"></i></span></label>
             <label class="white" for="select_organisation_groups">
-                {{ 'Organisation groups'|trans }}
+                {{ attribute(_context, 'org_groups_column_title_' ~ selectedLang) }}
             </label>
         </li>
         <li>
             <input id="select_all_groups" type="checkbox" checked/>
             <label class="background_purple" for="select_all_groups"><span><i class="fa fa-check"></i></span></label>
             <label class="white" for="select_all_groups">
-                {{ 'All groups'|trans }}
+                {{ attribute(_context, 'all_groups_column_title_' ~ selectedLang) }}
             </label>
         </li>
     </ul>
@@ -84,9 +84,7 @@
 
 <footer>
     <ul>
-        <li><a href="#">{{ 'Surfnet'|trans }}</a></li>
-        <li><a href="#">{{ 'Terms & conditions'|trans }}</a></li>
-        <li><a href="#">{{ 'Privacy'|trans }}</a></li>
+        <li><a href="//surf.nl">SURFnet</a></li>
     </ul>
 </footer>
 

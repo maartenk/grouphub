@@ -1,4 +1,3 @@
-Surfnet: 'Surfnet'
 GroupHUB: 'GroupHUB'
 
 New Group: 'New Group'
@@ -7,13 +6,6 @@ Info: 'Info'
 
 EN: 'EN'
 NL: 'NL'
-
-My groups: 'My groups'
-Organisation groups: 'Organisation groups'
-All groups: 'All groups'
-
-Terms & conditions: 'Terms & conditions'
-Privacy: 'Privacy'
 
 A - Z: 'A - Z'
 Z - A: 'Z - A'
@@ -31,11 +23,8 @@ Administrator: 'Administrator'
 Owner: 'Owner'
 Prospect: 'Prospect'
 
-MY GROUPS: 'MY GROUPS'
 You own or are a member of the group: 'You own or are a member of the group'
-ORGANISATION GROUPS: 'ORGANISATION GROUPS'
 You are a member of these groups: 'You are a member of these groups'
-ALL GROUPS: 'ALL GROUPS'
 There is a total of %count% groups: 'There is a total of %count% groups'
 
 SEARCH: 'SEARCH'

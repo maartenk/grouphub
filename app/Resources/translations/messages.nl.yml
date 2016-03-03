@@ -1,4 +1,3 @@
-Surfnet: 'Surfnet'
 GroupHUB: 'GroupHUB'
 
 New Group: 'Nieuwe Groep'
@@ -7,13 +6,6 @@ Info: 'Info'
 
 EN: 'EN'
 NL: 'NL'
-
-My groups: 'Mijn groepen'
-Organisation groups: 'Organisatie groepen'
-All groups: 'Alle groepen'
-
-Terms & conditions: 'Algemene voorwaarden'
-Privacy: 'Privacy'
 
 A - Z: 'A - Z'
 Z - A: 'Z - A'
@@ -31,11 +23,8 @@ Administrator: 'Beheerder'
 Owner: 'Eigenaar'
 Prospect: 'Aspirant'
 
-MY GROUPS: 'MIJN GROEPEN'
 You own or are a member of the group: 'Je bezit of bent lid van deze groepen'
-ORGANISATION GROUPS: 'ORGANISATIE GROEPEN'
 You are a member of these groups: 'Je bent lid van deze groepen'
-ALL GROUPS: 'ALLE GROEPEN'
 There is a total of %count% groups: 'Er zijn in taal %count% groepen'
 
 SEARCH: 'ZOEKEN'

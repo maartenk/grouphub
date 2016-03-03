@@ -38,6 +38,14 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    globals:
+        application_title: %application_title%
+        my_groups_column_title_en: %my_groups_column_title_en%
+        my_groups_column_title_nl: %my_groups_column_title_nl%
+        org_groups_column_title_en: %org_groups_column_title_en%
+        org_groups_column_title_nl: %org_groups_column_title_nl%
+        all_groups_column_title_en: %all_groups_column_title_en%
+        all_groups_column_title_nl: %all_groups_column_title_nl%
 
 # Swiftmailer Configuration
 swiftmailer:

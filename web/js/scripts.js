@@ -9,7 +9,7 @@ var grouphub = (function ($) {
             $searchContainer = $('#group_search'),
             $searchResults = $searchContainer.children('ul').first();
 
-        groupSearchReq = $.post({
+        groupSearchReq = $.get({
             url: $searchResults.data('url'),
             data: {query: $this.val()},
             beforeSend: function () {
@@ -27,7 +27,7 @@ var grouphub = (function ($) {
         var $this = $(this),
             $searchResults = $this.closest('.search_container').next('ul');
 
-        userSearchReq = $.post({
+        userSearchReq = $.get({
             url: $searchResults.data('url'),
             data: {query: $this.val()},
             beforeSend: function () {
@@ -72,7 +72,7 @@ var grouphub = (function ($) {
     var updateGroups = function () {
         var $groups = $('#groups');
 
-        $.post($groups.data('url'), {query: $('#searchInput').val()}, function (data) {
+        $.get($groups.data('url'), {query: $('#searchInput').val()}, function (data) {
             $groups.html(data);
 
             initScroll('#group_all_groups, #group_search');
@@ -155,7 +155,7 @@ var grouphub = (function ($) {
                 isSearch = $container.is('#group_search'),
                 query = isSearch ? $('#searchInput').val() : '';
 
-            $.post($container.data('url'), {query: query, sort: $sort.val()}, function (data) {
+            $.get($container.data('url'), {query: query, sort: $sort.val()}, function (data) {
                 $container.replaceWith(data);
                 initScroll('#group_all_groups, #group_search');
             });

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,6 +17,7 @@ class VootController extends Controller
 {
     /**
      * @Route("/user/{loginName}/groups", name="voot_groups")
+     * @Method("GET")
      *
      * @param string $loginName
      *
@@ -51,6 +53,7 @@ class VootController extends Controller
 
     /**
      * @Route("/user/{loginName}/groups/{groupId}", name="voot_group")
+     * @Method("GET")
      *
      * @param string $loginName
      * @param int    $groupId

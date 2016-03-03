@@ -129,6 +129,7 @@ class GroupController extends Controller
 
     /**
      * @Route("/{_locale}/group/{id}/users/search", name="search_group_users")
+     * @Method("GET")
      *
      * @param int     $id
      * @param Request $request
@@ -141,9 +142,9 @@ class GroupController extends Controller
 
         $this->denyAccessUnlessGranted('EDIT', $group);
 
-        $query = $request->get('query');
-        $offset = $request->get('offset', 0);
-        $limit = $request->get('limit', 12);
+        $query = $request->query->get('query');
+        $offset = $request->query->get('offset', 0);
+        $limit = $request->query->get('limit', 12);
 
         $users = $this->get('app.user_manager')->findUsers($query, $offset, $limit);
         $members = $this->get('app.membership_manager')->findGroupMemberships($group->getId(), $query);
@@ -169,7 +170,7 @@ class GroupController extends Controller
 
     /**
      * @Route("/{_locale}/group/{id}/members/search", name="search_group_members")
-     * @Method("POST")
+     * @Method("GET")
      *
      * @param int     $id
      * @param Request $request
@@ -180,7 +181,7 @@ class GroupController extends Controller
     {
         $group = $this->getGroup($id);
 
-        $query = $request->request->get('query');
+        $query = $request->query->get('query');
         $members = $this->get('app.membership_manager')->findGroupMemberships($group->getId(), $query);
 
         $notifications = null;

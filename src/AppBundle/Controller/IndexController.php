@@ -47,6 +47,7 @@ class IndexController extends Controller
 
     /**
      * @Route("/{_locale}/groups", defaults={"_locale": "en"}, requirements={"_locale": "en|nl"}, name="groups")
+     * @Method("GET")
      *
      * @param Request $request
      *
@@ -54,11 +55,11 @@ class IndexController extends Controller
      */
     public function groupsAction(Request $request)
     {
-        $type = $request->get('type');
-        $query = $request->get('query');
-        $sort = $request->get('sort', 'name');
-        $offset = $request->get('offset', 0);
-        $limit = $request->get('limit', 12);
+        $type = $request->query->get('type');
+        $query = $request->query->get('query');
+        $sort = $request->query->get('sort', 'name');
+        $offset = $request->query->get('offset', 0);
+        $limit = $request->query->get('limit', 12);
 
         if (!in_array($sort, ['name', 'timestamp', '-name', '-timestamp'])) {
             throw new BadRequestHttpException();

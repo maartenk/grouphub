@@ -75,6 +75,7 @@ class IndexController extends Controller
      * @param string $sort
      * @param int    $offset
      * @param int    $limit
+     * @param string $type
      *
      * @return array
      */
@@ -93,7 +94,7 @@ class IndexController extends Controller
         $groups = $groupManager->findGroups($searchQuery, null, $offset, $limit, $sortColumn, $sortDirection);
 
         $allGroups = $groups;
-        if ($type === null) {
+        if (!empty($searchQuery) && $type === null) {
             $allGroups = $groupManager->findGroups(null, null, $offset, $limit, $sortColumn, $sortDirection);
         }
 

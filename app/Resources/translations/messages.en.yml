@@ -65,3 +65,5 @@ Gebruiker: 'User'
 Bericht: 'Message'
 Accepteer: 'Accept'
 Afwijzen: 'Decline'
+
+logout_info: 'To log out, simply close your browser'

@@ -65,3 +65,5 @@ Gebruiker: 'Gebruiker'
 Bericht: 'Bericht'
 Accepteer: 'Accepteer'
 Afwijzen: 'Afwijzen'
+
+logout_info: 'Om uit te loggen, is het sluiten van de browser voldoende'

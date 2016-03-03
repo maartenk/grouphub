@@ -1312,8 +1312,8 @@ footer a {
     font-size: 13px; }
 /* line 235, _edit_group.scss */
 .edit_group_container ul.users li select {
-    float: right;
     margin-right: 10px;
+    float: right;
     width: 35%;
     border-radius: 2px;
     border: 1px solid #bbbbbb;
@@ -1429,4 +1429,19 @@ li.spinner {
     text-align: center;
     padding-top: 10px;
     padding-bottom: 10px;
+}
+
+.prospect {
+    margin-right: 10px;
+    float: right;
+    width: 35%;
+    border-radius: 2px;
+    border: 1px solid #bbbbbb;
+    -webkit-border-radius: 2px;
+    color: #555555;
+    background-color: #eaeaea;
+    padding: 4px;
+    font-size: 12px;
+    margin-top: 4px;
+    margin-bottom: 4px;
 }

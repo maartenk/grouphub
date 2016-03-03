@@ -1,0 +1,30 @@
+<a class="prospect_details" href="#"><i class="fa fa-angle-double-down"></i></a>
+
+<div class="prospect">
+    <div>{{ 'Prospect'|trans }}</div>
+    <div class="details hidden">
+        {% if attribute(notifications, user.id) is defined %}
+            {% set notification = attribute(notifications, user.id) %}
+            <article class="notification" data-url="{{ path('notification_process', {'id': notification.id}) }}">
+                <table>
+                    <tr>
+                        <td>{{ 'Datum'|trans }}</td>
+                        <td>{{ notification.created|localizeddate('medium', 'none') }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ 'Bericht'|trans }}</td>
+                        <td>{{ notification.message }}</td>
+                    </tr>
+                </table>
+            </article>
+        {% endif %}
+        <a href="#" class="button_blue confirm"
+           data-url="{{ path('membership_confirm', {'groupId': group.id, 'userId': user.id}) }}">
+            {{ 'Accepteer'|trans }}
+        </a>
+        <a href="#" class="button_grey cancel"
+           data-url="{{ path('membership_delete', {'groupId': group.id, 'userId': user.id}) }}">
+            {{ 'Afwijzen'|trans }}
+        </a>
+    </div>
+</div>

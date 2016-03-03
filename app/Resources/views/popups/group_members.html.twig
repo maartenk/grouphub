@@ -6,34 +6,13 @@
         </div>
 
         {% if is_granted('EDIT', group) %}
+
             {% if member.role == 'prospect' %}
-                <div class="prospect">
-                    {{ 'Prospect'|trans }}
-                    {% if attribute(notifications, member.user.id) is defined %}
-                        {% set notification = attribute(notifications, member.user.id) %}
-                        <article class="notification" data-url="{{ path('notification_process', {'id': notification.id}) }}">
-                            <table>
-                                <tr>
-                                    <td>{{ 'Datum'|trans }}</td>
-                                    <td>{{ notification.created|localizeddate('medium', 'none') }}</td>
-                                </tr>
-                                <tr>
-                                    <td>{{ 'Bericht'|trans }}</td>
-                                    <td>{{ notification.message }}</td>
-                                </tr>
-                            </table>
-                        </article>
-                    {% endif %}
-                    <a href="#" class="button_blue confirm"
-                       data-url="{{ path('membership_confirm', {'groupId': group.id, 'userId': member.user.id}) }}">
-                        {{ 'Accepteer'|trans }}
-                    </a>
-                    <a href="#" class="button_grey cancel"
-                       data-url="{{ path('membership_delete', {'groupId': group.id, 'userId': member.user.id}) }}">
-                        {{ 'Afwijzen'|trans }}
-                    </a>
-                </div>
+
+                {% include ':popups:_prospect.html.twig' with {'user': member.user} %}
+
             {% else %}
+
                 <a href="#" class="delete rounded"
                    data-url="{{ path('membership_delete', {groupId: group.id, userId: member.user.id}) }}">
                     <i class="fa fa-minus"></i>

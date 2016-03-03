@@ -46,6 +46,7 @@ twig:
         org_groups_column_title_nl: %org_groups_column_title_nl%
         all_groups_column_title_en: %all_groups_column_title_en%
         all_groups_column_title_nl: %all_groups_column_title_nl%
+        documentation_url: %documentation_url%
 
 # Swiftmailer Configuration
 swiftmailer:

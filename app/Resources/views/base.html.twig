@@ -80,7 +80,9 @@
     </div>
 </nav>
 
-{{ include('::groups.html.twig') }}
+<div id="groups" class="groups" data-url="{{ path('groups') }}">
+    {{ include('::groups.html.twig') }}
+</div>
 
 <footer>
     <ul>
@@ -90,6 +92,7 @@
 
 {{ include(':popups:notifications.html.twig') }}
 {{ include(':popups:new_group.html.twig') }}
+{{ include(':popups:leave_group.html.twig') }}
 
 <section id="edit_group" class="edit_group_container hidden"></section>
 

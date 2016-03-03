@@ -54,7 +54,7 @@ class IndexController extends Controller
      */
     public function groupsAction(Request $request)
     {
-        $type = $request->get('type', 'results');
+        $type = $request->get('type');
         $query = $request->get('query');
         $sort = $request->get('sort', 'name');
         $offset = $request->get('offset', 0);
@@ -66,7 +66,7 @@ class IndexController extends Controller
 
         return $this->render(
             $this->getTemplate($type),
-            $this->getGroups($query, $sort, $offset, $limit)
+            $this->getGroups($query, $sort, $offset, $limit, $type)
         );
     }
 
@@ -78,7 +78,7 @@ class IndexController extends Controller
      *
      * @return array
      */
-    private function getGroups($searchQuery = '', $sort = 'name', $offset = 0, $limit = 12)
+    private function getGroups($searchQuery = '', $sort = 'name', $offset = 0, $limit = 12, $type = null)
     {
         $sortColumn = $sort;
         $sortDirection = 0;
@@ -87,8 +87,15 @@ class IndexController extends Controller
             $sortColumn = substr($sort, 1);
         }
 
-        $myGroups = $this->get('app.group_manager')->getMyGroups($this->getUser(), $sortColumn, $sortDirection);
-        $groups = $this->get('app.group_manager')->findGroups($searchQuery, null, $offset, $limit, $sortColumn, $sortDirection);
+        $groupManager = $this->get('app.group_manager');
+
+        $myGroups = $groupManager->getMyGroups($this->getUser(), $sortColumn, $sortDirection);
+        $groups = $groupManager->findGroups($searchQuery, null, $offset, $limit, $sortColumn, $sortDirection);
+
+        $allGroups = $groups;
+        if ($type === null) {
+            $allGroups = $groupManager->findGroups(null, null, $offset, $limit, $sortColumn, $sortDirection);
+        }
 
         return [
             'ownerGrouphubGroups'    => isset($myGroups['grouphub']['owner']) ? $myGroups['grouphub']['owner'] : [],
@@ -103,6 +110,7 @@ class IndexController extends Controller
             'offset'                 => $offset,
             'limit'                  => $limit,
             'query'                  => $searchQuery,
+            'allGroups'              => $allGroups,
         ];
     }
 
@@ -113,6 +121,10 @@ class IndexController extends Controller
      */
     private function getTemplate($type)
     {
+        if ($type === null) {
+            return ':groups.html.twig';
+        }
+
         $mapping = [
             'my'         => ':groups:my_groups.html.twig',
             'org'        => ':groups:organisation_groups.html.twig',

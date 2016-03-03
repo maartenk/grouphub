@@ -70,14 +70,12 @@ var grouphub = (function ($) {
     };
 
     var updateGroups = function () {
-        var $myGroups = $('#group_my_groups'), $orgGroups = $('#group_organisation_groups');
+        var $groups = $('#groups');
 
-        $.post($myGroups.data('url'), {sort: $myGroups.find('.sort input:checked').val()}, function (data) {
-            $myGroups.replaceWith(data);
-        });
+        $.post($groups.data('url'), {query: $('#searchInput').val()}, function (data) {
+            $groups.html(data);
 
-        $.post($orgGroups.data('url'), {sort: $orgGroups.find('.sort input:checked').val()}, function (data) {
-            $orgGroups.replaceWith(data);
+            initScroll('#group_all_groups, #group_search');
         });
     };
 
@@ -124,7 +122,7 @@ var grouphub = (function ($) {
         var $editGroup = $('#edit_group'),
             $joinConfirm = $('#join_group'),
             $leaveConfirm = $('#group_leave_confirmation'),
-            $groupContainer = $('.groups');
+            $groupContainer = $('#groups');
 
         $('#language_selector_link').on('click', function () {
             $('#language_selector_menu').toggleClass('hidden');

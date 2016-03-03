@@ -8,14 +8,14 @@
         {% set class = 'member' %}
     {% endif %}
 
-    <li class="group_section edit {{ class }}" data-url="{{ path('group_details', {'id': group.id}) }}">
+    <li class="group_section edit {{ class }} group-{{ group.id }}" data-url="{{ path('group_details', {'id': group.id}) }}">
         <div>
             <i class="fa fa-user {{ color }}"></i>
-            <span>{{ group.userCount }}</span>
+            <span class="count">{{ group.userCount }}</span>
         </div>
         <div>
-            <p>{{ group.name }}</p>
-            <p>{{ group.description }}&nbsp;</p>
+            <p class="name">{{ group.name }}</p>
+            <p class="description">{{ group.description }}&nbsp;</p>
             <p>{{ group.timeStamp|localizeddate('medium', 'none') }}
                 {% if group.ownerId > 2 %}
                     - {{ group.owner.name }}

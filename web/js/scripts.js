@@ -1,7 +1,8 @@
 var grouphub = (function ($) {
     'use strict';
 
-    var groupSearchReq, userSearchReq;
+    var groupSearchReq, userSearchReq,
+        userId = $('body').data('user-id');
 
     var searchGroups = function () {
         var $this = $(this),
@@ -45,6 +46,38 @@ var grouphub = (function ($) {
         $el.jscroll({
             nextSelector: 'a.groups-next',
             loadingHtml: '<li class="spinner"><i class="fa fa-spinner fa-spin"></li>'
+        });
+    };
+
+    var lowerGroupCount = function (groupId) {
+        var $counts = $('.group-' + groupId).find('.count');
+
+        $counts.each(function () {
+            var $this = $(this);
+
+            $this.html(parseInt($this.text(), 10) - 1);
+        });
+    };
+
+    var raiseGroupCount = function (groupId) {
+        var $counts = $('.group-' + groupId).find('.count');
+
+        $counts.each(function () {
+            var $this = $(this);
+
+            $this.html(parseInt($this.text(), 10) + 1);
+        });
+    };
+
+    var updateGroups = function () {
+        var $myGroups = $('#group_my_groups'), $orgGroups = $('#group_organisation_groups');
+
+        $.post($myGroups.data('url'), {sort: $myGroups.find('.sort input:checked').val()}, function (data) {
+            $myGroups.replaceWith(data);
+        });
+
+        $.post($orgGroups.data('url'), {sort: $orgGroups.find('.sort input:checked').val()}, function (data) {
+            $orgGroups.replaceWith(data);
         });
     };
 
@@ -195,27 +228,50 @@ var grouphub = (function ($) {
             var $this = $(this);
 
             $.post($this.data('url'), function () {
-                // @todo: update counts, groups could need an update
+                var id = $editGroup.find('.edit_group').data('id'),
+                    user = $this.closest('li').data('user-id');
+
+                raiseGroupCount(id);
+
+                // @todo: update both tabs to edit mode
+
+                if (user == userId) {
+                    updateGroups();
+                }
             });
 
             return false;
         });
 
         $editGroup.on('change', '.roles', function () {
-            var $this = $(this);
+            var $this = $(this),
+                user = $this.closest('li').data('user-id');
 
-            $.post($this.data('url'), {'role': $this.val()});
+            $.post($this.data('url'), {'role': $this.val()}, function () {
+                // @todo: also update the other tab
 
-            // @todo: groups could need an update
+                if (user == userId) {
+                    updateGroups();
+                }
+            });
         });
 
         $editGroup.on('click', '.delete', function () {
             var $this = $(this);
 
             $.post($this.data('url'), function () {
-                $this.closest('li').remove();
+                var id = $editGroup.find('.edit_group').data('id'),
+                    user = $this.closest('li').data('user-id');
 
-                // @todo: update counts, groups could need an update
+                lowerGroupCount(id);
+
+                // @todo: only remove from add user tab
+                $this.closest('li').remove();
+                // @todo: update to add mode on user tab
+
+                if (user == userId) {
+                    updateGroups();
+                }
             });
 
             return false;
@@ -233,7 +289,16 @@ var grouphub = (function ($) {
                 $form = $this.closest('form');
 
             $.post($form.attr('action'), $form.serialize(), function () {
-                // @todo: update groups/description
+                var id = $editGroup.find('.edit_group').data('id'),
+                    $group = $('.group-' + id),
+                    title = $form.find('input').val(),
+                    descr = $form.find('textarea').val();
+
+                $('#group_title').html(title);
+                $('#group_details').html(descr);
+
+                $group.find('.name').html(title);
+                $group.find('.description').html(descr);
             });
         });
 
@@ -260,6 +325,12 @@ var grouphub = (function ($) {
         });
 
         $editGroup.on('keyup', '.searchInput', $.debounce(250, searchUsers));
+
+        $editGroup.on('click', '.prospect_details', function () {
+            $(this).next('div').find('div.details').toggleClass('hidden');
+
+            return false;
+        });
 
         $editGroup.on('click', '.prospect .confirm, .prospect .cancel', function () {
             var $this = $(this),
@@ -311,4 +382,6 @@ jQuery().ready(function () {
     Pace.options.ajax.trackMethods.push('POST');
 
     grouphub.init();
+
+    $('.tooltip').tooltipster();
 });

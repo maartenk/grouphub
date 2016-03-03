@@ -1,5 +1,5 @@
 {% for member in members %}
-    <li>
+    <li data-user-id="{{ member.user.id }}">
         <div>
             <p>{{ member.user.name }}</p>
             <span>{{ member.user.email }}&nbsp;</span>

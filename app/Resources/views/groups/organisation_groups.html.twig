@@ -6,7 +6,7 @@
         {% include ':groups:_sort.html.twig' with {'color': 'green'} %}
 
         <div>
-            <h3>{{ attribute(_context, 'org_groups_column_title_' ~ selectedLang)|upper }}</h3>
+            <h3>{{ attribute(_context, 'org_groups_column_title_' ~ app.request.locale)|upper }}</h3>
             <p>{{ 'You are a member of these groups'|trans }}</p>
         </div>
     </section>
@@ -19,14 +19,14 @@
 
         <ul>
             {% for group in ownerOtherGroups %}
-                <li class="group_section edit" data-url="{{ path('group_details', {'id': group.id}) }}">
+                <li class="group_section edit group-{{ group.id }}" data-url="{{ path('group_details', {'id': group.id}) }}">
                     <div>
                         <i class="fa fa-user green"></i>
-                        <span>{{ group.userCount }}</span>
+                        <span class="count">{{ group.userCount }}</span>
                     </div>
                     <div>
-                        <p>{{ group.name }}</p>
-                        <p>{{ group.description }}&nbsp;</p>
+                        <p class="name">{{ group.name }}</p>
+                        <p class="description">{{ group.description }}&nbsp;</p>
                         <p>{{ group.timeStamp|localizeddate('medium', 'none') }}</p>
                     </div>
                     <div></div>
@@ -43,14 +43,14 @@
 
         <ul>
             {% for group in adminOtherGroups %}
-                <li class="group_section edit" data-url="{{ path('group_details', {'id': group.id}) }}">
+                <li class="group_section edit group-{{ group.id }}" data-url="{{ path('group_details', {'id': group.id}) }}">
                     <div>
                         <i class="fa fa-user green"></i>
-                        <span>{{ group.userCount }}</span>
+                        <span class="count">{{ group.userCount }}</span>
                     </div>
                     <div>
-                        <p>{{ group.name }}</p>
-                        <p>{{ group.description }}&nbsp;</p>
+                        <p class="name">{{ group.name }}</p>
+                        <p class="description">{{ group.description }}&nbsp;</p>
                         <p>{{ group.timeStamp|localizeddate('medium', 'none') }}</p>
                     </div>
                     <div></div>
@@ -67,14 +67,14 @@
 
         <ul>
             {% for group in memberOtherGroups %}
-                <li class="group_section edit" data-url="{{ path('group_details', {'id': group.id}) }}">
+                <li class="group_section edit group-{{ group.id }}" data-url="{{ path('group_details', {'id': group.id}) }}">
                     <div>
                         <i class="fa fa-user green"></i>
-                        <span>{{ group.userCount }}</span>
+                        <span class="count">{{ group.userCount }}</span>
                     </div>
                     <div>
-                        <p>{{ group.name }}</p>
-                        <p>{{ group.description }}&nbsp;</p>
+                        <p class="name">{{ group.name }}</p>
+                        <p class="description">{{ group.description }}&nbsp;</p>
                         <p>{{ group.timeStamp|localizeddate('medium', 'none') }}
                             {% if group.ownerId > 2 %}
                                 - {{ group.owner.name }}

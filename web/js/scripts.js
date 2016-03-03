@@ -81,6 +81,45 @@ var grouphub = (function ($) {
         });
     };
 
+    var userAddMode = function (groupId, userId) {
+        var $member = $('.edit_group #group_members_tab .users').find('.user-' + userId),
+            $user = $('.edit_group #add_members_tab .users').find('.user-' + userId),
+            $tpl = $('.edit_group .user-add-tpl').clone();
+
+        $member.remove();
+        $user.find('.actions').html(function () {
+            return $tpl.html().replace(/%25gid%25/g, groupId).replace(/%25uid%25/g, userId);
+        });
+    };
+
+    var userEditMode = function (groupId, userId, value) {
+        var $members = $('.edit_group #group_members_tab .users'),
+            $member = $members.find('.user-' + userId),
+            $user = $('.edit_group #add_members_tab .users').find('.user-' + userId),
+            $tpl = $('.edit_group .user-edit-tpl').clone();
+
+        value = typeof value !== 'undefined' ? value : 'member';
+
+        $tpl.find('select option[value=' + value + ']').attr('selected', 'selected');
+        $tpl = $tpl.html().replace(/%25gid%25/g, groupId).replace(/%25uid%25/g, userId);
+
+        $user.find('.actions').html($tpl);
+
+        if ($member.length == 0) {
+            $members.append($user.clone());
+        } else {
+            $member.find('.actions').html($tpl);
+        }
+    };
+
+    var removeNotification = function (id) {
+        var $count = $('#notifications_link').find('span');
+
+        $('#notifications').find('.notification-' + id).remove();
+
+        $count.html(parseInt($count.text(), 10) - 1);
+    };
+
     var init = function () {
         var $editGroup = $('#edit_group'),
             $joinConfirm = $('#join_group'),
@@ -233,7 +272,7 @@ var grouphub = (function ($) {
 
                 raiseGroupCount(id);
 
-                // @todo: update both tabs to edit mode
+                userEditMode(id, user);
 
                 if (user == userId) {
                     updateGroups();
@@ -244,11 +283,13 @@ var grouphub = (function ($) {
         });
 
         $editGroup.on('change', '.roles', function () {
-            var $this = $(this),
-                user = $this.closest('li').data('user-id');
+            var $this = $(this);
 
             $.post($this.data('url'), {'role': $this.val()}, function () {
-                // @todo: also update the other tab
+                var id = $editGroup.find('.edit_group').data('id'),
+                    user = $this.closest('li').data('user-id');
+
+                userEditMode(id, user, $this.val());
 
                 if (user == userId) {
                     updateGroups();
@@ -265,9 +306,7 @@ var grouphub = (function ($) {
 
                 lowerGroupCount(id);
 
-                // @todo: only remove from add user tab
-                $this.closest('li').remove();
-                // @todo: update to add mode on user tab
+                userAddMode(id, user);
 
                 if (user == userId) {
                     updateGroups();
@@ -337,17 +376,29 @@ var grouphub = (function ($) {
                 $container = $this.closest('.prospect');
 
             $.post($this.data('url'), function () {
-                var $article = $container.find('article');
+                var id = $editGroup.find('.edit_group').data('id'),
+                    user = $this.closest('li').data('user-id'),
+                    $article = $container.find('article');
 
-                $container.remove();
-                // @todo: add membership, update groups, update count
+                if ($this.hasClass('confirm')) {
+
+                    raiseGroupCount(id);
+
+                    if (user == userId) {
+                        updateGroups();
+                    }
+
+                    userEditMode(id, user);
+                } else {
+                    userAddMode(id, user);
+                }
 
                 if (!$article.length) {
                     return;
                 }
 
                 $.post($article.data('url'), function () {
-                    // @todo: remove notifications from popup
+                    removeNotification($article.data('id'));
                 });
             });
         });
@@ -359,9 +410,18 @@ var grouphub = (function ($) {
                 var $article = $this.closest('article');
 
                 $.post($article.data('url'), function () {
-                    $article.remove();
-                    // @todo: update groups, update count
+                    removeNotification($article.data('id'));
                 });
+
+                if (!$this.hasClass('confirm')) {
+                    return;
+                }
+
+                raiseGroupCount($article.data('group-id'));
+
+                if ($article.data('from-id') == userId) {
+                    updateGroups();
+                }
             });
 
             return false;

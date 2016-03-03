@@ -1,40 +1,44 @@
 <div class="jscroll-inner">
 {% for user in users %}
-    <li data-user-id="{{ user.id }}">
+    <li class="user-{{ user.id }}" data-user-id="{{ user.id }}">
         <div>
             <p>{{ user.name }}</p>
             <span>{{ user.email }}&nbsp;</span>
         </div>
 
-        {% if attribute(members, user.id) is not defined %}
-            <a href="#" class="add rounded"
-               data-url="{{ path('membership_add', {groupId: group.id, userId: user.id}) }}">
-                <i class="fa fa-plus"></i>
-            </a>
-        {% else %}
+        <div class="actions">
 
-            {% if attribute(members, user.id).role == 'prospect' %}
-
-                {% include ':popups:_prospect.html.twig' %}
-
+            {% if attribute(members, user.id) is not defined %}
+                <a href="#" class="add rounded"
+                   data-url="{{ path('membership_add', {groupId: group.id, userId: user.id}) }}">
+                    <i class="fa fa-plus"></i>
+                </a>
             {% else %}
 
-                <a href="#" class="delete rounded"
-                   data-url="{{ path('membership_delete', {groupId: group.id, userId: user.id}) }}">
-                    <i class="fa fa-minus"></i>
-                </a>
+                {% if attribute(members, user.id).role == 'prospect' %}
 
-                <select name="roles" class="roles"
-                        data-url="{{ path('membership_update', {groupId: group.id, userId: user.id}) }}">
-                    <option value="admin" {% if attribute(members, user.id).role == 'admin' %}selected{% endif %}>
-                        {{ 'Admin'|trans }}
-                    </option>
-                    <option value="member" {% if attribute(members, user.id).role == 'member' %}selected{% endif %}>
-                        {{ 'Member'|trans }}
-                    </option>
-                </select>
+                    {% include ':popups:_prospect.html.twig' %}
+
+                {% else %}
+
+                    <a href="#" class="delete rounded"
+                       data-url="{{ path('membership_delete', {groupId: group.id, userId: user.id}) }}">
+                        <i class="fa fa-minus"></i>
+                    </a>
+
+                    <select name="roles" class="roles"
+                            data-url="{{ path('membership_update', {groupId: group.id, userId: user.id}) }}">
+                        <option value="admin" {% if attribute(members, user.id).role == 'admin' %}selected{% endif %}>
+                            {{ 'Admin'|trans }}
+                        </option>
+                        <option value="member" {% if attribute(members, user.id).role == 'member' %}selected{% endif %}>
+                            {{ 'Member'|trans }}
+                        </option>
+                    </select>
+                {% endif %}
             {% endif %}
-        {% endif %}
+
+        </div>
     </li>
 {% endfor %}
 

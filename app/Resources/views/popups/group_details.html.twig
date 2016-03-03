@@ -109,4 +109,24 @@
             </li>
         </ul>
     {% endif %}
+
+    <div class="user-add-tpl hidden">
+        <a href="#" class="add rounded"
+           data-url="{{ path('membership_add', {groupId: '%gid%', userId: '%uid%'}) }}">
+            <i class="fa fa-plus"></i>
+        </a>
+    </div>
+
+    <div class="user-edit-tpl hidden">
+        <a href="#" class="delete rounded"
+           data-url="{{ path('membership_delete', {groupId: '%gid%', userId: '%uid%'}) }}">
+            <i class="fa fa-minus"></i>
+        </a>
+
+        <select name="roles" class="roles"
+                data-url="{{ path('membership_update', {groupId: '%gid%', userId: '%uid%'}) }}">
+            <option value="admin">{{ 'Admin'|trans }}</option>
+            <option value="member">{{ 'Member'|trans }}</option>
+        </select>
+    </div>
 </div>

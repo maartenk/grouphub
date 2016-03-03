@@ -5,7 +5,7 @@
     <div class="details hidden">
         {% if attribute(notifications, user.id) is defined %}
             {% set notification = attribute(notifications, user.id) %}
-            <article class="notification" data-url="{{ path('notification_process', {'id': notification.id}) }}">
+            <article class="notification" data-id="{{ notification.id }}" data-url="{{ path('notification_process', {'id': notification.id}) }}">
                 <table>
                     <tr>
                         <td>{{ 'Datum'|trans }}</td>

@@ -1314,7 +1314,7 @@ footer a {
 .edit_group_container ul.users li select {
     margin-right: 10px;
     float: right;
-    width: 35%;
+    width: 80%;
     border-radius: 2px;
     border: 1px solid #bbbbbb;
     -webkit-border-radius: 2px;
@@ -1434,7 +1434,7 @@ li.spinner {
 .prospect {
     margin-right: 10px;
     float: right;
-    width: 35%;
+    width: 80%;
     border-radius: 2px;
     border: 1px solid #bbbbbb;
     -webkit-border-radius: 2px;
@@ -1444,4 +1444,9 @@ li.spinner {
     font-size: 12px;
     margin-top: 4px;
     margin-bottom: 4px;
+}
+
+.actions {
+    float: right;
+    width: 55%;
 }

@@ -6,7 +6,11 @@
         </header>
 
         {% for notification in notifications %}
-            <article class="notification" data-url="{{ path('notification_process', {'id': notification.id}) }}">
+            <article class="notification notification-{{ notification.id }}"
+                     data-id="{{ notification.id }}"
+                     data-url="{{ path('notification_process', {'id': notification.id}) }}"
+                     data-group-id="{{ notification.group.id }}"
+                     data-from-id="{{ notification.from.id }}">
                 <table>
                     <tr>
                         <td>{{ 'Datum'|trans }}</td>

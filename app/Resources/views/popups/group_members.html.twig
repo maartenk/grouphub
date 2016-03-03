@@ -1,33 +1,37 @@
 {% for member in members %}
-    <li data-user-id="{{ member.user.id }}">
+    <li class="user-{{ member.user.id }}" data-user-id="{{ member.user.id }}">
         <div>
             <p>{{ member.user.name }}</p>
             <span>{{ member.user.email }}&nbsp;</span>
         </div>
 
-        {% if is_granted('EDIT', group) %}
+        <div class="actions">
 
-            {% if member.role == 'prospect' %}
+            {% if is_granted('EDIT', group) %}
 
-                {% include ':popups:_prospect.html.twig' with {'user': member.user} %}
+                {% if member.role == 'prospect' %}
 
-            {% else %}
+                    {% include ':popups:_prospect.html.twig' with {'user': member.user} %}
 
-                <a href="#" class="delete rounded"
-                   data-url="{{ path('membership_delete', {groupId: group.id, userId: member.user.id}) }}">
-                    <i class="fa fa-minus"></i>
-                </a>
+                {% else %}
 
-                <select name="roles" class="roles"
-                        data-url="{{ path('membership_update', {groupId: group.id, userId: member.user.id}) }}">
-                    <option value="admin" {% if member.role == 'admin' %}selected{% endif %}>
-                        {{ 'Admin'|trans }}
-                    </option>
-                    <option value="member" {% if member.role == 'member' %}selected{% endif %}>
-                        {{ 'Member'|trans }}
-                    </option>
-                </select>
+                    <a href="#" class="delete rounded"
+                       data-url="{{ path('membership_delete', {groupId: group.id, userId: member.user.id}) }}">
+                        <i class="fa fa-minus"></i>
+                    </a>
+
+                    <select name="roles" class="roles"
+                            data-url="{{ path('membership_update', {groupId: group.id, userId: member.user.id}) }}">
+                        <option value="admin" {% if member.role == 'admin' %}selected{% endif %}>
+                            {{ 'Admin'|trans }}
+                        </option>
+                        <option value="member" {% if member.role == 'member' %}selected{% endif %}>
+                            {{ 'Member'|trans }}
+                        </option>
+                    </select>
+                {% endif %}
             {% endif %}
-        {% endif %}
+
+        </div>
     </li>
 {% endfor %}

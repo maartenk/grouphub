@@ -399,6 +399,8 @@ var grouphub = (function ($) {
                     removeNotification($article.data('id'));
                 });
             });
+
+            return false;
         });
 
         $('#notifications').on('click', '.confirm, .cancel', function () {

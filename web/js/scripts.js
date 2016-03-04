@@ -126,6 +126,8 @@ var grouphub = (function ($) {
 
         $('#language_selector_link').on('click', function () {
             $('#language_selector_menu').toggleClass('hidden');
+
+            return false;
         });
 
         $('#searchInput').on('keyup', $.debounce(250, searchGroups));

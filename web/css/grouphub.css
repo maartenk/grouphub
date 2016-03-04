@@ -601,6 +601,7 @@ header.header li.language-selector {
     position: relative; }
 /* line 50, _header.scss */
 header.header li.language-selector a:last-child {
+    z-index: 999;
     position: absolute; }
 
 /* line 1, _navigation.scss */

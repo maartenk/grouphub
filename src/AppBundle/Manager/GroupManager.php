@@ -56,7 +56,9 @@ class GroupManager
         $memberships = $this->client->findUserMemberships($user->getId(), $sortColumn, $sortDirection);
 
         // Regroup memberships to make them a little more accessible
-        $groups = [];
+        $roles = ['owner' => [], 'admin' => [], 'member' => [], 'prospect' => []];
+        $groups = ['grouphub' => $roles, 'other' => $roles];
+
         foreach ($memberships as $group) {
             $type = $group->getGroup()->getType() === 'grouphub' ? 'grouphub' : 'other';
             $role = $group->getRole();

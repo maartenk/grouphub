@@ -100,19 +100,13 @@ class IndexController extends Controller
         }
 
         return [
-            'ownerGrouphubGroups'    => isset($myGroups['grouphub']['owner']) ? $myGroups['grouphub']['owner'] : [],
-            'adminGrouphubGroups'    => isset($myGroups['grouphub']['admin']) ? $myGroups['grouphub']['admin'] : [],
-            'memberGrouphubGroups'   => isset($myGroups['grouphub']['member']) ? $myGroups['grouphub']['member'] : [],
-            'prospectGrouphubGroups' => isset($myGroups['grouphub']['prospect']) ? $myGroups['grouphub']['prospect'] : [],
-            'ownerOtherGroups'       => isset($myGroups['other']['owner']) ? $myGroups['other']['owner'] : [],
-            'adminOtherGroups'       => isset($myGroups['other']['admin']) ? $myGroups['other']['admin'] : [],
-            'memberOtherGroups'      => isset($myGroups['other']['member']) ? $myGroups['other']['member'] : [],
-            'groups'                 => $groups,
-            'sort'                   => $sort,
-            'offset'                 => $offset,
-            'limit'                  => $limit,
-            'query'                  => $searchQuery,
-            'allGroups'              => $allGroups,
+            'myGroups'  => $myGroups,
+            'allGroups' => $allGroups,
+            'groups'    => $groups,
+            'sort'      => $sort,
+            'offset'    => $offset,
+            'limit'     => $limit,
+            'query'     => $searchQuery,
         ];
     }
 

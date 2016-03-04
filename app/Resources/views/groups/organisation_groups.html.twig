@@ -11,6 +11,8 @@
         </div>
     </section>
 
+    {% set ownerOtherGroups = myGroups.other.owner %}
+
     {% if ownerOtherGroups %}
         <section class="owned">
             <i class="fa fa-fw fa-angle-down"></i>
@@ -35,6 +37,8 @@
         </ul>
     {% endif %}
 
+    {% set adminOtherGroups = myGroups.other.admin %}
+
     {% if adminOtherGroups %}
         <section class="owned">
             <i class="fa fa-fw fa-angle-down"></i>
@@ -58,6 +62,8 @@
             {% endfor %}
         </ul>
     {% endif %}
+
+    {% set memberOtherGroups = myGroups.other.member %}
 
     {% if memberOtherGroups %}
         <section class="owned">

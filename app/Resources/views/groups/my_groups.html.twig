@@ -11,6 +11,8 @@
         </div>
     </section>
 
+    {% set ownerGrouphubGroups = myGroups.grouphub.owner %}
+
     {% if ownerGrouphubGroups %}
         <section class="owned">
             <i class="fa fa-fw fa-angle-down"></i>
@@ -35,6 +37,8 @@
         </ul>
     {% endif %}
 
+    {% set adminGrouphubGroups = myGroups.grouphub.admin %}
+
     {% if adminGrouphubGroups %}
         <section class="owned">
             <i class="fa fa-fw fa-angle-down"></i>
@@ -58,6 +62,8 @@
             {% endfor %}
         </ul>
     {% endif %}
+
+    {% set memberGrouphubGroups = myGroups.grouphub.member %}
 
     {% if memberGrouphubGroups %}
         <section class="owned">

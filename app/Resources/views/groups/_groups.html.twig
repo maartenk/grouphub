@@ -1,8 +1,8 @@
 {% for group in groups %}
     {% set class = 'none' %}
-    {% if attribute(memberOtherGroups, group.id) is defined %}
+    {% if attribute(myGroups.other.member, group.id) is defined %}
         {% set class = 'member' %}
-    {% elseif attribute(adminOtherGroups, group.id) is defined %}
+    {% elseif attribute(myGroups.other.admin, group.id) is defined %}
         {% set class = 'member' %}
     {% elseif group.type == 'grouphub' %}
         {% set class = 'member' %}
@@ -23,16 +23,16 @@
             </p>
         </div>
         <div>
-            {% if attribute(memberGrouphubGroups, group.id) is defined or attribute(adminGrouphubGroups, group.id) is defined %}
+            {% if attribute(myGroups.grouphub.member, group.id) is defined or attribute(myGroups.grouphub.admin, group.id) is defined %}
                 <a class="button_member {{ color }}" href="#" data-hover="{{ 'LEAVE'|trans }}"
                    data-url="{{ path('my_membership_delete', {'groupId': group.id}) }}">
                     <span>{{ 'LEAVE'|trans }}</span>
                 </a>
-            {% elseif attribute(memberOtherGroups, group.id) is defined or attribute(adminOtherGroups, group.id) is defined %}
+            {% elseif attribute(myGroups.other.member, group.id) is defined or attribute(myGroups.other.admin, group.id) is defined %}
                 <a class="button_join {{ color }}" href="#">
                     <span>{{ 'MEMBER'|trans }}</span>
                 </a>
-            {% elseif attribute(prospectGrouphubGroups, group.id) is defined %}
+            {% elseif attribute(myGroups.grouphub.prospect, group.id) is defined %}
                 <a class="button_join {{ color }}" href="#">
                     <span>{{ 'PROSPECT'|trans }}</span>
                 </a>

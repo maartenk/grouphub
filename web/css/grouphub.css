@@ -975,13 +975,6 @@ footer ul {
 footer li {
     display: inline-block;
     margin-right: 15px; }
-/* line 22, _footer.scss */
-footer li:first-child {
-    padding-right: 15px;
-    border-right: solid 1px #eaeaea; }
-/* line 27, _footer.scss */
-footer li:last-child {
-    float: right; }
 /* line 32, _footer.scss */
 footer a {
     color: #eaeaea;

@@ -11,6 +11,8 @@ use DateTime;
 
 /**
  * Class Normalizer
+ *
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class Normalizer
 {

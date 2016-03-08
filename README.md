@@ -42,3 +42,15 @@ These URL's are secured with the username `voot` and the password specified in t
 
 - <http://dev.grouphub.org/voot/user/[userId]/groups>
 - <http://dev.grouphub.org/voot/user/[userId]/groups/[groupId]>
+
+# Deployment
+
+## Requirements (WIP)
+
+ - apache2
+   * mod_expires
+   * mod_headers
+ - php
+ - nodejs
+   * uglify-js
+   * uglifycss

@@ -4,6 +4,8 @@ namespace AppBundle\Manager;
 
 use AppBundle\Api\ApiClient;
 use AppBundle\Model\Membership;
+use AppBundle\Model\User;
+use Traversable;
 
 /**
  * Class MembershipManager
@@ -37,14 +39,31 @@ class MembershipManager
     /**
      * @param int    $id
      * @param string $query
+     * @param int    $offset
+     * @param int    $limit
      *
      * @return Membership[]
-     * @todo: find a way to use offset/limit
      */
-    public function findGroupMemberships($id, $query = null)
+    public function findGroupMemberships($id, $query = null, $offset = 0, $limit = 100)
     {
+        return $this->client->findGroupMemberships($id, $query, $offset, $limit);
+    }
+
+    /**
+     * @param int                $id
+     * @param User[]|Traversable $users
+     *
+     * @return Membership[]
+     */
+    public function findGroupMembershipsForUsers($id, Traversable $users)
+    {
+        $userIds = [];
+        foreach ($users as $user) {
+            $userIds[] = $user->getId();
+        }
+
         /** @var Membership[] $memberships */
-        $memberships = $this->client->findGroupMemberships($id, $query);
+        $memberships = $this->client->findGroupMembershipsForUsers($id, $userIds);
 
         $result = [];
         foreach ($memberships as $membership) {

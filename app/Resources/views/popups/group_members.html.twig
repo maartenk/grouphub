@@ -1,3 +1,4 @@
+<div class="jscroll-inner">
 {% for member in members %}
     <li class="user-{{ member.user.id }}" data-user-id="{{ member.user.id }}">
         <div>
@@ -35,3 +36,9 @@
         </div>
     </li>
 {% endfor %}
+
+{% set offset = offset + limit %}
+{% if offset < members.totalCount %}
+    <a class="groups-next" href="{{ path('search_group_members', {'id': group.id, 'query': query, 'offset': offset, 'limit': limit}) }}"></a>
+{% endif %}
+</div>

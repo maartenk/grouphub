@@ -52,11 +52,15 @@ class GroupController extends Controller
     {
         $group = $this->getGroup($id);
 
-        $members = $this->get('app.membership_manager')->findGroupMemberships($group->getId());
+        $offset = 0;
+        $limit = 12;
 
-        $users = $form = $notifications = null;
+        $members = $this->get('app.membership_manager')->findGroupMemberships($group->getId(), null, $offset, $limit);
+
+        $users = $form = $notifications = $memberships = null;
         if ($this->isGranted('EDIT', $group)) {
-            $users = $this->get('app.user_manager')->findUsers(null, 0, 12);
+            $users = $this->get('app.user_manager')->findUsers(null, $offset, $limit);
+            $memberships = $this->get('app.membership_manager')->findGroupMembershipsForUsers($group->getId(), $users);
             $form = $this->createForm(GroupType::class, $group)->createView();
 
             $notifications = $this->get('app.notification_manager')->findNotificationsForGroup(
@@ -70,12 +74,13 @@ class GroupController extends Controller
             [
                 'group'         => $group,
                 'members'       => $members,
+                'memberships'   => $memberships,
                 'users'         => $users,
                 'form'          => $form,
                 'notifications' => $notifications,
                 'query'         => '',
-                'offset'        => 0,
-                'limit'         => 12
+                'offset'        => $offset,
+                'limit'         => $limit
             ]
         );
     }
@@ -147,7 +152,7 @@ class GroupController extends Controller
         $limit = $request->query->get('limit', 12);
 
         $users = $this->get('app.user_manager')->findUsers($query, $offset, $limit);
-        $members = $this->get('app.membership_manager')->findGroupMemberships($group->getId(), $query);
+        $members = $this->get('app.membership_manager')->findGroupMembershipsForUsers($group->getId(), $users);
 
         $notifications = $this->get('app.notification_manager')->findNotificationsForGroup(
             $this->getUser()->getId(),
@@ -182,7 +187,10 @@ class GroupController extends Controller
         $group = $this->getGroup($id);
 
         $query = $request->query->get('query');
-        $members = $this->get('app.membership_manager')->findGroupMemberships($group->getId(), $query);
+        $offset = $request->query->get('offset', 0);
+        $limit = $request->query->get('limit', 12);
+
+        $members = $this->get('app.membership_manager')->findGroupMemberships($group->getId(), $query, $offset, $limit);
 
         $notifications = null;
         if ($this->isGranted('EDIT', $group)) {
@@ -198,6 +206,9 @@ class GroupController extends Controller
                 'group'         => $group,
                 'members'       => $members,
                 'notifications' => $notifications,
+                'query'         => $query,
+                'offset'        => $offset,
+                'limit'         => $limit
             ]
         );
     }

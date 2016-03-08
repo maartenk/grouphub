@@ -152,6 +152,25 @@ class Normalizer
     /**
      * @param array $memberships
      *
+     * @return Collection
+     */
+    public function denormalizeMembershipCollection(array $memberships)
+    {
+        if (!isset($memberships['items']) || !is_array($memberships['items']) || !isset($memberships['count'])) {
+            throw new \InvalidArgumentException('Unable to denormalize memberships');
+        }
+
+        $result = [];
+        foreach ($memberships['items'] as $membership) {
+            $result[] = $this->denormalizeMembership($membership);
+        }
+
+        return new Collection($result, $memberships['count']);
+    }
+
+    /**
+     * @param array $memberships
+     *
      * @return Membership[]
      */
     public function denormalizeMemberships(array $memberships)

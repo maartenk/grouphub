@@ -34,7 +34,7 @@ class Exporter
 
         fputcsv($handle, ['Role', 'Id', 'Login name', 'First name', 'Last name', 'Email'], ';');
 
-        $memberships = $this->membershipManager->findGroupMemberships($group->getId());
+        $memberships = $this->membershipManager->findGroupMemberships($group->getId(), null, 0, 9999);
 
         foreach ($memberships as $membership) {
             $user = $membership->getUser();

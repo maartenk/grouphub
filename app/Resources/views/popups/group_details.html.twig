@@ -70,7 +70,7 @@
             </div>
 
             <ul class="users" data-url="{{ path('search_group_members', {'id': group.id}) }}">
-                {{ include(':popups:group_members.html.twig') }}
+                {% include(':popups:group_members.html.twig') %}
             </ul>
         </div>
 
@@ -84,7 +84,7 @@
                 </div>
 
                 <ul class="users" data-url="{{ path('search_group_users', {'id': group.id}) }}">
-                    {{ include(':popups:group_users.html.twig') }}
+                    {% include(':popups:group_users.html.twig') with {'members': memberships} %}
                 </ul>
             </div>
         {% endif %}

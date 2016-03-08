@@ -35,7 +35,7 @@ var grouphub = (function ($) {
             },
             success: function (data) {
                 $searchResults.html(data);
-                initScroll('#add_members_tab ul');
+                initScroll($searchResults);
             }
         });
     };
@@ -228,6 +228,8 @@ var grouphub = (function ($) {
 
             $editGroup.load($(this).data('url'), function () {
                 $(this).removeClass('hidden');
+
+                initScroll('#group_members_tab ul');
             });
 
             return false;
@@ -259,6 +261,8 @@ var grouphub = (function ($) {
 
             $('#add_members').removeClass('active');
             $('#add_members_tab').addClass('hidden');
+
+            initScroll('#group_members_tab ul');
 
             return false;
         });

@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Filesystem\LockHandler;
 
 /**
  * Class SyncCommand
@@ -29,9 +30,16 @@ class SyncCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->getContainer()->get('app.sync')->sync();
-
         $io = new SymfonyStyle($input, $output);
+
+        $lockHandler = new LockHandler('app:sync.lock');
+        if (!$lockHandler->lock()) {
+            $io->warning('Sync process already running');
+            return;
+        }
+
+        $service = $this->getContainer()->get('app.sync');
+        $service->sync();
 
         $io->success('Done!');
     }

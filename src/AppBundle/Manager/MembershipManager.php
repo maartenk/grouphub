@@ -99,6 +99,12 @@ class MembershipManager
             $groupIds[] = $group->getId();
         }
 
+        $groupIds = array_unique($groupIds);
+
+        if (empty($groupIds)) {
+            return [];
+        }
+
         $memberships = $this->client->findUserMembershipOfGroups($userId, array_unique($groupIds));
 
         $result = [];

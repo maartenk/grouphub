@@ -150,21 +150,51 @@ class ApiClient
      * @param string $sortColumn
      * @param int    $sortDirection 0 => asc, 1 => desc
      * @param string $type
+     * @param int    $offset
+     * @param int    $limit
      *
-     * @return Sequence
+     * @return Collection
      */
-    public function findUserMemberships($userId, $sortColumn = 'name', $sortDirection = 0, $type = '')
+    public function findUserMemberships($userId, $sortColumn = 'name', $sortDirection = 0, $type = '', $offset = 0, $limit = 100)
     {
         $data = $this->guzzle->get('users/' . $userId . '/groups', [
             'query' => [
-                'sort' => ($sortDirection ? '-' : '') . $sortColumn,
-                'type' => $type
+                'offset' => $offset,
+                'limit'  => $limit,
+                'sort'   => ($sortDirection ? '-' : '') . $sortColumn,
+                'type'   => $type,
             ]
         ]);
 
         $data = $this->decode($data->getBody());
 
-        return new Sequence($this->normalizer->denormalizeMemberships($data));
+        return $this->normalizer->denormalizeMemberships($data);
+    }
+
+    /**
+     * @param int    $userId
+     * @param string $sortColumn
+     * @param int    $sortDirection 0 => asc, 1 => desc
+     * @param string $type
+     * @param int    $offset
+     * @param int    $limit
+     *
+     * @return array
+     */
+    public function findGroupedUserMemberships($userId, $sortColumn = 'name', $sortDirection = 0, $type = '', $offset = 0, $limit = 10)
+    {
+        $data = $this->guzzle->get('users/' . $userId . '/groups/grouped', [
+            'query' => [
+                'offset' => $offset,
+                'limit'  => $limit,
+                'sort'   => ($sortDirection ? '-' : '') . $sortColumn,
+                'type'   => $type,
+            ]
+        ]);
+
+        $data = $this->decode($data->getBody());
+
+        return $this->normalizer->denormalizeGroupedMemberships($data);
     }
 
     /**
@@ -188,7 +218,7 @@ class ApiClient
 
         $data = $this->decode($data->getBody());
 
-        return $this->normalizer->denormalizeMembershipCollection($data);
+        return $this->normalizer->denormalizeMemberships($data);
     }
 
     /**
@@ -208,7 +238,7 @@ class ApiClient
 
         $data = $this->decode($data->getBody());
 
-        return $this->normalizer->denormalizeMembershipCollection($data);
+        return $this->normalizer->denormalizeMemberships($data);
     }
 
     /**

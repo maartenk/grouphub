@@ -91,13 +91,17 @@ class IndexController extends Controller
 
         $groupManager = $this->get('app.group_manager');
 
-        $myGroups = $groupManager->getMyGroups($this->getUser(), $sortColumn, $sortDirection);
+        $myGroups = $groupManager->getMyGroups($this->getUser()->getId(), $sortColumn, $sortDirection, 0, 5);
         $groups = $groupManager->findGroups($searchQuery, null, $offset, $limit, $sortColumn, $sortDirection);
 
         $allGroups = $groups;
         if (!empty($searchQuery) && $type === null) {
             $allGroups = $groupManager->findGroups(null, null, $offset, $limit, $sortColumn, $sortDirection);
         }
+
+        // @todo: find memberships of (all) groups to set button status
+        // @todo: add pagination support to 'myGroups'
+        // @todo: prevent excessive group querying
 
         return [
             'myGroups'  => $myGroups,

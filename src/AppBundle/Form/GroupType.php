@@ -92,7 +92,7 @@ class GroupType extends AbstractType
                     'parent',
                     ChoiceType::class,
                     [
-                        'choices'      => $groupManager->findFormalGroups($user->getId()),
+                        'choices'      => $groupManager->findAdminGroups($user->getId(), 0, 10), // @todo: pagination
                         'mapped'       => false,
                         'choice_label' => 'name',
                         'choice_value' => 'id',

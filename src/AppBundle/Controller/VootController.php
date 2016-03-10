@@ -31,7 +31,7 @@ class VootController extends Controller
             throw $this->createNotFoundException('User not found');
         }
 
-        $memberships = $this->get('app.membership_manager')->findUserMemberships($user->getId());
+        $memberships = $this->get('app.membership_manager')->findUserMemberships($user->getId(), 0, 9999);
 
         $result = [];
 

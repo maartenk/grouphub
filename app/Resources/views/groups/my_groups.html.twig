@@ -13,7 +13,7 @@
 
     {% set ownerGrouphubGroups = myGroups.grouphub.owner %}
 
-    {% if ownerGrouphubGroups %}
+    {% if ownerGrouphubGroups|length %}
         <section class="owned">
             <i class="fa fa-fw fa-angle-down"></i>
             <h3>{{ 'Owner'|trans }}</h3>
@@ -21,6 +21,7 @@
 
         <ul>
             {% for group in ownerGrouphubGroups %}
+                {% set group = group.group %}
                 <li class="group_section edit group-{{ group.id }}" data-url="{{ path('group_details', {'id': group.id}) }}">
                     <div>
                         <i class="fa fa-user blue"></i>
@@ -39,7 +40,7 @@
 
     {% set adminGrouphubGroups = myGroups.grouphub.admin %}
 
-    {% if adminGrouphubGroups %}
+    {% if adminGrouphubGroups|length %}
         <section class="owned">
             <i class="fa fa-fw fa-angle-down"></i>
             <h3>{{ 'Administrator'|trans }}</h3>
@@ -47,6 +48,7 @@
 
         <ul>
             {% for group in adminGrouphubGroups %}
+                {% set group = group.group %}
                 <li class="group_section edit group-{{ group.id }}" data-url="{{ path('group_details', {'id': group.id}) }}">
                     <div>
                         <i class="fa fa-user blue"></i>
@@ -65,7 +67,7 @@
 
     {% set memberGrouphubGroups = myGroups.grouphub.member %}
 
-    {% if memberGrouphubGroups %}
+    {% if memberGrouphubGroups|length %}
         <section class="owned">
             <i class="fa fa-fw fa-angle-down"></i>
             <h3>{{ 'Member'|trans }}</h3>
@@ -73,6 +75,7 @@
 
         <ul>
             {% for group in memberGrouphubGroups %}
+                {% set group = group.group %}
                 <li class="group_section edit group-{{ group.id }}" data-url="{{ path('group_details', {'id': group.id}) }}">
                     <div>
                         <i class="fa fa-user blue"></i>

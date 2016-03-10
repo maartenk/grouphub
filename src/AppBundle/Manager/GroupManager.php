@@ -4,9 +4,8 @@ namespace AppBundle\Manager;
 
 use AppBundle\Api\ApiClient;
 use AppBundle\Ldap\GrouphubClient;
+use AppBundle\Model\Collection;
 use AppBundle\Model\Group;
-use AppBundle\Model\Membership;
-use AppBundle\Model\User;
 
 /**
  * Class GroupManager
@@ -34,41 +33,30 @@ class GroupManager
     }
 
     /**
-     * @param User   $user
+     * @param int    $userId
      * @param string $sortColumn
      * @param int    $sortDirection
+     * @param int    $offset
+     * @param int    $limit
      *
      * @return array
      * @todo: integrate better way of caching
-     * @todo: find a way to use offset/limit
      */
-    public function getMyGroups(User $user, $sortColumn = 'name', $sortDirection = 0)
+    public function getMyGroups($userId, $sortColumn = 'name', $sortDirection = 0, $offset = 0, $limit = 5)
     {
         static $cache;
 
-        $key = md5(json_encode([$user->getId(), $sortColumn, $sortDirection]));
+        $key = md5(json_encode(func_get_args()));
 
         if (isset($cache[$key])) {
             return $cache[$key];
         }
 
-        /** @var Membership[] $memberships */
-        $memberships = $this->client->findUserMemberships($user->getId(), $sortColumn, $sortDirection);
+        $memberships = $this->client->findGroupedUserMemberships($userId, $sortColumn, $sortDirection, '', $offset, $limit);
 
-        // Regroup memberships to make them a little more accessible
-        $roles = ['owner' => [], 'admin' => [], 'member' => [], 'prospect' => []];
-        $groups = ['grouphub' => $roles, 'other' => $roles];
+        $cache[$key] = $memberships;
 
-        foreach ($memberships as $group) {
-            $type = $group->getGroup()->getType() === 'grouphub' ? 'grouphub' : 'other';
-            $role = $group->getRole();
-
-            $groups[$type][$role][$group->getGroup()->getId()] = $group->getGroup();
-        }
-
-        $cache[$key] = $groups;
-
-        return $groups;
+        return $memberships;
     }
 
     /**
@@ -94,24 +82,41 @@ class GroupManager
 
     /**
      * @param int $userId
+     * @param int $offset
+     * @param int $limit
      *
      * @return Group[]
+     * @todo: integrate better way of caching
      */
-    public function findFormalGroups($userId)
+    public function findAdminGroups($userId, $offset = 0, $limit = 10)
     {
-        /** @var Membership[] $memberships */
-        $memberships = $this->client->findUserMemberships($userId, 'name', 0, 'formal');
+        static $aCache;
+
+        $key = md5(json_encode(func_get_args()));
+
+        if (isset($aCache[$key])) {
+            return $aCache[$key];
+        }
+
+        $memberships = $this->client->findUserMemberships(
+            $userId,
+            'name',
+            0,
+            'admin',
+            $offset,
+            $limit
+        );
 
         $result = [];
         foreach ($memberships as $membership) {
-            $group = $membership->getGroup();
-
-            if (empty($group->getParentId()) || $group->getParentId() === 1) {
-                $result[] = $group;
-            }
+            $result[] = $membership->getGroup();
         }
 
-        return $result;
+        $memberships = new Collection($result, $memberships->getTotalCount());
+
+        $aCache[$key] = $memberships;
+
+        return $memberships;
     }
 
     /**

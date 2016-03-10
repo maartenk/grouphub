@@ -154,9 +154,9 @@ class Normalizer
     /**
      * @param array $memberships
      *
-     * @return Collection
+     * @return Membership[]
      */
-    public function denormalizeMembershipCollection(array $memberships)
+    public function denormalizeMemberships(array $memberships)
     {
         if (!isset($memberships['items']) || !is_array($memberships['items']) || !isset($memberships['count'])) {
             throw new \InvalidArgumentException('Unable to denormalize memberships');
@@ -173,16 +173,28 @@ class Normalizer
     /**
      * @param array $memberships
      *
-     * @return Membership[]
+     * @return array
      */
-    public function denormalizeMemberships(array $memberships)
+    public function denormalizeGroupedMemberships(array $memberships)
     {
-        $result = [];
-        foreach ($memberships as $membership) {
-            $result[] = $this->denormalizeMembership($membership);
+        $results = [];
+
+        foreach ($memberships as $type => $roleMemberships) {
+            foreach ($roleMemberships as $role => $collection) {
+                if (!isset($collection['items']) || !is_array($collection['items']) || !isset($collection['count'])) {
+                    throw new \InvalidArgumentException('Unable to denormalize memberships');
+                }
+
+                $result = [];
+                foreach ($collection['items'] as $membership) {
+                    $result[] = $this->denormalizeMembership($membership);
+                }
+
+                $results[$type][$role] = new Collection($result, $collection['count']);
+            }
         }
 
-        return $result;
+        return $results;
     }
 
     /**

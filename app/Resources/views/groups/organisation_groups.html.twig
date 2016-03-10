@@ -13,7 +13,7 @@
 
     {% set ownerOtherGroups = myGroups.other.owner %}
 
-    {% if ownerOtherGroups %}
+    {% if ownerOtherGroups|length %}
         <section class="owned">
             <i class="fa fa-fw fa-angle-down"></i>
             <h3>{{ 'Owner'|trans }}</h3>
@@ -21,6 +21,7 @@
 
         <ul>
             {% for group in ownerOtherGroups %}
+                {% set group = group.group %}
                 <li class="group_section edit group-{{ group.id }}" data-url="{{ path('group_details', {'id': group.id}) }}">
                     <div>
                         <i class="fa fa-user green"></i>
@@ -39,7 +40,7 @@
 
     {% set adminOtherGroups = myGroups.other.admin %}
 
-    {% if adminOtherGroups %}
+    {% if adminOtherGroups|length %}
         <section class="owned">
             <i class="fa fa-fw fa-angle-down"></i>
             <h3>{{ 'Administrator'|trans }}</h3>
@@ -47,6 +48,7 @@
 
         <ul>
             {% for group in adminOtherGroups %}
+                {% set group = group.group %}
                 <li class="group_section edit group-{{ group.id }}" data-url="{{ path('group_details', {'id': group.id}) }}">
                     <div>
                         <i class="fa fa-user green"></i>
@@ -65,7 +67,7 @@
 
     {% set memberOtherGroups = myGroups.other.member %}
 
-    {% if memberOtherGroups %}
+    {% if memberOtherGroups|length %}
         <section class="owned">
             <i class="fa fa-fw fa-angle-down"></i>
             <h3>{{ 'Member'|trans }}</h3>
@@ -73,6 +75,7 @@
 
         <ul>
             {% for group in memberOtherGroups %}
+                {% set group = group.group %}
                 <li class="group_section edit group-{{ group.id }}" data-url="{{ path('group_details', {'id': group.id}) }}">
                     <div>
                         <i class="fa fa-user green"></i>

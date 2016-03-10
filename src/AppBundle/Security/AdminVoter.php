@@ -3,7 +3,7 @@
 namespace AppBundle\Security;
 
 use AppBundle\Manager\GroupManager;
-use AppBundle\Model\Group;
+use AppBundle\Model\Collection;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -45,28 +45,9 @@ class AdminVoter extends Voter
             return false;
         }
 
-        $groups = $this->groupManager->getMyGroups($user);
+        /** @var Collection $groups */
+        $groups = $this->groupManager->findAdminGroups($user->getId());
 
-        if (empty($groups['other'])) {
-            return false;
-        }
-
-        foreach ($groups['other'] as $otherGroups) {
-            /** @var Group[] $otherGroups */
-
-            // Admin if member of root admin group
-            if (array_key_exists(1, $otherGroups)) {
-                return true;
-            }
-
-            // Or if member of child of root admin group
-            foreach ($otherGroups as $group) {
-                if ($group->getParentId() === 1) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+        return (bool)$groups->getTotalCount();
     }
 }

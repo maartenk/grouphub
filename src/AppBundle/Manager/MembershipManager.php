@@ -27,13 +27,14 @@ class MembershipManager
 
     /**
      * @param int $userId
+     * @param int $offset
+     * @param int $limit
      *
      * @return Membership[]
-     * @todo: find a way to use offset/limit
      */
-    public function findUserMemberships($userId)
+    public function findUserMemberships($userId, $offset = 0, $limit = 100)
     {
-        return $this->client->findUserMemberships($userId);
+        return $this->client->findUserMemberships($userId, 'name', 0, '', $offset, $limit);
     }
 
     /**

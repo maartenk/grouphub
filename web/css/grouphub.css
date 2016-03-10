@@ -602,7 +602,10 @@ header.header li.language-selector {
 /* line 50, _header.scss */
 header.header li.language-selector a:last-child {
     z-index: 999;
-    position: absolute; }
+    position: absolute;
+    left: 0;
+    top: 33px;
+}
 
 /* line 1, _navigation.scss */
 nav {

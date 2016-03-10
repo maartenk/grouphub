@@ -68,7 +68,7 @@ class GroupManager
      * @param string $sortColumn
      * @param int    $sortDirection
      *
-     * @return Group[]
+     * @return Collection|Group[]
      */
     public function findGroups(
         $query = null,

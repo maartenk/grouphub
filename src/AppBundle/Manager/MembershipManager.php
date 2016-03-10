@@ -3,6 +3,7 @@
 namespace AppBundle\Manager;
 
 use AppBundle\Api\ApiClient;
+use AppBundle\Model\Group;
 use AppBundle\Model\Membership;
 use AppBundle\Model\User;
 use Traversable;
@@ -83,6 +84,29 @@ class MembershipManager
     public function findUserMembershipOfGroup($groupId, $userId)
     {
         return $this->client->findUserMembershipOfGroup($userId, $groupId);
+    }
+
+    /**
+     * @param int     $userId
+     * @param Group[] $groups
+     *
+     * @return Membership[]
+     */
+    public function findUserMembershipOfGroups($userId, array $groups)
+    {
+        $groupIds = [];
+        foreach ($groups as $group) {
+            $groupIds[] = $group->getId();
+        }
+
+        $memberships = $this->client->findUserMembershipOfGroups($userId, array_unique($groupIds));
+
+        $result = [];
+        foreach ($memberships as $membership) {
+            $result[$membership->getGroup()->getId()] = $membership;
+        }
+
+        return $result;
     }
 
     /**

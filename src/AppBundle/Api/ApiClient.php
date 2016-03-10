@@ -153,7 +153,7 @@ class ApiClient
      * @param int    $offset
      * @param int    $limit
      *
-     * @return Collection
+     * @return Collection|Membership[]
      */
     public function findUserMemberships($userId, $sortColumn = 'name', $sortDirection = 0, $type = '', $offset = 0, $limit = 100)
     {
@@ -227,7 +227,7 @@ class ApiClient
      *
      * @return Collection
      */
-    public function findGroupMembershipsForUsers($groupId, $userIds)
+    public function findGroupMembershipsForUsers($groupId, array $userIds)
     {
         $data = $this->guzzle->get('groups/' . $groupId . '/users', [
             'query' => [
@@ -258,6 +258,25 @@ class ApiClient
         }
 
         return $this->normalizer->denormalizeMembership($data);
+    }
+
+    /**
+     * @param int   $userId
+     * @param array $groupIds
+     *
+     * @return Collection
+     */
+    public function findUserMembershipOfGroups($userId, array $groupIds)
+    {
+        $data = $this->guzzle->get('users/' . $userId . '/groups', [
+            'query' => [
+                'groups' => $groupIds,
+            ],
+        ]);
+
+        $data = $this->decode($data->getBody());
+
+        return $this->normalizer->denormalizeMemberships($data);
     }
 
     /**

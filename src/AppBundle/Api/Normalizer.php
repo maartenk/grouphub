@@ -13,6 +13,7 @@ use DateTime;
  * Class Normalizer
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class Normalizer
 {

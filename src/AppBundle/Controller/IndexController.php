@@ -130,48 +130,44 @@ class IndexController extends Controller
      * @param int    $limit
      *
      * @return Collection
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     private function getMyGroups($type, $sortColumn, $sortDirection, $offset, $limit)
     {
         $groupManager = $this->get('app.group_manager');
 
-        if ($type === null) {
-            return $groupManager->getMyGroups($this->getUser()->getId(), null, null, $sortColumn, $sortDirection, 0, 4);
-        }
+        switch ($type) {
+            case null:
+                return $groupManager->getMyGroups($this->getUser()->getId(), null, null, $sortColumn, $sortDirection, 0, 4);
 
-        if ($type === 'my') {
-            return $groupManager->getMyGroups($this->getUser()->getId(), 'grouphub', null, $sortColumn, $sortDirection, 0, 4);
-        }
+            case 'my':
+                return $groupManager->getMyGroups($this->getUser()->getId(), 'grouphub', null, $sortColumn, $sortDirection, 0, 4);
 
-        if ($type === 'my-owner') {
-            return $groupManager->getMyGroups($this->getUser()->getId(), 'grouphub', 'owner', $sortColumn, $sortDirection, $offset, $limit);
-        }
+            case 'my-owner':
+                return $groupManager->getMyGroups($this->getUser()->getId(), 'grouphub', 'owner', $sortColumn, $sortDirection, $offset, $limit);
 
-        if ($type === 'my-admin') {
-            return $groupManager->getMyGroups($this->getUser()->getId(), 'grouphub', 'admin', $sortColumn, $sortDirection, $offset, $limit);
-        }
+            case 'my-admin':
+                return $groupManager->getMyGroups($this->getUser()->getId(), 'grouphub', 'admin', $sortColumn, $sortDirection, $offset, $limit);
 
-        if ($type === 'my-member') {
-            return $groupManager->getMyGroups($this->getUser()->getId(), 'grouphub', 'member', $sortColumn, $sortDirection, $offset, $limit);
-        }
+            case 'my-member':
+                return $groupManager->getMyGroups($this->getUser()->getId(), 'grouphub', 'member', $sortColumn, $sortDirection, $offset, $limit);
 
-        if ($type === 'org') {
-            return $groupManager->getMyGroups($this->getUser()->getId(), 'other', null, $sortColumn, $sortDirection, 0, 4);
-        }
+            case 'org':
+                return $groupManager->getMyGroups($this->getUser()->getId(), 'other', null, $sortColumn, $sortDirection, 0, 4);
 
-        if ($type === 'org-owner') {
-            return $groupManager->getMyGroups($this->getUser()->getId(), 'other', 'owner', $sortColumn, $sortDirection, $offset, $limit);
-        }
+            case 'org-owner':
+                return $groupManager->getMyGroups($this->getUser()->getId(), 'other', 'owner', $sortColumn, $sortDirection, $offset, $limit);
 
-        if ($type === 'org-admin') {
-            return $groupManager->getMyGroups($this->getUser()->getId(), 'other', 'admin', $sortColumn, $sortDirection, $offset, $limit);
-        }
+            case 'org-admin':
+                return $groupManager->getMyGroups($this->getUser()->getId(), 'other', 'admin', $sortColumn, $sortDirection, $offset, $limit);
 
-        if ($type === 'org-member') {
-            return $groupManager->getMyGroups($this->getUser()->getId(), 'other', 'member', $sortColumn, $sortDirection, $offset, $limit);
-        }
+            case 'org-member':
+                return $groupManager->getMyGroups($this->getUser()->getId(), 'other', 'member', $sortColumn, $sortDirection, $offset, $limit);
 
-        return new Collection();
+            default:
+                return new Collection();
+        }
     }
 
     /**

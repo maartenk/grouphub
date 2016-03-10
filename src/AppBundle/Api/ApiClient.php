@@ -173,6 +173,33 @@ class ApiClient
 
     /**
      * @param int    $userId
+     * @param string $role
+     * @param string $sortColumn
+     * @param int    $sortDirection
+     * @param string $type
+     * @param int    $offset
+     * @param int    $limit
+     *
+     * @return Collection|Membership[]
+     */
+    public function findUserMembershipsForRole($userId, $role, $sortColumn = 'name', $sortDirection = 0, $type = '', $offset = 0, $limit = 100)
+    {
+        $data = $this->guzzle->get('users/' . $userId . '/groups/' . $role, [
+            'query' => [
+                'offset' => $offset,
+                'limit'  => $limit,
+                'sort'   => ($sortDirection ? '-' : '') . $sortColumn,
+                'type'   => $type,
+            ]
+        ]);
+
+        $data = $this->decode($data->getBody());
+
+        return $this->normalizer->denormalizeMemberships($data);
+    }
+
+    /**
+     * @param int    $userId
      * @param string $sortColumn
      * @param int    $sortDirection 0 => asc, 1 => desc
      * @param string $type

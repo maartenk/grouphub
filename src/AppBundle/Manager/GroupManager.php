@@ -35,6 +35,7 @@ class GroupManager
     /**
      * @param int    $userId
      * @param string $type
+     * @param string $role
      * @param string $sortColumn
      * @param int    $sortDirection
      * @param int    $offset
@@ -43,7 +44,7 @@ class GroupManager
      * @return array
      * @todo: integrate better way of caching
      */
-    public function getMyGroups($userId, $type = null, $sortColumn = 'name', $sortDirection = 0, $offset = 0, $limit = 5)
+    public function getMyGroups($userId, $type = null, $role = null, $sortColumn = 'name', $sortDirection = 0, $offset = 0, $limit = 5)
     {
         static $cache;
 
@@ -53,7 +54,26 @@ class GroupManager
             return $cache[$key];
         }
 
-        $memberships = $this->client->findGroupedUserMemberships($userId, $sortColumn, $sortDirection, $type, $offset, $limit);
+        if ($role !== null) {
+            $memberships = $this->client->findUserMembershipsForRole(
+                $userId,
+                $role,
+                $sortColumn,
+                $sortDirection,
+                $type,
+                $offset,
+                $limit
+            );
+        } else {
+            $memberships = $this->client->findGroupedUserMemberships(
+                $userId,
+                $sortColumn,
+                $sortDirection,
+                $type,
+                $offset,
+                $limit
+            );
+        }
 
         $cache[$key] = $memberships;
 

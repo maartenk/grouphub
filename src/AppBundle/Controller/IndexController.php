@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Form\GroupType;
+use AppBundle\Model\Collection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -89,29 +90,88 @@ class IndexController extends Controller
             $sortColumn = substr($sort, 1);
         }
 
+        $myGroups = $this->getMyGroups($type, $sortColumn, $sortDirection, $offset, $limit);
+
         $groupManager = $this->get('app.group_manager');
 
-        $myGroups = $groupManager->getMyGroups($this->getUser()->getId(), $sortColumn, $sortDirection, 0, 5);
-        $groups = $groupManager->findGroups($searchQuery, null, $offset, $limit, $sortColumn, $sortDirection);
-
-        $allGroups = $groups;
-        if (!empty($searchQuery) && $type === null) {
+        $allGroups = new Collection();
+        if ($type === null || $type === 'all' || $type === 'all-groups') {
             $allGroups = $groupManager->findGroups(null, null, $offset, $limit, $sortColumn, $sortDirection);
         }
 
-        // @todo: find memberships of (all) groups to set button status
-        // @todo: add pagination support to 'myGroups'
-        // @todo: prevent excessive group querying
+        $searchGroups = new Collection();
+        if (!empty($searchQuery) && ($type === null || $type === 'search' || $type === 'results')) {
+            $searchGroups = $groupManager->findGroups($searchQuery, null, $offset, $limit, $sortColumn, $sortDirection);
+        }
+
+        $memberships = $this->get('app.membership_manager')->findUserMembershipOfGroups(
+            $this->getUser()->getId(),
+            array_merge($allGroups->toArray(), $searchGroups->toArray())
+        );
 
         return [
-            'myGroups'  => $myGroups,
-            'allGroups' => $allGroups,
-            'groups'    => $groups,
-            'sort'      => $sort,
-            'offset'    => $offset,
-            'limit'     => $limit,
-            'query'     => $searchQuery,
+            'myGroups'    => $myGroups,
+            'allGroups'   => $allGroups,
+            'groups'      => $searchGroups,
+            'memberships' => $memberships,
+            'sort'        => $sort,
+            'offset'      => $offset,
+            'limit'       => $limit,
+            'query'       => $searchQuery,
+            'type'        => $type
         ];
+    }
+
+    /**
+     * @param string $type
+     * @param string $sortColumn
+     * @param string $sortDirection
+     * @param int    $offset
+     * @param int    $limit
+     *
+     * @return Collection
+     */
+    private function getMyGroups($type, $sortColumn, $sortDirection, $offset, $limit)
+    {
+        $groupManager = $this->get('app.group_manager');
+
+        if ($type === null) {
+            return $groupManager->getMyGroups($this->getUser()->getId(), null, null, $sortColumn, $sortDirection, 0, 4);
+        }
+
+        if ($type === 'my') {
+            return $groupManager->getMyGroups($this->getUser()->getId(), 'grouphub', null, $sortColumn, $sortDirection, 0, 4);
+        }
+
+        if ($type === 'my-owner') {
+            return $groupManager->getMyGroups($this->getUser()->getId(), 'grouphub', 'owner', $sortColumn, $sortDirection, $offset, $limit);
+        }
+
+        if ($type === 'my-admin') {
+            return $groupManager->getMyGroups($this->getUser()->getId(), 'grouphub', 'admin', $sortColumn, $sortDirection, $offset, $limit);
+        }
+
+        if ($type === 'my-member') {
+            return $groupManager->getMyGroups($this->getUser()->getId(), 'grouphub', 'member', $sortColumn, $sortDirection, $offset, $limit);
+        }
+
+        if ($type === 'org') {
+            return $groupManager->getMyGroups($this->getUser()->getId(), 'other', null, $sortColumn, $sortDirection, 0, 4);
+        }
+
+        if ($type === 'org-owner') {
+            return $groupManager->getMyGroups($this->getUser()->getId(), 'other', 'owner', $sortColumn, $sortDirection, $offset, $limit);
+        }
+
+        if ($type === 'org-admin') {
+            return $groupManager->getMyGroups($this->getUser()->getId(), 'other', 'admin', $sortColumn, $sortDirection, $offset, $limit);
+        }
+
+        if ($type === 'org-member') {
+            return $groupManager->getMyGroups($this->getUser()->getId(), 'other', 'member', $sortColumn, $sortDirection, $offset, $limit);
+        }
+
+        return new Collection();
     }
 
     /**
@@ -127,7 +187,13 @@ class IndexController extends Controller
 
         $mapping = [
             'my'         => ':groups:my_groups.html.twig',
+            'my-owner'   => ':groups:my_groups-groups.html.twig',
+            'my-admin'   => ':groups:my_groups-groups.html.twig',
+            'my-member'  => ':groups:my_groups-groups.html.twig',
             'org'        => ':groups:organisation_groups.html.twig',
+            'org-owner'  => ':groups:organisation_groups-groups.html.twig',
+            'org-admin'  => ':groups:organisation_groups-groups.html.twig',
+            'org-member' => ':groups:organisation_groups-groups.html.twig',
             'all'        => ':groups:all_groups.html.twig',
             'all-groups' => ':groups:all_groups-groups.html.twig',
             'search'     => ':groups:search.html.twig',

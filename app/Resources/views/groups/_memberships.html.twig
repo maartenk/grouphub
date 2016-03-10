@@ -1,0 +1,39 @@
+{% for membership in memberships %}
+
+    {% set group = membership.group %}
+
+    <li class="group_section edit group-{{ group.id }}" data-url="{{ path('group_details', {'id': group.id}) }}">
+        <div>
+            <i class="fa fa-user {{ color }}"></i>
+            <span class="count">{{ group.userCount }}</span>
+        </div>
+
+        <div>
+            <p class="name">{{ group.name }}</p>
+            <p class="description">{{ group.description }}&nbsp;</p>
+            <p>
+                {{ group.timeStamp|localizeddate('medium', 'none') }}
+                {% if type != 'my-owner' and type != 'org-owner' and group.ownerId > 2 %}
+                    - {{ group.owner.name }}
+                {% endif %}
+            </p>
+        </div>
+
+        <div>
+            {% if type == 'my-member' %}
+                <a class="button_member {{ color }}" href="#" data-hover="{{ 'LEAVE'|trans }}"
+                   data-url="{{ path('my_membership_delete', {'groupId': group.id}) }}">
+                    <span>{{ 'LEAVE'|trans }}</span>
+                </a>
+            {% endif %}
+        </div>
+    </li>
+{% endfor %}
+
+{% if memberships.totalCount > offset + limit %}
+    <li class="spinner">
+        <a href="{{ path('groups', {'type': type, 'sort': sort, 'offset': offset + limit, 'limit': limit}) }}">
+            {{ 'more'|trans }}
+        </a>
+    </li>
+{% endif %}

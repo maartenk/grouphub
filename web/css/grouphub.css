@@ -1425,6 +1425,11 @@ li.spinner {
     padding-bottom: 10px;
 }
 
+li.spinner a {
+    color: #8a8a8a;
+    font-size: 13px;
+}
+
 .prospect {
     margin-right: 10px;
     float: right;

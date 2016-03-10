@@ -11,93 +11,36 @@
         </div>
     </section>
 
-    {% set ownerGrouphubGroups = myGroups.grouphub.owner %}
-
-    {% if ownerGrouphubGroups|length %}
+    {% if myGroups.grouphub.owner|length %}
         <section class="owned">
             <i class="fa fa-fw fa-angle-down"></i>
             <h3>{{ 'Owner'|trans }}</h3>
         </section>
 
         <ul>
-            {% for group in ownerGrouphubGroups %}
-                {% set group = group.group %}
-                <li class="group_section edit group-{{ group.id }}" data-url="{{ path('group_details', {'id': group.id}) }}">
-                    <div>
-                        <i class="fa fa-user blue"></i>
-                        <span class="count">{{ group.userCount }}</span>
-                    </div>
-                    <div>
-                        <p class="name">{{ group.name }}</p>
-                        <p class="description">{{ group.description }}&nbsp;</p>
-                        <p>{{ group.timeStamp|localizeddate('medium', 'none') }}</p>
-                    </div>
-                    <div></div>
-                </li>
-            {% endfor %}
+            {% include ':groups:my_groups-groups.html.twig' with {'type': 'my-owner', 'limit': 4, 'myGroups': myGroups.grouphub.owner} %}
         </ul>
     {% endif %}
 
-    {% set adminGrouphubGroups = myGroups.grouphub.admin %}
-
-    {% if adminGrouphubGroups|length %}
+    {% if myGroups.grouphub.admin|length %}
         <section class="owned">
             <i class="fa fa-fw fa-angle-down"></i>
             <h3>{{ 'Administrator'|trans }}</h3>
         </section>
 
         <ul>
-            {% for group in adminGrouphubGroups %}
-                {% set group = group.group %}
-                <li class="group_section edit group-{{ group.id }}" data-url="{{ path('group_details', {'id': group.id}) }}">
-                    <div>
-                        <i class="fa fa-user blue"></i>
-                        <span class="count">{{ group.userCount }}</span>
-                    </div>
-                    <div>
-                        <p class="name">{{ group.name }}</p>
-                        <p class="description">{{ group.description }}&nbsp;</p>
-                        <p>{{ group.timeStamp|localizeddate('medium', 'none') }}</p>
-                    </div>
-                    <div></div>
-                </li>
-            {% endfor %}
+            {% include ':groups:my_groups-groups.html.twig' with {'type': 'my-admin', 'limit': 4, 'myGroups': myGroups.grouphub.admin} %}
         </ul>
     {% endif %}
 
-    {% set memberGrouphubGroups = myGroups.grouphub.member %}
-
-    {% if memberGrouphubGroups|length %}
+    {% if myGroups.grouphub.member|length %}
         <section class="owned">
             <i class="fa fa-fw fa-angle-down"></i>
             <h3>{{ 'Member'|trans }}</h3>
         </section>
 
         <ul>
-            {% for group in memberGrouphubGroups %}
-                {% set group = group.group %}
-                <li class="group_section edit group-{{ group.id }}" data-url="{{ path('group_details', {'id': group.id}) }}">
-                    <div>
-                        <i class="fa fa-user blue"></i>
-                        <span class="count">{{ group.userCount }}</span>
-                    </div>
-                    <div>
-                        <p class="name">{{ group.name }}</p>
-                        <p class="description">{{ group.description }}&nbsp;</p>
-                        <p>{{ group.timeStamp|localizeddate('medium', 'none') }}
-                            {% if group.ownerId > 2 %}
-                                - {{ group.owner.name }}
-                            {% endif %}
-                        </p>
-                    </div>
-                    <div>
-                        <a class="button_member blue" href="#" data-hover="{{ 'LEAVE'|trans }}"
-                           data-url="{{ path('my_membership_delete', {'groupId': group.id}) }}">
-                            <span>{{ 'LEAVE'|trans }}</span>
-                        </a>
-                    </div>
-                </li>
-            {% endfor %}
+            {% include ':groups:my_groups-groups.html.twig' with {'type': 'my-member', 'limit': 4, 'myGroups': myGroups.grouphub.member} %}
         </ul>
     {% endif %}
 

@@ -11,88 +11,36 @@
         </div>
     </section>
 
-    {% set ownerOtherGroups = myGroups.other.owner %}
-
-    {% if ownerOtherGroups|length %}
+    {% if myGroups.other.owner|length %}
         <section class="owned">
             <i class="fa fa-fw fa-angle-down"></i>
             <h3>{{ 'Owner'|trans }}</h3>
         </section>
 
         <ul>
-            {% for group in ownerOtherGroups %}
-                {% set group = group.group %}
-                <li class="group_section edit group-{{ group.id }}" data-url="{{ path('group_details', {'id': group.id}) }}">
-                    <div>
-                        <i class="fa fa-user green"></i>
-                        <span class="count">{{ group.userCount }}</span>
-                    </div>
-                    <div>
-                        <p class="name">{{ group.name }}</p>
-                        <p class="description">{{ group.description }}&nbsp;</p>
-                        <p>{{ group.timeStamp|localizeddate('medium', 'none') }}</p>
-                    </div>
-                    <div></div>
-                </li>
-            {% endfor %}
+            {% include ':groups:organisation_groups-groups.html.twig' with {'type': 'org-owner', 'limit': 4, 'myGroups': myGroups.other.owner} %}
         </ul>
     {% endif %}
 
-    {% set adminOtherGroups = myGroups.other.admin %}
-
-    {% if adminOtherGroups|length %}
+    {% if myGroups.other.admin|length %}
         <section class="owned">
             <i class="fa fa-fw fa-angle-down"></i>
             <h3>{{ 'Administrator'|trans }}</h3>
         </section>
 
         <ul>
-            {% for group in adminOtherGroups %}
-                {% set group = group.group %}
-                <li class="group_section edit group-{{ group.id }}" data-url="{{ path('group_details', {'id': group.id}) }}">
-                    <div>
-                        <i class="fa fa-user green"></i>
-                        <span class="count">{{ group.userCount }}</span>
-                    </div>
-                    <div>
-                        <p class="name">{{ group.name }}</p>
-                        <p class="description">{{ group.description }}&nbsp;</p>
-                        <p>{{ group.timeStamp|localizeddate('medium', 'none') }}</p>
-                    </div>
-                    <div></div>
-                </li>
-            {% endfor %}
+            {% include ':groups:organisation_groups-groups.html.twig' with {'type': 'org-admin', 'limit': 4, 'myGroups': myGroups.other.admin} %}
         </ul>
     {% endif %}
 
-    {% set memberOtherGroups = myGroups.other.member %}
-
-    {% if memberOtherGroups|length %}
+    {% if myGroups.other.member|length %}
         <section class="owned">
             <i class="fa fa-fw fa-angle-down"></i>
             <h3>{{ 'Member'|trans }}</h3>
         </section>
 
         <ul>
-            {% for group in memberOtherGroups %}
-                {% set group = group.group %}
-                <li class="group_section edit group-{{ group.id }}" data-url="{{ path('group_details', {'id': group.id}) }}">
-                    <div>
-                        <i class="fa fa-user green"></i>
-                        <span class="count">{{ group.userCount }}</span>
-                    </div>
-                    <div>
-                        <p class="name">{{ group.name }}</p>
-                        <p class="description">{{ group.description }}&nbsp;</p>
-                        <p>{{ group.timeStamp|localizeddate('medium', 'none') }}
-                            {% if group.ownerId > 2 %}
-                                - {{ group.owner.name }}
-                            {% endif %}
-                        </p>
-                    </div>
-                    <div></div>
-                </li>
-            {% endfor %}
+            {% include ':groups:organisation_groups-groups.html.twig' with {'type': 'org-member', 'limit': 4, 'myGroups': myGroups.other.member} %}
         </ul>
     {% endif %}
 

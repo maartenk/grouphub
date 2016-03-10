@@ -139,6 +139,19 @@ var grouphub = (function ($) {
             return false;
         });
 
+        $groupContainer.on('click', '.spinner a', function () {
+            var $this = $(this),
+                $container = $this.closest('.spinner');
+
+            $container.html('<i class="fa fa-spinner fa-spin">');
+
+            $.get($this.attr('href'), function (data) {
+                $container.replaceWith(data);
+            });
+
+            return false;
+        });
+
         $groupContainer.on('click', '.group .owned i', function () {
             $(this).toggleClass('fa-angle-down').toggleClass('fa-angle-right');
             $(this).closest('.owned').next('ul').toggleClass('hidden');

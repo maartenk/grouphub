@@ -492,13 +492,19 @@ body {
     .modal, .notifications_container div.notifications, .new_group_container .new_group_modal, .join_group_container .join_group_modal, .edit_group_container div.edit_group {
         top: 10%;
         width: 600px;
-        max-height: 80%; } }
+        max-height: 80%;
+        min-height: 50%;
+    }
+}
 @media screen and (min-width: 1200px) {
     /* line 16, _modals.scss */
     .modal, .notifications_container div.notifications, .new_group_container .new_group_modal, .join_group_container .join_group_modal, .edit_group_container div.edit_group {
         top: 10%;
         width: 800px;
-        max-height: 80%; } }
+        max-height: 80%;
+        min-height: 50%;
+    }
+}
 /* line 37, _modals.scss */
 .modal .modal_header, .notifications_container div.notifications .modal_header, .new_group_container .new_group_modal .modal_header, .join_group_container .join_group_modal .modal_header, .edit_group_container div.edit_group .modal_header, .notifications_container div.notifications header, .new_group_container .new_group_modal header, .join_group_container .join_group_modal header, .edit_group_container div.edit_group header {
     position: relative;

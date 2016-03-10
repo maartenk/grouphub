@@ -77,15 +77,15 @@
                 ["all_groups", "organisation_groups", "my_groups", "search"].forEach(function (t) {
                     //var n = document.getElementById("group_" + t);
                     //n.style.height = window.innerHeight - 200 + "px";
-                    var o = document.querySelector("#close_" + t);
-                    o.addEventListener("click", function (n) {
-                        e.toggleHidden(n, "#group_" + t, !0);
-                        var o = document.querySelector("#select_" + t);
-                        if (o)o.checked = !1; else {
-                            var r = document.querySelector("#searchInput");
-                            r.value = ""
-                        }
-                    });
+                    //var o = document.querySelector("#close_" + t);
+                    //o.addEventListener("click", function (n) {
+                    //    e.toggleHidden(n, "#group_" + t, !0);
+                    //    var o = document.querySelector("#select_" + t);
+                    //    if (o)o.checked = !1; else {
+                    //        var r = document.querySelector("#searchInput");
+                    //        r.value = ""
+                    //    }
+                    //});
                     var r = document.querySelector("#select_" + t);
                     r && r.addEventListener("change", function (n) {
                         return e.toggleHidden(n, "#group_" + t, !n.target.checked)

@@ -139,6 +139,21 @@ var grouphub = (function ($) {
             return false;
         });
 
+        $groupContainer.on('click', '.sort .close', function () {
+            var $this = $(this),
+                $container = $this.closest('.group');
+
+            $container.addClass('hidden');
+
+            if ($container.is('#group_search')) {
+                $('#searchInput').val('');
+            } else {
+                $('input.' + $container.attr('id')).removeAttr('checked');
+            }
+
+            return false;
+        });
+
         $groupContainer.on('click', '.spinner a', function () {
             var $this = $(this),
                 $container = $this.closest('.spinner');

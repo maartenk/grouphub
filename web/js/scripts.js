@@ -159,7 +159,7 @@ var grouphub = (function ($) {
 
             $.get($container.data('url'), {query: query, sort: $sort.val()}, function (data) {
                 $container.replaceWith(data);
-                initScroll('#group_all_groups, #group_search');
+                initScroll('#' + $container.attr('id'));
             });
         });
 

@@ -8,7 +8,7 @@
 
         <div>
             <h3>{{ attribute(_context, 'all_groups_column_title_' ~ app.request.locale)|upper }}</h3>
-            <p>{{ 'There is a total of %count% groups'|trans({'%count%': groups.totalCount}) }}</p>
+            <p>{{ 'There is a total of %count% groups'|trans({'%count%': allGroups.totalCount}) }}</p>
         </div>
     </section>
 

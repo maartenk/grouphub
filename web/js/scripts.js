@@ -349,8 +349,11 @@ var grouphub = (function ($) {
         });
 
         $editGroup.on('click', '#edit_group_link', function () {
+            var $this = $(this);
+
+            $this.closest('li').toggleClass('edit');
             $('#group_details').addClass('hidden');
-            $('#group_title, #group_name, #edit_group_details').toggleClass('hidden');
+            $this.closest('.edit_group').find('#group_title, #group_name, #show_group_details, #edit_group_details').toggleClass('hidden');
 
             return false;
         });

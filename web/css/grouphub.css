@@ -1199,7 +1199,7 @@ footer a {
 .edit_group_container ul.icons li:hover {
     background-color: #497287; }
 /* line 105, _edit_group.scss */
-.edit_group_container ul.icons li:first-child:hover {
+.edit_group_container ul.icons li:first-child:hover, .edit_group_container ul.icons li.edit {
     background-color: #548c5b; }
 /* line 109, _edit_group.scss */
 .edit_group_container ul.icons li:last-child {

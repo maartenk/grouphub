@@ -143,7 +143,7 @@ class ApiClient
 
         $data = $this->decode($data->getBody());
 
-        return new SynchronizableSequence($this->normalizer->denormalizeGroupUsers($data));
+        return $this->normalizer->denormalizeGroupUsers($data);
     }
 
     /**

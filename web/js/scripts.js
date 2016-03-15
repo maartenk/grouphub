@@ -238,7 +238,7 @@ var grouphub = (function ($) {
             var $form = $('<form>', {
                 action: $(this).data('url'),
                 method: 'post'
-            });
+            }).appendTo('body');
 
             $form.submit();
 
@@ -368,11 +368,17 @@ var grouphub = (function ($) {
                     title = $form.find('input').val(),
                     descr = $form.find('textarea').val();
 
+                descr = descr.length === 0 ? '&nbsp;' : descr;
+
                 $('#group_title').html(title);
                 $('#group_details').html(descr);
 
                 $group.find('.name').html(title);
                 $group.find('.description').html(descr);
+
+                if ($this.is('select')) {
+                    updateGroups();
+                }
             });
         });
 

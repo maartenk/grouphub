@@ -48,6 +48,11 @@ class GrouphubClient
     private $adhocDn;
 
     /**
+     * @var string
+     */
+    private $adminGroupsDn;
+
+    /**
      * @param LdapClient $ldap
      * @param Normalizer $normalizer
      * @param string     $usersDn
@@ -55,8 +60,9 @@ class GrouphubClient
      * @param string     $grouphubDn
      * @param string     $formalDn
      * @param string     $adhocDn
+     * @param string     $adminGroupsDn
      */
-    public function __construct(LdapClient $ldap, $normalizer, $usersDn, $groupsDn, $grouphubDn, $formalDn, $adhocDn)
+    public function __construct(LdapClient $ldap, $normalizer, $usersDn, $groupsDn, $grouphubDn, $formalDn, $adhocDn, $adminGroupsDn = '')
     {
         $this->ldap = $ldap;
         $this->normalizer = $normalizer;
@@ -66,6 +72,7 @@ class GrouphubClient
         $this->grouphubDn = $grouphubDn;
         $this->formalDn = $formalDn;
         $this->adhocDn = $adhocDn;
+        $this->adminGroupsDn = $adminGroupsDn;
     }
 
     /**
@@ -136,6 +143,18 @@ class GrouphubClient
     }
 
     /**
+     * @param Group $group
+     * @param int   $offset
+     * @param int   $limit
+     *
+     * @return SynchronizableSequence
+     */
+    public function findGroupAdmins(Group $group, $offset, $limit)
+    {
+        return $this->findGroupUsers($this->getAdminGroupReference($group), $offset, $limit);
+    }
+
+    /**
      * @param int $offset
      * @param int $limit
      *
@@ -186,6 +205,10 @@ class GrouphubClient
 
         $this->ldap->add($group->getReference(), $data);
 
+        if ($this->adminGroupsDn) {
+            $this->ldap->add($this->getAdminGroupReference($group), $data);
+        }
+
         return $group;
     }
 
@@ -199,11 +222,15 @@ class GrouphubClient
     }
 
     /**
-     * @param string $groupReference
+     * @param Group $group
      */
-    public function removeGroup($groupReference)
+    public function removeGroup(Group $group)
     {
-        $this->ldap->delete($groupReference);
+        $this->ldap->delete($group->getReference());
+
+        if ($this->adminGroupsDn) {
+            $this->ldap->delete($this->getAdminGroupReference($group));
+        }
     }
 
     /**
@@ -216,11 +243,45 @@ class GrouphubClient
     }
 
     /**
+     * @param Group  $group
+     * @param string $userReference
+     */
+    public function addGroupAdmin(Group $group, $userReference)
+    {
+        if ($this->adminGroupsDn) {
+            $this->addGroupUser($this->getAdminGroupReference($group), $userReference);
+        }
+    }
+
+    /**
      * @param string $groupReference
      * @param string $userReference
      */
     public function removeGroupUser($groupReference, $userReference)
     {
         $this->ldap->deleteAttribute($groupReference, ['member' => $userReference]);
+    }
+
+    /**
+     * @param Group  $group
+     * @param string $userReference
+     */
+    public function removeGroupAdmin(Group $group, $userReference)
+    {
+        if ($this->adminGroupsDn) {
+            $this->removeGroupUser($this->getAdminGroupReference($group), $userReference);
+        }
+    }
+
+    /**
+     * @param Group $group
+     *
+     * @return string
+     */
+    public function getAdminGroupReference(Group $group)
+    {
+        $cn = $group->getName() . ':' . $group->getId();
+
+        return 'cn=' . $cn . ':admins,' . $this->adminGroupsDn;
     }
 }

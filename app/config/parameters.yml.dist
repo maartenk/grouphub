@@ -24,6 +24,7 @@ parameters:
     grouphub_dn: 'ou=Grouphub,dc=surfuni,dc=org'
     formal_dn: 'ou=SemiFormal,ou=Grouphub,dc=surfuni,dc=org'
     adhoc_dn: 'ou=AdHoc,ou=Grouphub,dc=surfuni,dc=org'
+    admin_groups_dn: ~
 
     password_voot: ~
 

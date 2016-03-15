@@ -13,7 +13,7 @@ services:
 
     app.grouphub_ldap_client:
         class: AppBundle\Ldap\GrouphubClient
-        arguments: ["@app.ldap_client", "@app.ldap_normalizer", "%users_dn%", "%groups_dn%", "%grouphub_dn%", "%formal_dn%", "%adhoc_dn%"]
+        arguments: ["@app.ldap_client", "@app.ldap_normalizer", "%users_dn%", "%groups_dn%", "%grouphub_dn%", "%formal_dn%", "%adhoc_dn%", "%admin_groups_dn%"]
         private: true
 
     app.api_normalizer:

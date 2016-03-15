@@ -5,6 +5,7 @@ namespace AppBundle\Service;
 use AppBundle\Api\ApiClient;
 use AppBundle\Ldap\GrouphubClient;
 use AppBundle\Model\Group;
+use AppBundle\Model\Membership;
 use AppBundle\Model\User;
 use Monolog\Logger;
 
@@ -187,6 +188,7 @@ class SyncService
             $this->api->updateGroupReference($element->getId(), $element->getReference());
 
             $this->syncGrouphubGroupUsers($element);
+            $this->syncGrouphubGroupAdmins($element);
         }
 
         $this->logger->info(
@@ -197,17 +199,19 @@ class SyncService
             $this->ldap->updateGroup($element['old']->getReference(), $element['new']);
 
             $this->syncGrouphubGroupUsers($element['new']);
+            $this->syncGrouphubGroupAdmins($element['new']);
         }
 
         $this->logger->info(' - Going to remove ' . count($ldapGroups->getRemovedElements()) . ' Grouphub groups from LDAP...');
         foreach ($ldapGroups->getRemovedElements() as $element) {
             /** @var Group $element */
-            $this->ldap->removeGroup($element->getReference());
+            $this->ldap->removeGroup($element);
         }
 
         foreach ($ldapGroups->getEqualElementIndexes() as $index) {
             /** @var Group $element */
             $this->syncGrouphubGroupUsers($grouphubGroups[$index]);
+            $this->syncGrouphubGroupAdmins($grouphubGroups[$index]);
         }
 
         $this->syncGrouphubGroups($offset + $index + 1);
@@ -246,5 +250,40 @@ class SyncService
         }
 
         $this->syncGrouphubGroupUsers($group, $offset + $index + 1);
+    }
+
+    /**
+     * @param Group $group
+     * @param int   $offset
+     */
+    private function syncGrouphubGroupAdmins(Group $group, $offset = 0)
+    {
+        $this->logger->info(
+            'Processing admins for GrouphubGroup `' . $group->getName() . '` ' . $offset . ' to ' . self::BATCH_SIZE . '...'
+        );
+
+        $grouphubAdmins = $this->api->findGroupUsers($group, $offset, self::BATCH_SIZE, Membership::ROLE_ADMIN);
+        $ldapAdmins = $this->ldap->findGroupAdmins($group, $offset, self::BATCH_SIZE);
+
+        if (count($grouphubAdmins) === 0 && count($ldapAdmins) === 0) {
+            $this->logger->info('Done syncing GroupHubGroup admins!');
+            return;
+        }
+
+        $index = $ldapAdmins->synchronize($grouphubAdmins, true);
+
+        $this->logger->info(' - Going to add ' . count($ldapAdmins->getAddedElements()) . ' admins for GrouphubGroup to LDAP...');
+        foreach ($ldapAdmins->getAddedElements() as $element) {
+            /** @var User $element */
+            $this->ldap->addGroupAdmin($group, $element->getReference());
+        }
+
+        $this->logger->info(' - Going to remove ' . count($ldapAdmins->getRemovedElements()) . ' admins for GrouphubGroup from LDAP...');
+        foreach ($ldapAdmins->getRemovedElements() as $element) {
+            /** @var User $element */
+            $this->ldap->removeGroupAdmin($group, $element->getReference());
+        }
+
+        $this->syncGrouphubGroupAdmins($group, $offset + $index + 1);
     }
 }

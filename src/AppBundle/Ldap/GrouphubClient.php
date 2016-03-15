@@ -9,6 +9,8 @@ use InvalidArgumentException;
 
 /**
  * Class GrouphubClient
+ *
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class GrouphubClient
 {

@@ -130,7 +130,7 @@ class GroupManager
 
         $result = [];
         foreach ($memberships as $membership) {
-            $result[] = $membership->getGroup();
+            $result[$membership->getGroup()->getId()] = $membership->getGroup();
         }
 
         $memberships = new Collection($result, $memberships->getTotalCount());

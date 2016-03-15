@@ -42,7 +42,7 @@ class SyncService
     /**
      * @param int $offset
      */
-    private function syncUsers($offset = 0)
+    public function syncUsers($offset = 0)
     {
         $this->logger->info('Processing users ' . $offset . ' to ' . self::BATCH_SIZE . '...');
 
@@ -80,7 +80,7 @@ class SyncService
     /**
      * @param int $offset
      */
-    private function syncGroups($offset = 0)
+    public function syncGroups($offset = 0)
     {
         $this->logger->info('Processing groups ' . $offset . ' to ' . self::BATCH_SIZE . '...');
 
@@ -164,7 +164,7 @@ class SyncService
     /**
      * @param int $offset
      */
-    private function syncGrouphubGroups($offset = 0)
+    public function syncGrouphubGroups($offset = 0)
     {
         $this->logger->info('Processing Grouphub groups ' . $offset . ' to ' . self::BATCH_SIZE . '...');
 

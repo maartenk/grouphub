@@ -4,14 +4,13 @@ namespace AppBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\LockHandler;
 
 /**
  * Class SyncCommand
- *
- * @todo: split into several separate commands
  */
 class SyncCommand extends ContainerAwareCommand
 {
@@ -22,6 +21,7 @@ class SyncCommand extends ContainerAwareCommand
     {
         $this
             ->setName('grouphub:sync')
+            ->addOption('type', null, InputOption::VALUE_REQUIRED, 'either users, groups or grouphub')
             ->setDescription('Sync users/groups');
     }
 
@@ -39,7 +39,23 @@ class SyncCommand extends ContainerAwareCommand
         }
 
         $service = $this->getContainer()->get('app.sync');
-        $service->sync();
+
+        switch ($input->getOption('type')) {
+            case 'users':
+                $service->syncUsers();
+                break;
+
+            case 'groups':
+                $service->syncGroups();
+                break;
+
+            case 'grouphub':
+                $service->syncGrouphubGroups();
+                break;
+
+            default:
+                $service->sync();
+        }
 
         $io->success('Done!');
     }

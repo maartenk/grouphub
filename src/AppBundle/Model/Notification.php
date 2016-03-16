@@ -8,6 +8,8 @@ namespace AppBundle\Model;
 class Notification
 {
     const TYPE_PROSPECT = 'prospect';
+    const TYPE_CONFIRMED = 'confirmed';
+    const TYPE_DENIED = 'denied';
 
     /**
      * @var int

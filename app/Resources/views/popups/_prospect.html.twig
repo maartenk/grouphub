@@ -3,9 +3,9 @@
 <div class="prospect">
     <div>{{ 'Prospect'|trans }}</div>
     <div class="details hidden">
-        {% if attribute(notifications, user.id) is defined %}
+        {% if attribute(notifications, user.id) is defined and attribute(notifications, user.id).type == 'prospect' %}
             {% set notification = attribute(notifications, user.id) %}
-            <article class="notification" data-id="{{ notification.id }}" data-url="{{ path('notification_process', {'id': notification.id}) }}">
+            <article class="notification" data-id="{{ notification.id }}">
                 <table>
                     <tr>
                         <td>{{ 'Datum'|trans }}</td>
@@ -19,11 +19,11 @@
             </article>
         {% endif %}
         <a href="#" class="button_blue confirm"
-           data-url="{{ path('membership_confirm', {'groupId': group.id, 'userId': user.id}) }}">
+           data-url="{{ path('notification_confirm', {'id': notification.id}) }}">
             {{ 'Accepteer'|trans }}
         </a>
         <a href="#" class="button_grey cancel"
-           data-url="{{ path('membership_delete', {'groupId': group.id, 'userId': user.id}) }}">
+           data-url="{{ path('notification_deny', {'id': notification.id}) }}">
             {{ 'Afwijzen'|trans }}
         </a>
     </div>

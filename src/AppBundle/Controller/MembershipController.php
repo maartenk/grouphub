@@ -40,30 +40,6 @@ class MembershipController extends Controller
     }
 
     /**
-     * @Route("/group/{groupId}/user/{userId}/confirm", name="membership_confirm")
-     * @Method("POST")
-     *
-     * @param int $groupId
-     * @param int $userId
-     *
-     * @return Response
-     */
-    public function confirmMembershipAction($groupId, $userId)
-    {
-        $group = $this->get('app.group_manager')->getGroup($groupId);
-
-        if (empty($group)) {
-            throw $this->createNotFoundException();
-        }
-
-        $this->denyAccessUnlessGranted('EDIT', $group);
-
-        $this->get('app.membership_manager')->updateMembership($groupId, $userId, Membership::ROLE_MEMBER);
-
-        return new Response();
-    }
-
-    /**
      * @Route("/group/{groupId}/user/{userId}/update", name="membership_update")
      * @Method("POST")
      *

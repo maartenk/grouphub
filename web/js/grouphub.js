@@ -101,7 +101,7 @@
                 var e = this, t = function (t, n) {
                     e.toggleHidden(t, n), document.querySelector("body").classList.toggle("modal-open")
                 };
-                ["notifications", "new_group"].forEach(function (e) {
+                ["new_group"].forEach(function (e) {
                     document.querySelector("#" + e + "_link").addEventListener("click", function (n) {
                         return t(n, "#" + e)
                     }), document.querySelector("#" + e + "_close").addEventListener("click", function (n) {

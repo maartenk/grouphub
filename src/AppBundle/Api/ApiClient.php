@@ -514,7 +514,7 @@ class ApiClient
     {
         $data = $this->encode(['type' => 'confirm']);
 
-        $this->guzzle->post('users/' . $userId . '/notifications/' . $notificationId . '/response', ['body' => $data]);
+        $this->guzzle->post('users/' . $userId . '/notifications/' . $notificationId . '/responses', ['body' => $data]);
     }
 
     /**
@@ -525,7 +525,7 @@ class ApiClient
     {
         $data = $this->encode(['type' => 'deny']);
 
-        $this->guzzle->post('users/' . $userId . '/notifications/' . $notificationId . '/response', ['body' => $data]);
+        $this->guzzle->post('users/' . $userId . '/notifications/' . $notificationId . '/responses', ['body' => $data]);
     }
 
     /**

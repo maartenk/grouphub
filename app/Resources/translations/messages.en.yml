@@ -67,6 +67,9 @@ Accepteer: 'Accept'
 Afwijzen: 'Decline'
 OK: 'OK'
 
+notification_confirmed: 'You have been added'
+notification_denied: 'You have been denied'
+
 logout_info: 'To log out, simply close your browser'
 
 more: 'more...'

@@ -28,7 +28,7 @@
                         {% if notification.type == 'prospect' %}
                             {{ notification.message }}
                         {% else %}
-                            @TODO
+                            {{ ('notification_' ~ notification.type)|trans }}
                         {% endif %}
                     </td>
                 </tr>

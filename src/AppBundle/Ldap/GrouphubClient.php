@@ -164,7 +164,7 @@ class GrouphubClient
      */
     public function findGrouphubGroups($offset, $limit)
     {
-        $data = $this->ldap->find($this->grouphubDn, 'cn=*', ['cn'], '', $offset, $limit);
+        $data = $this->ldap->find($this->grouphubDn, 'cn=*', ['*'], '', $offset, $limit);
 
         if (empty($data)) {
             return new SynchronizableSequence([]);
@@ -200,7 +200,7 @@ class GrouphubClient
                 throw new InvalidArgumentException('Invalid group');
         }
 
-        $dn = 'cn=' . $cn . ',' . $dn;
+        $dn = 'cn=' . strtolower($cn) . ',' . $dn;
 
         $group->setReference($dn);
 
@@ -209,10 +209,26 @@ class GrouphubClient
         $this->ldap->add($group->getReference(), $data);
 
         if ($syncAdminGroup) {
-            $this->ldap->add($this->getAdminGroupReference($group), $data);
+            $this->addAdminGroupIfNotExists($group);
         }
 
         return $group;
+    }
+
+    /**
+     * @param Group $group
+     */
+    public function addAdminGroupIfNotExists(Group $group)
+    {
+        $data = $this->normalizer->normalizeGroup($group);
+
+        try {
+            $this->ldap->add($this->getAdminGroupReference($group), $data);
+        } catch (\Exception $e) {
+            if (stripos($e->getMessage(), 'already exists') === false) {
+                throw $e;
+            }
+        }
     }
 
     /**
@@ -222,7 +238,13 @@ class GrouphubClient
      */
     public function updateGroup($groupReference, Group $group, $syncAdminGroup = false)
     {
-        // Not supported...
+        $data = $this->normalizer->normalizeGroupForUpdate($group);
+
+        $this->ldap->modify($groupReference, $data);
+
+        if ($syncAdminGroup) {
+            $this->ldap->modify($this->getAdminGroupReference($group), $data);
+        }
     }
 
     /**
@@ -283,6 +305,6 @@ class GrouphubClient
     {
         $cn = $group->getName() . ':' . $group->getId();
 
-        return 'cn=' . $cn . ':admins,' . $this->adminGroupsDn;
+        return 'cn=' . strtolower($cn) . ':admins,' . $this->adminGroupsDn;
     }
 }

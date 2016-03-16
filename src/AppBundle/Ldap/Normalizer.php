@@ -97,7 +97,12 @@ class Normalizer
         for ($i = 0; $i < $groups['count']; $i++) {
             $group = $groups[$i];
 
-            $result[] = new Group(null, $group['dn'], $group['cn'][0], '');
+            $result[] = new Group(
+                null,
+                $group['dn'],
+                $group['cn'][0],
+                isset($group['description'][0]) ? $group['description'][0] : ''
+            );
         }
 
         return $result;
@@ -110,10 +115,26 @@ class Normalizer
      */
     public function normalizeGroup(Group $group)
     {
-        return [
+        $data = array_filter([
             'cn'          => $group->getName(),
+            'description' => $group->getDescription(),
             'objectClass' => 'groupOfNames',
-            'member'      => '',
-        ];
+        ]);
+
+        $data['member'] = '';
+
+        return $data;
+    }
+
+    /**
+     * @param Group $group
+     *
+     * @return array
+     */
+    public function normalizeGroupForUpdate(Group $group)
+    {
+        return array_filter([
+            'description' => $group->getDescription(),
+        ]);
     }
 }

@@ -180,10 +180,11 @@ class GrouphubClient
 
     /**
      * @param Group $group
+     * @param bool  $syncAdminGroup
      *
      * @return Group
      */
-    public function addGroup(Group $group)
+    public function addGroup(Group $group, $syncAdminGroup = false)
     {
         $cn = $group->getName() . ':' . $group->getId();
 
@@ -207,7 +208,7 @@ class GrouphubClient
 
         $this->ldap->add($group->getReference(), $data);
 
-        if ($this->adminGroupsDn) {
+        if ($syncAdminGroup) {
             $this->ldap->add($this->getAdminGroupReference($group), $data);
         }
 
@@ -217,20 +218,22 @@ class GrouphubClient
     /**
      * @param string $groupReference
      * @param Group  $group
+     * @param bool   $syncAdminGroup
      */
-    public function updateGroup($groupReference, Group $group)
+    public function updateGroup($groupReference, Group $group, $syncAdminGroup = false)
     {
         // Not supported...
     }
 
     /**
      * @param Group $group
+     * @param bool  $syncAdminGroup
      */
-    public function removeGroup(Group $group)
+    public function removeGroup(Group $group, $syncAdminGroup = false)
     {
         $this->ldap->delete($group->getReference());
 
-        if ($this->adminGroupsDn) {
+        if ($syncAdminGroup) {
             $this->ldap->delete($this->getAdminGroupReference($group));
         }
     }
@@ -250,9 +253,7 @@ class GrouphubClient
      */
     public function addGroupAdmin(Group $group, $userReference)
     {
-        if ($this->adminGroupsDn) {
-            $this->addGroupUser($this->getAdminGroupReference($group), $userReference);
-        }
+        $this->addGroupUser($this->getAdminGroupReference($group), $userReference);
     }
 
     /**
@@ -270,9 +271,7 @@ class GrouphubClient
      */
     public function removeGroupAdmin(Group $group, $userReference)
     {
-        if ($this->adminGroupsDn) {
-            $this->removeGroupUser($this->getAdminGroupReference($group), $userReference);
-        }
+        $this->removeGroupUser($this->getAdminGroupReference($group), $userReference);
     }
 
     /**
@@ -280,7 +279,7 @@ class GrouphubClient
      *
      * @return string
      */
-    public function getAdminGroupReference(Group $group)
+    private function getAdminGroupReference(Group $group)
     {
         $cn = $group->getName() . ':' . $group->getId();
 

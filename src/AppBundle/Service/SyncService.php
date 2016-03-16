@@ -19,15 +19,22 @@ class SyncService
     const BATCH_SIZE = 10;
 
     /**
+     * @var bool
+     */
+    private $syncAdmins = false;
+
+    /**
      * @param GrouphubClient $ldap
      * @param ApiClient      $api
      * @param Logger         $logger
+     * @param bool           $syncAdmins
      */
-    public function __construct(GrouphubClient $ldap, ApiClient $api, Logger $logger)
+    public function __construct(GrouphubClient $ldap, ApiClient $api, Logger $logger, $syncAdmins = false)
     {
         $this->ldap = $ldap;
         $this->api = $api;
         $this->logger = $logger;
+        $this->syncAdmins = $syncAdmins;
     }
 
     /**
@@ -182,7 +189,7 @@ class SyncService
         $this->logger->info(' - Going to add ' . count($ldapGroups->getAddedElements()) . ' Grouphub groups to LDAP...');
         foreach ($ldapGroups->getAddedElements() as $element) {
             /** @var Group $element */
-            $this->ldap->addGroup($element);
+            $this->ldap->addGroup($element, $this->syncAdmins);
 
             // Update the reference of the Group in the API
             $this->api->updateGroupReference($element->getId(), $element->getReference());
@@ -196,7 +203,7 @@ class SyncService
         );
         foreach ($ldapGroups->getUpdatedElements() as $element) {
             /** @var Group[] $element */
-            $this->ldap->updateGroup($element['old']->getReference(), $element['new']);
+            $this->ldap->updateGroup($element['old']->getReference(), $element['new'], $this->syncAdmins);
 
             $this->syncGrouphubGroupUsers($element['new']);
             $this->syncGrouphubGroupAdmins($element['new']);
@@ -205,7 +212,7 @@ class SyncService
         $this->logger->info(' - Going to remove ' . count($ldapGroups->getRemovedElements()) . ' Grouphub groups from LDAP...');
         foreach ($ldapGroups->getRemovedElements() as $element) {
             /** @var Group $element */
-            $this->ldap->removeGroup($element);
+            $this->ldap->removeGroup($element, $this->syncAdmins);
         }
 
         foreach ($ldapGroups->getEqualElementIndexes() as $index) {
@@ -258,6 +265,10 @@ class SyncService
      */
     private function syncGrouphubGroupAdmins(Group $group, $offset = 0)
     {
+        if (!$this->syncAdmins) {
+            return;
+        }
+
         $this->logger->info(
             'Processing admins for GrouphubGroup `' . $group->getName() . '` ' . $offset . ' to ' . self::BATCH_SIZE . '...'
         );

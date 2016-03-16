@@ -52,7 +52,7 @@ class SyncService
      */
     public function syncUsers($offset = 0)
     {
-        $this->logger->info('Processing users ' . $offset . ' to ' . self::BATCH_SIZE . '...');
+        $this->logger->info('Processing users ' . $offset . ' to ' . ($offset + self::BATCH_SIZE) . '...');
 
         $ldapUsers = $this->ldap->findUsers($offset, self::BATCH_SIZE);
         $grouphubUsers = $this->api->findUsers(null, $offset, self::BATCH_SIZE);
@@ -90,7 +90,7 @@ class SyncService
      */
     public function syncGroups($offset = 0)
     {
-        $this->logger->info('Processing groups ' . $offset . ' to ' . self::BATCH_SIZE . '...');
+        $this->logger->info('Processing groups ' . $offset . ' to ' . ($offset + self::BATCH_SIZE) . '...');
 
         $ldapGroups = $this->ldap->findGroups($offset, self::BATCH_SIZE);
         $grouphubGroups = $this->api->findLdapGroups($offset, self::BATCH_SIZE);
@@ -139,7 +139,7 @@ class SyncService
     private function syncGroupUsers(Group $group, $offset = 0)
     {
         $this->logger->info(
-            'Processing users for Group `' . $group->getName() . '` ' . $offset . ' to ' . self::BATCH_SIZE . '...'
+            'Processing users for Group `' . $group->getName() . '` ' . $offset . ' to ' . ($offset + self::BATCH_SIZE) . '...'
         );
 
         $ldapUsers = $this->ldap->findGroupUsers($group->getReference(), $offset, self::BATCH_SIZE);
@@ -174,7 +174,7 @@ class SyncService
      */
     public function syncGrouphubGroups($offset = 0)
     {
-        $this->logger->info('Processing Grouphub groups ' . $offset . ' to ' . self::BATCH_SIZE . '...');
+        $this->logger->info('Processing Grouphub groups ' . $offset . ' to ' . ($offset + self::BATCH_SIZE) . '...');
 
         $grouphubGroups = $this->api->findGrouphubGroups($offset, self::BATCH_SIZE);
         $ldapGroups = $this->ldap->findGrouphubGroups($offset, self::BATCH_SIZE);
@@ -229,7 +229,7 @@ class SyncService
     private function syncGrouphubGroupUsers(Group $group, $offset = 0)
     {
         $this->logger->info(
-            ' - Processing users for GrouphubGroup `' . $group->getName() . '` ' . $offset . ' to ' . self::BATCH_SIZE . '...'
+            ' - Processing users for GrouphubGroup `' . $group->getName() . '` ' . $offset . ' to ' . ($offset + self::BATCH_SIZE) . '...'
         );
 
         $grouphubUsers = $this->api->findGroupUsers($group, $offset, self::BATCH_SIZE);
@@ -268,7 +268,7 @@ class SyncService
         }
 
         $this->logger->info(
-            ' - Processing admins for GrouphubGroup `' . $group->getName() . '` ' . $offset . ' to ' . self::BATCH_SIZE . '...'
+            ' - Processing admins for GrouphubGroup `' . $group->getName() . '` ' . $offset . ' to ' . ($offset + self::BATCH_SIZE) . '...'
         );
 
         $this->ldap->addAdminGroupIfNotExists($group);

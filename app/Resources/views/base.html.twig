@@ -28,8 +28,10 @@
             </a>
         </li>
         <li>
-            <a class="button_grey_info" id="notifications_link" href="#">
-                <span>{{ notifications|length }}</span>{{ 'Notifications'|trans }}
+            <a class="button_grey_info" id="notifications_link" href="#"
+               data-url="{{ path('notifications') }}"
+               data-count-url="{{ path('notification_count') }}">
+                <span>0</span>{{ 'Notifications'|trans }}
             </a>
         </li>
         <li>
@@ -90,7 +92,8 @@
     </ul>
 </footer>
 
-{{ include(':popups:notifications.html.twig') }}
+<section id="notifications" class="notifications_container hidden"></section>
+
 {{ include(':popups:new_group.html.twig') }}
 {{ include(':popups:leave_group.html.twig') }}
 

@@ -118,11 +118,19 @@ var grouphub = (function ($) {
         $count.html(parseInt($count.text(), 10) - 1);
     };
 
+    var refreshNotificationsCount = function () {
+        var $countLink = $('#notifications_link');
+
+        $countLink.find('span').load($countLink.data('count-url'));
+    };
+
     var init = function () {
         var $editGroup = $('#edit_group'),
             $joinConfirm = $('#join_group'),
             $leaveConfirm = $('#group_leave_confirmation'),
             $groupContainer = $('#groups');
+
+        refreshNotificationsCount();
 
         $('#language_selector_link').on('click', function () {
             $('#language_selector_menu').toggleClass('hidden');
@@ -413,13 +421,11 @@ var grouphub = (function ($) {
         });
 
         $editGroup.on('click', '.prospect .confirm, .prospect .cancel', function () {
-            var $this = $(this),
-                $container = $this.closest('.prospect');
+            var $this = $(this);
 
             $.post($this.data('url'), function () {
                 var id = $editGroup.find('.edit_group').data('id'),
-                    user = $this.closest('li').data('user-id'),
-                    $article = $container.find('article');
+                    user = $this.closest('li').data('user-id');
 
                 if ($this.hasClass('confirm')) {
 
@@ -434,27 +440,28 @@ var grouphub = (function ($) {
                     userAddMode(id, user);
                 }
 
-                if (!$article.length) {
-                    return;
-                }
+                refreshNotificationsCount();
+            });
 
-                $.post($article.data('url'), function () {
-                    removeNotification($article.data('id'));
-                });
+            return false;
+        });
+
+        $('#notifications_link').on('click', function () {
+            $('body').addClass('modal-open');
+
+            $('#notifications').load($(this).data('url'), function () {
+                $(this).removeClass('hidden');
             });
 
             return false;
         });
 
         $('#notifications').on('click', '.confirm, .cancel', function () {
-            var $this = $(this);
+            var $this = $(this),
+                $article = $this.closest('article');
 
             $.post($this.data('url'), function () {
-                var $article = $this.closest('article');
-
-                $.post($article.data('url'), function () {
-                    removeNotification($article.data('id'));
-                });
+                removeNotification($article.data('id'));
 
                 if (!$this.hasClass('confirm')) {
                     return;
@@ -471,6 +478,9 @@ var grouphub = (function ($) {
         });
 
         initScroll('#group_all_groups');
+
+        window.setInterval(refreshNotificationsCount, 1000 * 60);
+        window.setInterval(updateGroups, 1000 * 60 * 5);
     };
 
     return {

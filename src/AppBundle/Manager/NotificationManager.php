@@ -56,8 +56,17 @@ class NotificationManager
      * @param int $userId
      * @param int $id
      */
-    public function processNotification($userId, $id)
+    public function confirmNotification($userId, $id)
     {
-        $this->client->removeNotification($userId, $id);
+        $this->client->confirmNotification($userId, $id);
+    }
+
+    /**
+     * @param int $userId
+     * @param int $id
+     */
+    public function denyNotification($userId, $id)
+    {
+        $this->client->denyNotification($userId, $id);
     }
 }

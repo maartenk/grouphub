@@ -510,9 +510,24 @@ class ApiClient
      * @param int $userId
      * @param int $notificationId
      */
-    public function removeNotification($userId, $notificationId)
+    public function confirmNotification($userId, $notificationId)
     {
-        $this->guzzle->delete('users/' . $userId . '/notifications/' . $notificationId);
+        $this->guzzle->post(
+            'users/' . $userId . '/notifications/' . $notificationId . '/response',
+            ['body' => ['type' => 'confirm']]
+        );
+    }
+
+    /**
+     * @param int $userId
+     * @param int $notificationId
+     */
+    public function denyNotification($userId, $notificationId)
+    {
+        $this->guzzle->post(
+            'users/' . $userId . '/notifications/' . $notificationId . '/response',
+            ['body' => ['type' => 'deny']]
+        );
     }
 
     /**

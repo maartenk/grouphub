@@ -37,10 +37,7 @@ class IndexController extends Controller
             array_merge(
                 $this->getGroups(),
                 [
-                    'add_form'      => $addForm->createView(),
-                    'notifications' => $this->get('app.notification_manager')->findNotifications(
-                        $this->getUser()->getId()
-                    ),
+                    'add_form' => $addForm->createView(),
                 ]
             )
         );

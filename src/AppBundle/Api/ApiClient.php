@@ -512,10 +512,9 @@ class ApiClient
      */
     public function confirmNotification($userId, $notificationId)
     {
-        $this->guzzle->post(
-            'users/' . $userId . '/notifications/' . $notificationId . '/response',
-            ['body' => ['type' => 'confirm']]
-        );
+        $data = $this->encode(['type' => 'confirm']);
+
+        $this->guzzle->post('users/' . $userId . '/notifications/' . $notificationId . '/response', ['body' => $data]);
     }
 
     /**
@@ -524,10 +523,9 @@ class ApiClient
      */
     public function denyNotification($userId, $notificationId)
     {
-        $this->guzzle->post(
-            'users/' . $userId . '/notifications/' . $notificationId . '/response',
-            ['body' => ['type' => 'deny']]
-        );
+        $data = $this->encode(['type' => 'deny']);
+
+        $this->guzzle->post('users/' . $userId . '/notifications/' . $notificationId . '/response', ['body' => $data]);
     }
 
     /**

@@ -22,8 +22,6 @@ class NotificationController extends Controller
      */
     public function confirmAction($id)
     {
-        // @todo: check if allowed
-
         $this->get('app.notification_manager')->confirmNotification($this->getUser()->getId(), $id);
 
         return new Response();
@@ -39,8 +37,6 @@ class NotificationController extends Controller
      */
     public function denyAction($id)
     {
-        // @todo: check if allowed
-
         $this->get('app.notification_manager')->denyNotification($this->getUser()->getId(), $id);
 
         return new Response();

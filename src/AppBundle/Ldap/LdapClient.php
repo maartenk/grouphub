@@ -158,6 +158,20 @@ class LdapClient implements LdapClientInterface
         ldap_add($this->connection, $dn, $data);
     }
 
+
+    /**
+     * @param string $dn
+     * @param array  $data
+     */
+    public function modify($dn, array $data)
+    {
+        if (!$this->isBound) {
+            $this->bind($this->dn, $this->password);
+        }
+
+        ldap_modify($this->connection, $dn, $data);
+    }
+
     /**
      * @param string $dn
      */

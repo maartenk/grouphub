@@ -92,3 +92,8 @@ hslavich_simplesamlphp:
 accelerator_cache:
     host: %url%
     web_dir: %kernel.root_dir%/../web
+
+doctrine_cache:
+    providers:
+        cache:
+            type: file_system

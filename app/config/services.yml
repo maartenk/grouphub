@@ -25,9 +25,14 @@ services:
         arguments: ["@guzzle.client.api_grouphub", "@app.api_normalizer"]
         private: true
 
+    app.queue:
+        class: AppBundle\Service\QueueService
+        arguments: ["@doctrine_cache.providers.cache"]
+        private: true
+
     app.sync:
         class: AppBundle\Service\SyncService
-        arguments: ["@app.grouphub_ldap_client", "@app.api_client", "@logger", "%admin_groups_sync%"]
+        arguments: ["@app.grouphub_ldap_client", "@app.api_client", "@logger", "@app.queue", "%admin_groups_sync%"]
 
     twig.extension.intl:
         class: Twig_Extensions_Extension_Intl
@@ -36,7 +41,7 @@ services:
 
     app.group_manager:
         class: AppBundle\Manager\GroupManager
-        arguments: ["@app.api_client", "@app.grouphub_ldap_client"]
+        arguments: ["@app.api_client", "@app.queue"]
 
     app.membership_manager:
         class: AppBundle\Manager\MembershipManager

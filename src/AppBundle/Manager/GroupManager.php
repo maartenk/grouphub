@@ -3,9 +3,9 @@
 namespace AppBundle\Manager;
 
 use AppBundle\Api\ApiClient;
-use AppBundle\Ldap\GrouphubClient;
 use AppBundle\Model\Collection;
 use AppBundle\Model\Group;
+use AppBundle\Service\QueueService;
 
 /**
  * Class GroupManager
@@ -18,18 +18,18 @@ class GroupManager
     private $client;
 
     /**
-     * @var GrouphubClient
+     * @var QueueService
      */
-    private $ldapClient;
+    private $queue;
 
     /***
-     * @param ApiClient      $client
-     * @param GrouphubClient $ldapClient
+     * @param ApiClient    $client
+     * @param QueueService $queue
      */
-    public function __construct(ApiClient $client, GrouphubClient $ldapClient)
+    public function __construct(ApiClient $client, QueueService $queue)
     {
         $this->client = $client;
-        $this->ldapClient = $ldapClient;
+        $this->queue = $queue;
     }
 
     /**
@@ -156,6 +156,8 @@ class GroupManager
     public function deleteGroup($id)
     {
         $this->client->removeGroup($id);
+
+        $this->queue->addGroupToQueue($id);
     }
 
     /**
@@ -163,7 +165,9 @@ class GroupManager
      */
     public function addGroup(Group $group)
     {
-        $this->client->addGroup($group);
+        $group = $this->client->addGroup($group);
+
+        $this->queue->addGroupToQueue($group->getId());
     }
 
     /**
@@ -172,5 +176,7 @@ class GroupManager
     public function updateGroup(Group $group)
     {
         $this->client->updateGroup($group->getId(), $group);
+
+        $this->queue->addGroupToQueue($group->getId());
     }
 }

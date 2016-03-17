@@ -157,8 +157,13 @@ class SyncService
         $this->logger->info(' -- Going to add ' . count($grouphubUsers->getAddedElements()) . ' users for Group to Grouphub...');
         foreach ($grouphubUsers->getAddedElements() as $element) {
             /** @var User $element */
-            $element = $this->api->findUserByReference($element->getReference());
-            $this->api->addGroupUser($group->getId(), $element->getId());
+            $user = $this->api->findUserByReference($element->getReference());
+
+            if (!$user) {
+                $this->logger->info(' -- Skipping user with ref ' . $element->getReference() . ' because it cannot be found in the API?!?');
+            }
+
+            $this->api->addGroupUser($group->getId(), $user->getId());
         }
 
         $this->logger->info(' -- Going to remove ' . count($grouphubUsers->getRemovedElements()) . ' users for Group from Grouphub...');

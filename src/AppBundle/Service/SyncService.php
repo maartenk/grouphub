@@ -7,6 +7,7 @@ use AppBundle\Ldap\GrouphubClient;
 use AppBundle\Model\Group;
 use AppBundle\Model\Membership;
 use AppBundle\Model\User;
+use AppBundle\SynchronizableSequence;
 use Monolog\Logger;
 
 /**
@@ -184,6 +185,40 @@ class SyncService
             return;
         }
 
+        $index = $this->doGrouphubGroupsSync($grouphubGroups, $ldapGroups);
+
+        $this->syncGrouphubGroups($offset + $index + 1);
+    }
+
+    /**
+     *
+     */
+    public function syncGrouphubGroupsFromQueue()
+    {
+        $this->logger->info('Processing Grouphub groups from queue...');
+
+        // @todo: implement queue
+        $groupIds = [];
+
+        $grouphubGroups = $this->api->findGrouphubGroupsByIds($groupIds);
+        $ldapGroups = $this->ldap->findGrouphubGroupsByIds($groupIds);
+
+        if (count($grouphubGroups) === 0 && count($ldapGroups) === 0) {
+            $this->logger->info('Done syncing Grouphub groups!');
+            return;
+        }
+
+        $this->doGrouphubGroupsSync($grouphubGroups, $ldapGroups);
+    }
+
+    /**
+     * @param SynchronizableSequence $grouphubGroups
+     * @param SynchronizableSequence $ldapGroups
+     *
+     * @return int
+     */
+    private function doGrouphubGroupsSync(SynchronizableSequence $grouphubGroups, SynchronizableSequence $ldapGroups)
+    {
         $index = $ldapGroups->synchronize($grouphubGroups, true);
 
         $this->logger->info(' - Going to add ' . count($ldapGroups->getAddedElements()) . ' Grouphub groups to LDAP...');
@@ -219,7 +254,7 @@ class SyncService
             $this->syncGrouphubGroupAdmins($grouphubGroups[$index]);
         }
 
-        $this->syncGrouphubGroups($offset + $index + 1);
+        return $index;
     }
 
     /**

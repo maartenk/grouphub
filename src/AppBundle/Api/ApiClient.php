@@ -253,7 +253,7 @@ class ApiClient
 
     /**
      * @param int   $groupId
-     * @param array $userIds
+     * @param int[] $userIds
      *
      * @return Collection
      */
@@ -292,7 +292,7 @@ class ApiClient
 
     /**
      * @param int   $userId
-     * @param array $groupIds
+     * @param int[] $groupIds
      *
      * @return Collection
      */
@@ -321,12 +321,23 @@ class ApiClient
     }
 
     /**
+     * @param int[] $groupIds
+     *
+     * @return SynchronizableSequence
+     */
+    public function findGrouphubGroupsByIds(array $groupIds)
+    {
+        return $this->findGroups(null, '!ldap', 0, 0, 'reference', 0, $groupIds);
+    }
+
+    /**
      * @param string $query
      * @param string $type
      * @param int    $offset
      * @param int    $limit
      * @param string $sortColumn
      * @param int    $sortDirection
+     * @param int[]  $groupIds
      *
      * @return Collection
      */
@@ -336,7 +347,8 @@ class ApiClient
         $offset = 0,
         $limit = 100,
         $sortColumn = 'reference',
-        $sortDirection = 0
+        $sortDirection = 0,
+        array $groupIds = null
     ) {
         $data = $this->guzzle->get('groups', [
             'query' => [
@@ -345,6 +357,7 @@ class ApiClient
                 'sort'   => ($sortDirection ? '-' : '') . $sortColumn,
                 'type'   => $type,
                 'query'  => $query,
+                'ids'    => $groupIds
             ],
         ]);
 

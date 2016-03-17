@@ -21,7 +21,7 @@ class SyncCommand extends ContainerAwareCommand
     {
         $this
             ->setName('grouphub:sync')
-            ->addOption('type', null, InputOption::VALUE_REQUIRED, 'either users, groups or grouphub')
+            ->addOption('type', null, InputOption::VALUE_REQUIRED, 'either users, groups, grouphub or queue')
             ->setDescription('Sync users/groups');
     }
 
@@ -51,6 +51,10 @@ class SyncCommand extends ContainerAwareCommand
 
             case 'grouphub':
                 $service->syncGrouphubGroups();
+                break;
+
+            case 'queue':
+                $service->syncGrouphubGroupsFromQueue();
                 break;
 
             default:

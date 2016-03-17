@@ -179,6 +179,30 @@ class GrouphubClient
     }
 
     /**
+     * @param array $groupIds
+     *
+     * @return SynchronizableSequence
+     */
+    public function findGrouphubGroupsByIds(array $groupIds = [])
+    {
+        if (empty($groupIds)) {
+            return new SynchronizableSequence([]);
+        }
+
+        $query = '(|(cn=*:' . implode(')(cn=*:', $groupIds) . '))';
+
+        $data = $this->ldap->find($this->grouphubDn, $query, ['*'], '');
+
+        if (empty($data)) {
+            return new SynchronizableSequence([]);
+        }
+
+        $groups = $this->normalizer->denormalizeGrouphubGroups($data);
+
+        return new SynchronizableSequence($groups);
+    }
+
+    /**
      * @param Group $group
      * @param bool  $syncAdminGroup
      *

@@ -119,9 +119,19 @@ class LdapClient implements LdapClientInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @todo: revise caching
      */
     public function find($dn, $query, $filter = '*', $sort = null)
     {
+        static $cache;
+
+        $key = md5(json_encode([$dn, $query, $filter, $sort]));
+
+        if (isset($cache[$key])) {
+            return $cache[$key];
+        }
+
         if (!$this->isBound) {
             $this->bind($this->dn, $this->password);
         }
@@ -136,13 +146,15 @@ class LdapClient implements LdapClientInterface
             ldap_sort($this->connection, $search, $sort);
         }
 
-        $infos = ldap_get_entries($this->connection, $search);
+        $entries = ldap_get_entries($this->connection, $search);
 
-        if (0 === $infos['count']) {
+        if (0 === $entries['count']) {
             return [];
         }
 
-        return $infos;
+        $cache[$key] = $entries;
+
+        return $entries;
     }
 
     /**

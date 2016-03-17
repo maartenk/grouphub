@@ -848,6 +848,7 @@ li.group_section div:first-child {
     padding: 0 10px 12px 15px;
     text-align: center;
     border-right: solid 1px #eaeaea;
+    width: 60px;
     float: left; }
 /* line 24, _group_section.scss */
 li.group_section div:first-child i {

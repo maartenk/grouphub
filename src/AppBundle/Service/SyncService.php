@@ -160,7 +160,8 @@ class SyncService
             $user = $this->api->findUserByReference($element->getReference());
 
             if (!$user) {
-                $this->logger->info(' -- Skipping user with ref ' . $element->getReference() . ' because it cannot be found in the API?!?');
+                $this->logger->warning(' -- Skipping user with ref ' . $element->getReference() . ' because it cannot be found in the API?!?');
+                continue;
             }
 
             $this->api->addGroupUser($group->getId(), $user->getId());

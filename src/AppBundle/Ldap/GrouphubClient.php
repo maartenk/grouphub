@@ -64,8 +64,16 @@ class GrouphubClient
      * @param string     $adhocDn
      * @param string     $adminGroupsDn
      */
-    public function __construct(LdapClient $ldap, $normalizer, $usersDn, array $groupsDn, $grouphubDn, $formalDn, $adhocDn, $adminGroupsDn = '')
-    {
+    public function __construct(
+        LdapClient $ldap,
+        $normalizer,
+        $usersDn,
+        array $groupsDn,
+        $grouphubDn,
+        $formalDn,
+        $adhocDn,
+        $adminGroupsDn = ''
+    ) {
         $this->ldap = $ldap;
         $this->normalizer = $normalizer;
 
@@ -120,9 +128,12 @@ class GrouphubClient
         }
 
         if (count($this->groupsDn) > 1) {
-            usort($groups, function(Group $a, Group $b) {
-                return $a->compareTo($b);
-            });
+            usort(
+                $groups,
+                function (Group $a, Group $b) {
+                    return $a->compareTo($b);
+                }
+            );
         }
 
         // @todo: use actual offset/limit

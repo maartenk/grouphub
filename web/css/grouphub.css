@@ -1304,7 +1304,9 @@ footer a {
     color: white;
     text-align: center; }
 /* line 220, _edit_group.scss */
-.edit_group_container ul.users li:last-child {
+.edit_group_container ul.users > li:last-child {
+    margin-bottom: 20px; }
+.edit_group_container ul.users > div:last-child > li:last-child {
     margin-bottom: 20px; }
 /* line 223, _edit_group.scss */
 .edit_group_container ul.users li div {

@@ -20,7 +20,7 @@ parameters:
     ldap_pass: ~
 
     users_dn: 'ou=Users,ou=SURFUni,dc=surfuni,dc=org'
-    groups_dn: 'ou=Formalgroups,dc=surfuni,dc=org'
+    groups_dn: ['ou=Formalgroups,dc=surfuni,dc=org']
     grouphub_dn: 'ou=Grouphub,dc=surfuni,dc=org'
     formal_dn: 'ou=SemiFormal,ou=Grouphub,dc=surfuni,dc=org'
     adhoc_dn: 'ou=AdHoc,ou=Grouphub,dc=surfuni,dc=org'

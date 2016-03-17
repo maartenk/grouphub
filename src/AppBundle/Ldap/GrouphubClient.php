@@ -30,7 +30,7 @@ class GrouphubClient
     private $usersDn;
 
     /**
-     * @var string
+     * @var string[]
      */
     private $groupsDn;
 
@@ -58,13 +58,13 @@ class GrouphubClient
      * @param LdapClient $ldap
      * @param Normalizer $normalizer
      * @param string     $usersDn
-     * @param string     $groupsDn
+     * @param string[]   $groupsDn
      * @param string     $grouphubDn
      * @param string     $formalDn
      * @param string     $adhocDn
      * @param string     $adminGroupsDn
      */
-    public function __construct(LdapClient $ldap, $normalizer, $usersDn, $groupsDn, $grouphubDn, $formalDn, $adhocDn, $adminGroupsDn = '')
+    public function __construct(LdapClient $ldap, $normalizer, $usersDn, array $groupsDn, $grouphubDn, $formalDn, $adhocDn, $adminGroupsDn = '')
     {
         $this->ldap = $ldap;
         $this->normalizer = $normalizer;
@@ -107,13 +107,23 @@ class GrouphubClient
      */
     public function findGroups($offset, $limit)
     {
-        $data = $this->ldap->find($this->groupsDn, 'cn=*', ['cn', 'description'], '', $offset, $limit);
+        $groups = [];
 
-        if (empty($data)) {
-            return new Sequence([]);
+        foreach ($this->groupsDn as $dn) {
+            $data = $this->ldap->find($dn, 'cn=*', ['cn', 'description'], '');
+
+            if (empty($data)) {
+                continue;
+            }
+
+            $groups = array_merge($groups, $this->normalizer->denormalizeGroups($data));
         }
 
-        $groups = $this->normalizer->denormalizeGroups($data);
+        if (count($this->groupsDn) > 1) {
+            usort($groups, function(Group $a, Group $b) {
+                return $a->compareTo($b);
+            });
+        }
 
         // @todo: use actual offset/limit
         $groups = array_slice($groups, $offset, $limit);

@@ -327,6 +327,10 @@ class ApiClient
      */
     public function findGrouphubGroupsByIds(array $groupIds)
     {
+        if (empty($groupIds)) {
+            return new SynchronizableSequence([]);
+        }
+
         return $this->findGroups(null, '!ldap', 0, 0, 'reference', 0, $groupIds);
     }
 

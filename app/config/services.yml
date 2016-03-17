@@ -45,7 +45,7 @@ services:
 
     app.membership_manager:
         class: AppBundle\Manager\MembershipManager
-        arguments: ["@app.api_client"]
+        arguments: ["@app.api_client", "@app.queue"]
 
     app.user_manager:
         class: AppBundle\Manager\UserManager

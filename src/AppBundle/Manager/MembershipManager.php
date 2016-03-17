@@ -6,6 +6,7 @@ use AppBundle\Api\ApiClient;
 use AppBundle\Model\Group;
 use AppBundle\Model\Membership;
 use AppBundle\Model\User;
+use AppBundle\Service\QueueService;
 use Traversable;
 
 /**
@@ -18,12 +19,19 @@ class MembershipManager
      */
     private $client;
 
-    /***
-     * @param ApiClient $client
+    /**
+     * @var QueueService
      */
-    public function __construct(ApiClient $client)
+    private $queue;
+
+    /***
+     * @param ApiClient    $client
+     * @param QueueService $queue
+     */
+    public function __construct(ApiClient $client, QueueService $queue)
     {
         $this->client = $client;
+        $this->queue = $queue;
     }
 
     /**
@@ -123,6 +131,8 @@ class MembershipManager
     public function updateMembership($groupId, $userId, $role)
     {
         $this->client->updateGroupUser($groupId, $userId, $role);
+
+        $this->queue->addGroupToQueue($groupId);
     }
 
     /**
@@ -132,6 +142,8 @@ class MembershipManager
     public function deleteMembership($groupId, $userId)
     {
         $this->client->removeGroupUser($groupId, $userId);
+
+        $this->queue->addGroupToQueue($groupId);
     }
 
     /**
@@ -141,6 +153,8 @@ class MembershipManager
     public function addMembership($groupId, $userId)
     {
         $this->client->addGroupUser($groupId, $userId);
+
+        $this->queue->addGroupToQueue($groupId);
     }
 
     /**

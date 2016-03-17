@@ -62,6 +62,11 @@ class LdapClient implements LdapClientInterface
     private $isBound = false;
 
     /**
+     * @var array
+     */
+    private static $cache = [];
+
+    /**
      * @param string $host
      * @param int    $port
      * @param string $dn
@@ -124,12 +129,10 @@ class LdapClient implements LdapClientInterface
      */
     public function find($dn, $query, $filter = '*', $sort = null)
     {
-        static $cache;
-
         $key = md5(json_encode([$dn, $query, $filter, $sort]));
 
-        if (isset($cache[$key])) {
-            return $cache[$key];
+        if (isset(self::$cache[$key])) {
+            return self::$cache[$key];
         }
 
         if (!$this->isBound) {
@@ -152,7 +155,7 @@ class LdapClient implements LdapClientInterface
             return [];
         }
 
-        $cache[$key] = $entries;
+        self::$cache[$key] = $entries;
 
         return $entries;
     }
@@ -168,6 +171,8 @@ class LdapClient implements LdapClientInterface
         }
 
         ldap_add($this->connection, $dn, $data);
+
+        self::$cache = [];
     }
 
 
@@ -182,6 +187,8 @@ class LdapClient implements LdapClientInterface
         }
 
         ldap_modify($this->connection, $dn, $data);
+
+        self::$cache = [];
     }
 
     /**
@@ -194,6 +201,8 @@ class LdapClient implements LdapClientInterface
         }
 
         ldap_delete($this->connection, $dn);
+
+        self::$cache = [];
     }
 
     /**
@@ -207,6 +216,8 @@ class LdapClient implements LdapClientInterface
         }
 
         ldap_mod_add($this->connection, $dn, $data);
+
+        self::$cache = [];
     }
 
     /**
@@ -220,6 +231,8 @@ class LdapClient implements LdapClientInterface
         }
 
         ldap_mod_del($this->connection, $dn, $data);
+
+        self::$cache = [];
     }
 
     /**

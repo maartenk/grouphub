@@ -139,7 +139,7 @@ class SyncService
     private function syncGroupUsers(Group $group, $offset = 0)
     {
         $this->logger->info(
-            'Processing users for Group `' . $group->getName() . '` ' . $offset . ' to ' . ($offset + self::BATCH_SIZE) . '...'
+            ' - Processing users for Group `' . $group->getName() . '` ' . $offset . ' to ' . ($offset + self::BATCH_SIZE) . '...'
         );
 
         $ldapUsers = $this->ldap->findGroupUsers($group->getReference(), $offset, self::BATCH_SIZE);
@@ -147,20 +147,20 @@ class SyncService
 
         // Nothing to sync, or done syncing
         if (count($ldapUsers) === 0 && count($grouphubUsers) === 0) {
-            $this->logger->info('Done syncing Group users!');
+            $this->logger->info(' - Done syncing Group users!');
             return;
         }
 
         $index = $grouphubUsers->synchronize($ldapUsers, true);
 
-        $this->logger->info(' - Going to add ' . count($grouphubUsers->getAddedElements()) . ' users for Group to Grouphub...');
+        $this->logger->info(' -- Going to add ' . count($grouphubUsers->getAddedElements()) . ' users for Group to Grouphub...');
         foreach ($grouphubUsers->getAddedElements() as $element) {
             /** @var User $element */
             $element = $this->api->findUserByReference($element->getReference());
             $this->api->addGroupUser($group->getId(), $element->getId());
         }
 
-        $this->logger->info(' - Going to remove ' . count($grouphubUsers->getRemovedElements()) . ' users for Group from Grouphub...');
+        $this->logger->info(' -- Going to remove ' . count($grouphubUsers->getRemovedElements()) . ' users for Group from Grouphub...');
         foreach ($grouphubUsers->getRemovedElements() as $element) {
             /** @var User $element */
             $this->api->removeGroupUser($group->getId(), $element->getId());

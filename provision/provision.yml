@@ -11,10 +11,9 @@
   roles:
     - { role: franklinkim.timezone }
     - { role: geerlingguy.ntp, ntp_timezone: "{{ timezone }}" }
+    - { role: geerlingguy.ruby, ruby_install_from_source: true}
     - { role: apache }
     - { role: php, enable_xdebug: true }
-    - { role: mysql, mysql_root_password: "root", mysql_bind_address: "127.0.0.1" }
-    - { role: franklinkim.redis }
     - { role: geerlingguy.composer }
     - { role: nbz4live.php-fpm,
         php_fpm_pools: [
@@ -59,6 +58,9 @@
     - name: APT | Install DotDeb key
       apt_key: url=http://www.dotdeb.org/dotdeb.gpg
 
+    - name: Install nodejs source
+      shell: curl -sL https://deb.nodesource.com/setup | sudo bash -
+
     - name: Perform system update
       action: apt upgrade=safe state=latest update_cache=yes
 
@@ -76,10 +78,22 @@
         - unzip
         - git
         - ant
+        - nodejs
 
     - name: Configure Exim4
       replace: dest=/etc/exim4/update-exim4.conf.conf replace="dc_eximconfig_configtype='internet'" regexp="^dc_eximconfig_configtype.*$" backup=yes
     - service: name=exim4 state=restarted enabled=yes
+
+    - name: Install npm and uglify packages
+      command: "{{item}}"
+      with_items:
+        - npm -g install npm
+        - npm -g update
+        - npm install -g uglify-js
+        - npm install -g uglifycss
+
+    - gem: name=capistrano
+    - gem: name=capistrano-symfony version=1.0.0.rc1
 
     - name: Configure virtualhost
       template: src="files/vhost.j2" dest="/etc/apache2/sites-available/{{ sitename }}"

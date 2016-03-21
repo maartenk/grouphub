@@ -17,14 +17,14 @@
                     </tr>
                 </table>
             </article>
+            <a href="#" class="button_blue confirm"
+               data-url="{{ path('notification_confirm', {'id': notification.id}) }}">
+                {{ 'Accepteer'|trans }}
+            </a>
+            <a href="#" class="button_grey cancel"
+               data-url="{{ path('notification_deny', {'id': notification.id}) }}">
+                {{ 'Afwijzen'|trans }}
+            </a>
         {% endif %}
-        <a href="#" class="button_blue confirm"
-           data-url="{{ path('notification_confirm', {'id': notification.id}) }}">
-            {{ 'Accepteer'|trans }}
-        </a>
-        <a href="#" class="button_grey cancel"
-           data-url="{{ path('notification_deny', {'id': notification.id}) }}">
-            {{ 'Afwijzen'|trans }}
-        </a>
     </div>
 </div>

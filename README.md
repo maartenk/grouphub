@@ -66,7 +66,7 @@ Add the following to the crontab:
 
 ```sh
 # Sync everything once a day at 02:00
-  0 2 * * * /var/www/grouphub/current/bin/console grouphub:sync -e=prod
+ 30 2 * * * /var/www/grouphub/current/bin/console grouphub:sync -e=prod
 # Sync modified groups back to LDAP every 5 minutes
 */5 * * * * /var/www/grouphub/current/bin/console grouphub:sync -e=prod --type=queue
 ```

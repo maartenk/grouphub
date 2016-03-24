@@ -43,6 +43,8 @@ var grouphub = (function ($) {
     var initScroll = function (el) {
         var $el = $(el);
 
+        $el.data('jscroll', null);
+
         $el.jscroll({
             nextSelector: 'a.groups-next',
             loadingHtml: '<li class="spinner"><i class="fa fa-spinner fa-spin"></li>'

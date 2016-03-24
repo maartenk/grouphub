@@ -1298,7 +1298,11 @@ footer a {
 /* line 210, _edit_group.scss */
 .edit_group_container ul.users li {
     padding: 10px 0px 10px 20px;
-    border-bottom: 1px solid #eaeaea; }
+    border-bottom: 1px solid #eaeaea;
+    width: 100%;
+    clear: both;
+    display: inline-block;
+}
 /* line 212, _edit_group.scss */
 .edit_group_container ul.users li.separator {
     background-color: #52b2cd;

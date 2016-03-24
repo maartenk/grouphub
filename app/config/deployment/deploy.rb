@@ -5,7 +5,7 @@ set :application, 'grouphub'
 set :repo_url, 'git@github.com:SURFnet/grouphub.git'
 
 # Default branch is :master
-# ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
+ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, '/var/www/grouphub'
@@ -38,18 +38,29 @@ set :permission_method,     :acl
 set :use_set_permissions,   true
 set :file_permissions_users, ["www-data"]
 
-SSHKit.config.command_map[:composer] = "php #{shared_path.join("composer.phar")}"
-
 namespace :composer do
   desc "Update composer"
   task :selfupdate do
     on release_roles(fetch(:composer_roles)) do
+      SSHKit.config.command_map[:composer] = "php #{shared_path}/composer.phar"
+
       execute :composer, 'self-update'
     end
   end
 end
 
 namespace :symfony do
+  desc "Make sure parameters exist"
+  task :create_parameters_if_not_exists do
+    on roles(:app) do
+        f = "#{shared_path}/app/config/parameters.yml"
+        if test("[ ! -e #{f} ]")
+            execute "mkdir -p #{shared_path}/app/config"
+            execute :touch, f
+        end
+    end
+  end
+
   desc "Clear accelerator cache"
   task :clear_accelerator_cache do
     invoke 'symfony:console', 'cache:accelerator:clear', '--opcode'
@@ -70,6 +81,7 @@ namespace :symfony do
   end
 end
 
+before 'deploy:check',               'symfony:create_parameters_if_not_exists'
 after 'deploy:starting',             'composer:install_executable'
 after 'composer:install_executable', 'composer:selfupdate'
 after 'deploy:updating',             'symfony:update_assets_version'

@@ -8,7 +8,6 @@ De business laag van de GroupHub applicatie: https://wiki.surfnet.nl/display/P3G
  - Virtualbox
  - Vagrant
  - Ansible
- - composer
 
 ## Vagrant plugins
 Make sure you have the following vagrant plugins installed.
@@ -47,7 +46,8 @@ These URL's are secured with the username `voot` and the password specified in t
 
 ## Requirements
 
- - apache2
+ - sshd (with a configured 'deployment' user)
+ - apache2 (vhost see below)
    * mod_expires
    * mod_headers
  - nodejs
@@ -60,18 +60,9 @@ These URL's are secured with the username `voot` and the password specified in t
    * php5-curl
    * php5-apcu
 
- - ssh access
- 
-Add the following to the crontab:
+Consider setting `opcache.validate_timestamps` to `0` in php.ini for a lot of free performance!
 
-```sh
-# Sync everything once a day at 02:00
- 30 2 * * * /var/www/grouphub/current/bin/console grouphub:sync -e=prod
-# Sync modified groups back to LDAP every 5 minutes
-*/5 * * * * /var/www/grouphub/current/bin/console grouphub:sync -e=prod --type=queue
-```
- 
-Consider setting `opcache.validate_timestamps = 0` in php.ini for a lot of free performance!
+Also make sure there is a directory `/project/dir/` available which is writable by the `deployment` user.
  
 ## Vhost
 
@@ -81,9 +72,11 @@ Minimum requirements:
 <VirtualHost *:80>
     ServerName grouphub.org
     
-    DocumentRoot /project/dir/web
+    DocumentRoot /project/dir/current/web
     
-    <Directory /project/dir/web>
+    Alias /simplesaml /project/dir/current/vendor/simplesamlphp/simplesamlphp/www
+    
+    <Directory /project/dir/current/web>
         Options FollowSymLinks
         AllowOverride All
         Order Allow,Deny
@@ -96,8 +89,6 @@ Usage of HTTPS is highly recommended.
 
 ## Process
 
-@todo: initial setup; parameters;
-
 To do an actual deployment, make sure a stage is available in app/config/deployment/stages/. Then run 
 
 ```sh
@@ -105,6 +96,9 @@ cap [stage-name] deploy
 ```
 
 This script will ask the branch/tag of the software to deploy. The default will probably be sufficient in most cases.
+
+The first time the script will most likely fail because the configuration is invalid, fix this manually as described below, 
+then run the script again.
 
 ## Configuration
 
@@ -165,4 +159,14 @@ parameters:
 
     # Documentation URL
     documentation_url: https://wiki.surfnet.nl/display/Grouphub/Grouphub+Home
+```
+## Crontab setup
+
+Add the following to the crontab:
+
+```sh
+# Sync everything once a day at 02:34
+ 34 2 * * * /project/dir/current/bin/console grouphub:sync -e=prod
+# Sync modified groups back to LDAP every 5 minutes
+*/5 * * * * /project/dir/current/current/bin/console grouphub:sync -e=prod --type=queue
 ```

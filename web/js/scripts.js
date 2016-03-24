@@ -7,11 +7,12 @@ var grouphub = (function ($) {
     var searchGroups = function () {
         var $this = $(this),
             $searchContainer = $('#group_search'),
-            $searchResults = $searchContainer.children('ul').first();
+            $searchResults = $searchContainer.children('ul').first(),
+            $sort = $searchContainer.find('input:checked');
 
         groupSearchReq = $.get({
             url: $searchResults.data('url'),
-            data: {query: $this.val()},
+            data: {query: $this.val(), sort: $sort.val()},
             beforeSend: function () {
                 groupSearchReq && groupSearchReq.abort();
             },

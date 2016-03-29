@@ -369,6 +369,10 @@ var grouphub = (function ($) {
             return false;
         });
 
+        $editGroup.on("keypress", "header form :input:not(textarea)", function(e) {
+            return e.keyCode != 13;
+        });
+
         $editGroup.on('change', 'header form :input', function () {
             var $this = $(this),
                 $form = $this.closest('form');

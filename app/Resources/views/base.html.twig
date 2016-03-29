@@ -52,21 +52,21 @@
 <nav>
     <ul>
         <li>
-            <input id="select_my_groups" type="checkbox" class="group_my_groups" checked/>
+            <input id="select_my_groups" type="checkbox" class="group_my_groups" {% if visibleGroups.group_my_groups %}checked{% endif %}/>
             <label class="background_blue" for="select_my_groups"><span><i class="fa fa-check"></i></span></label>
             <label class="white" for="select_my_groups">
                 {{ attribute(_context, 'my_groups_column_title_' ~ selectedLang) }}
             </label>
         </li>
         <li>
-            <input id="select_organisation_groups" type="checkbox" class="group_organisation_groups" checked/>
+            <input id="select_organisation_groups" type="checkbox" class="group_organisation_groups" {% if visibleGroups.group_organisation_groups %}checked{% endif %}/>
             <label class="background_green" for="select_organisation_groups"><span><i class="fa fa-check"></i></span></label>
             <label class="white" for="select_organisation_groups">
                 {{ attribute(_context, 'org_groups_column_title_' ~ selectedLang) }}
             </label>
         </li>
         <li>
-            <input id="select_all_groups" type="checkbox" class="group_all_groups" checked/>
+            <input id="select_all_groups" type="checkbox" class="group_all_groups" {% if visibleGroups.group_all_groups %}checked{% endif %}/>
             <label class="background_purple" for="select_all_groups"><span><i class="fa fa-check"></i></span></label>
             <label class="white" for="select_all_groups">
                 {{ attribute(_context, 'all_groups_column_title_' ~ selectedLang) }}

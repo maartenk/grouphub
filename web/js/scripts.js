@@ -127,6 +127,14 @@ var grouphub = (function ($) {
         $countLink.find('span').load($countLink.data('count-url'));
     };
 
+    var updatePanelsCookie = function (id, visible) {
+        var hiddenPanels = $.cookie('panels') || {};
+
+        hiddenPanels[id] = visible;
+
+        $.cookie('panels', hiddenPanels, {path: '/'});
+    };
+
     var init = function () {
         var $editGroup = $('#edit_group'),
             $joinConfirm = $('#join_group'),
@@ -150,11 +158,27 @@ var grouphub = (function ($) {
             return false;
         });
 
+        $('nav ul li input').on('change', function () {
+            var $this = $(this),
+                $group = $('#' + $this.attr('class')),
+                checked = $this.is(':checked');
+
+            if (checked) {
+                $group.removeClass('hidden');
+            } else {
+                $group.addClass('hidden');
+            }
+
+            updatePanelsCookie($group.attr('id'), checked);
+        });
+
         $groupContainer.on('click', '.sort .close', function () {
             var $this = $(this),
                 $container = $this.closest('.group');
 
             $container.addClass('hidden');
+
+            updatePanelsCookie($container.attr('id'), false);
 
             if ($container.is('#group_search')) {
                 $('#searchInput').val('');
@@ -500,6 +524,8 @@ jQuery().ready(function () {
     'use strict';
 
     Pace.options.ajax.trackMethods.push('POST');
+
+    $.cookie.json = true;
 
     grouphub.init();
 

@@ -7,6 +7,7 @@ use AppBundle\Model\Collection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -20,9 +21,11 @@ class IndexController extends Controller
      * @Route("/{_locale}", defaults={"_locale": "en"}, requirements={"_locale": "en|nl"}, name="home")
      * @Method("GET")
      *
+     * @param Request $request
+     *
      * @return Response
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $addForm = $this->createForm(
             GroupType::class,
@@ -35,7 +38,7 @@ class IndexController extends Controller
         return $this->render(
             '::base.html.twig',
             array_merge(
-                $this->getGroups(),
+                $this->getGroups($request->cookies),
                 [
                     'add_form' => $addForm->createView(),
                 ]
@@ -65,20 +68,21 @@ class IndexController extends Controller
 
         return $this->render(
             $this->getTemplate($type),
-            $this->getGroups($query, $sort, $offset, $limit, $type)
+            $this->getGroups($request->cookies, $query, $sort, $offset, $limit, $type)
         );
     }
 
     /**
-     * @param string $searchQuery
-     * @param string $sort
-     * @param int    $offset
-     * @param int    $limit
-     * @param string $type
+     * @param ParameterBag $cookies
+     * @param string       $searchQuery
+     * @param string       $sort
+     * @param int          $offset
+     * @param int          $limit
+     * @param string       $type
      *
      * @return array
      */
-    private function getGroups($searchQuery = '', $sort = 'name', $offset = 0, $limit = 12, $type = null)
+    private function getGroups(ParameterBag $cookies, $searchQuery = '', $sort = 'name', $offset = 0, $limit = 12, $type = null)
     {
         $sortColumn = $sort;
         $sortDirection = 0;
@@ -107,15 +111,16 @@ class IndexController extends Controller
         );
 
         return [
-            'myGroups'    => $myGroups,
-            'allGroups'   => $allGroups,
-            'groups'      => $searchGroups,
-            'memberships' => $memberships,
-            'sort'        => $sort,
-            'offset'      => $offset,
-            'limit'       => $limit,
-            'query'       => $searchQuery,
-            'type'        => $type
+            'myGroups'      => $myGroups,
+            'allGroups'     => $allGroups,
+            'groups'        => $searchGroups,
+            'memberships'   => $memberships,
+            'sort'          => $sort,
+            'offset'        => $offset,
+            'limit'         => $limit,
+            'query'         => $searchQuery,
+            'type'          => $type,
+            'visibleGroups' => $this->parsePanelsCookie($cookies),
         ];
     }
 
@@ -198,5 +203,18 @@ class IndexController extends Controller
         }
 
         return $mapping[$type];
+    }
+
+    /**
+     * @param ParameterBag $cookies
+     */
+    private function parsePanelsCookie(ParameterBag $cookies)
+    {
+        $cookie = (array) json_decode($cookies->get('panels'), true);
+
+        return array_merge(
+            ['group_my_groups' => true, 'group_organisation_groups' => true, 'group_all_groups' => true],
+            $cookie
+        );
     }
 }

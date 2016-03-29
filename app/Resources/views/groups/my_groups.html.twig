@@ -1,4 +1,5 @@
-<div id="group_my_groups" class="group" data-url="{{ path('groups', {'type': 'my'}) }}">
+<div id="group_my_groups" class="group {% if not visibleGroups.group_my_groups %}hidden{% endif %}"
+     data-url="{{ path('groups', {'type': 'my'}) }}">
 
     <section class="background_blue sort">
         <a id="close_my_groups" href="#" class="close"><i class="fa fa-times"></i></a>

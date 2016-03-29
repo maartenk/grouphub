@@ -593,12 +593,12 @@ header.header ul:last-child {
     float: right; }
 /* line 35, _header.scss */
 header.header ul:last-child li:last-child {
-    margin-right: 5px; }
+    margin-right: 10px; }
 /* line 37, _header.scss */
-header.header ul:last-child li:last-child a {
+header.header ul:last-child li.language-selector a {
     padding-right: 22px; }
 /* line 40, _header.scss */
-header.header ul:last-child li:last-child i {
+header.header ul:last-child li.language-selector i {
     position: absolute;
     left: 38px;
     top: 7px; }
@@ -892,7 +892,7 @@ li.group_section div:last-child .button_edit, li.group_section div:last-child .b
     font-size: 12px;
     font-weight: bold;
     padding: 5px 10px;
-    width: 72px;
+    width: 92px;
     min-height: 30px; }
 /* line 73, _group_section.scss */
 li.group_section div:last-child .button_edit:hover, li.group_section div:last-child .button_member:hover, li.group_section div:last-child .button_join:hover {

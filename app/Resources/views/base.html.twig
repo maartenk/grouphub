@@ -39,13 +39,13 @@
                 {{ 'Info'|trans }}
             </a>
         </li>
-        <li class="username">{{ app.user.username }} <i class="fa fa-question-circle tooltip" title="{{ 'logout_info'|trans }}"></i></li>
         <li class="language-selector">
             {% set selectedLang = app.request.locale %}
             {% set otherLang = selectedLang == 'en' ? 'nl' : 'en' %}
             <a class="button_grey" id="language_selector_link" href="#">{{ selectedLang|upper|trans }}<i class="fa fa-sort-down"></i></a>
             <a class="button_grey hidden" id="language_selector_menu" href="{{ path('home', {'_locale': otherLang}) }}">{{ otherLang|upper|trans }}</a>
         </li>
+        <li class="username">{{ app.user.username }} <i class="fa fa-question-circle tooltip" title="{{ 'logout_info'|trans }}"></i></li>
     </ul>
 </header>
 

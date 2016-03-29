@@ -7,7 +7,7 @@
 
             <div>
                 <a id="edit_group_close" href="#" class="close_modal close-modal"><i class="fa fa-times"></i></a>
-                <p id="group_title">{{ group.name }}</p>
+                <p id="group_title">{{ group.name }} (ID {{ group.id }})</p>
                 {% if form %}
                     {{ form_widget(form.name, {'attr': {'class': 'hidden'}}) }}
                 {% endif %}
@@ -24,9 +24,7 @@
                         {{ form_widget(form.parent) }}
                     {% endif %}
                 </div>
-            {% endif %}
 
-            {% if form %}
                 {{ form_rest(form) }}
                 {{ form_end(form) }}
             {% endif %}

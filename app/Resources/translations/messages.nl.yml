@@ -1,7 +1,7 @@
 GroupHUB: 'GroupHUB'
 
 New Group: 'Nieuwe Groep'
-Notifications: 'Kennisgevingen'
+Notifications: 'Notificaties'
 Info: 'Info'
 
 EN: 'EN'
@@ -15,7 +15,7 @@ Dec - Jan: 'Dec - Jan'
 MEMBER: 'LID'
 PROSPECT: 'ASPIRANT'
 LEAVE: 'VERLATEN'
-JOIN: 'AANSLUITEN'
+JOIN: 'TOETREDEN'
 EDIT: 'BEWERKEN'
 
 Member: 'Lid'
@@ -23,12 +23,12 @@ Administrator: 'Beheerder'
 Owner: 'Eigenaar'
 Prospect: 'Aspirant'
 
-You own or are a member of the group: 'Je bezit of bent lid van deze groepen'
-You are a member of these groups: 'Je bent lid van deze groepen'
-There is a total of %count% groups: 'Er zijn in taal %count% groepen'
+You own or are a member of the group: 'Je bent eigenaar of lid van deze groepen.'
+You are a member of these groups: 'Je bent lid van deze groepen.'
+There is a total of %count% groups: 'Er zijn in totaal %count% groepen.'
 
 SEARCH: 'ZOEKEN'
-Results for data: 'Resultaten voor data'
+Results for data: 'Zoekresultaten'
 
 NEW GROUP: 'NIEUWE GROEP'
 Name: 'Naam'
@@ -40,7 +40,7 @@ Select a type...: 'Selecteer een type...'
 Submit: 'Opslaan'
 Cancel: 'Annuleren'
 
-Group members: 'Groep leden'
+Group members: 'Groepsleden'
 Add members: 'Lid toevoegen'
 
 Admin: 'Beheerder'
@@ -58,7 +58,7 @@ Persoonlijk bericht: 'Persoonlijk bericht:'
 Aanvragen: 'Aanvragen'
 Annuleren: 'Annuleren'
 
-NOTIFICATIONS: 'KENNISGEVINGEN'
+NOTIFICATIONS: 'NOTIFICATIES'
 Datum: 'Datum'
 Groep: 'Groep'
 Gebruiker: 'Gebruiker'

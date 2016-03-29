@@ -23,12 +23,12 @@ Administrator: 'Administrator'
 Owner: 'Owner'
 Prospect: 'Prospect'
 
-You own or are a member of the group: 'You own or are a member of the group'
-You are a member of these groups: 'You are a member of these groups'
-There is a total of %count% groups: 'There is a total of %count% groups'
+You own or are a member of the group: 'You own or are a member of the group.'
+You are a member of these groups: 'You are a member of these groups.'
+There is a total of %count% groups: 'There is a total of %count% groups.'
 
 SEARCH: 'SEARCH'
-Results for data: 'Results for data'
+Results for data: 'Search Results'
 
 NEW GROUP: 'NEW GROUP'
 Name: 'Name'

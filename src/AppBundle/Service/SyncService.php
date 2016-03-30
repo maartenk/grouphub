@@ -17,7 +17,7 @@ use Monolog\Logger;
  */
 class SyncService
 {
-    const BATCH_SIZE = 1000;
+    const BATCH_SIZE = 5000;
 
     /**
      * @var GrouphubClient

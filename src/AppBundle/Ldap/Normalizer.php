@@ -100,7 +100,7 @@ class Normalizer
             $result[] = new Group(
                 null,
                 $group['dn'],
-                $group['cn'][1],
+                $group['cn'][0],
                 isset($group['description'][0]) ? $group['description'][0] : ''
             );
         }

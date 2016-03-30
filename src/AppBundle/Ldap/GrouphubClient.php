@@ -277,18 +277,22 @@ class GrouphubClient
     }
 
     /**
-     * @param string $groupReference
-     * @param Group  $group
-     * @param bool   $syncAdminGroup
+     * @param Group $oldGroup
+     * @param Group $newGroup
+     * @param bool  $syncAdminGroup
      */
-    public function updateGroup($groupReference, Group $group, $syncAdminGroup = false)
+    public function updateGroup(Group $oldGroup, Group $newGroup, $syncAdminGroup = false)
     {
-        $data = $this->normalizer->normalizeGroupForUpdate($group);
+        $groupReference = $oldGroup->getReference();
 
+        $data = $this->normalizer->normalizeGroupForUpdate($newGroup);
+
+        $this->ldap->deleteAttribute($groupReference, ['cn' => $oldGroup->getName()]);
+        $this->ldap->addAttribute($groupReference, ['cn' => $newGroup->getName()]);
         $this->ldap->modify($groupReference, $data);
 
         if ($syncAdminGroup) {
-            $this->ldap->modify($this->getAdminGroupReference($group), $data);
+            $this->ldap->modify($this->getAdminGroupReference($oldGroup), $data);
         }
     }
 
@@ -348,8 +352,8 @@ class GrouphubClient
      */
     private function getAdminGroupReference(Group $group)
     {
-        $cn = $group->getName() . ':' . $group->getId();
+        $pos = strpos($group->getReference(), ',');
 
-        return 'cn=' . strtolower($cn) . ':admins,' . $this->adminGroupsDn;
+        return substr($group->getReference(), 0, $pos) . ':admins,' . $this->adminGroupsDn;
     }
 }

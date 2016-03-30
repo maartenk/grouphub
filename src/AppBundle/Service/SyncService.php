@@ -302,7 +302,7 @@ class SyncService
         );
         foreach ($ldapGroups->getUpdatedElements() as $element) {
             /** @var Group[] $element */
-            $this->ldap->updateGroup($element['old']->getReference(), $element['new'], $this->syncAdmins);
+            $this->ldap->updateGroup($element['old'], $element['new'], $this->syncAdmins);
 
             $this->syncGrouphubGroupUsers($element['new']);
             $this->syncGrouphubGroupAdmins($element['new']);

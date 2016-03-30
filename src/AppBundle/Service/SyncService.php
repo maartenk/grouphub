@@ -208,7 +208,14 @@ class SyncService
                 continue;
             }
 
-            $this->api->addGroupUser($group->getId(), $user->getId());
+            try {
+                $this->api->addGroupUser($group->getId(), $user->getId());
+            } catch (\Exception $e) {
+                $this->logger->warning(
+                    ' -- Failed adding user with ref ' . $element->getReference() .
+                    ' message: ' . $e->getMessage()
+                );
+            }
         }
 
         $this->logger->info(

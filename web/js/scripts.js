@@ -132,7 +132,7 @@ var grouphub = (function ($) {
 
         hiddenPanels[id] = visible;
 
-        $.cookie('panels', hiddenPanels, {path: '/'});
+        $.cookie('panels', hiddenPanels, {path: '/', expires: 7});
     };
 
     var init = function () {
@@ -150,6 +150,13 @@ var grouphub = (function ($) {
         });
 
         $('#searchInput').on('keyup', $.debounce(250, searchGroups));
+
+        $('#new_group_link').on('click', function () {
+            $('body').addClass('modal-open');
+            $('#new_group').removeClass('hidden');
+
+            return false;
+        });
 
         $('section').on('click', '.close-modal', function () {
             $('body').removeClass('modal-open');

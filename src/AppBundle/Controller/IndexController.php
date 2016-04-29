@@ -180,7 +180,7 @@ class IndexController extends Controller
     private function getTemplate($type)
     {
         if ($type === null) {
-            return ':groups.html.twig';
+            return 'groups.html.twig';
         }
 
         $mapping = [

@@ -32,7 +32,7 @@ class GroupVoter extends Voter
      */
     protected function supports($attribute, $subject)
     {
-        return ($subject instanceof Group && $attribute === 'EDIT');
+        return ($subject instanceof Group && ($attribute === 'EDIT' || $attribute === 'EDIT_DETAILS'));
     }
 
     /**
@@ -59,7 +59,7 @@ class GroupVoter extends Voter
             return false;
         }
 
-        if ($membership->getRole() === Membership::ROLE_ADMIN) {
+        if ($attribute === 'EDIT' && $membership->getRole() === Membership::ROLE_ADMIN) {
             return true;
         }
 

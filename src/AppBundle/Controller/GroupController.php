@@ -61,12 +61,15 @@ class GroupController extends Controller
         if ($this->isGranted('EDIT', $group)) {
             $users = $this->get('app.user_manager')->findUsers(null, $offset, $limit);
             $memberships = $this->get('app.membership_manager')->findGroupMembershipsForUsers($group->getId(), $users);
-            $form = $this->createForm(GroupType::class, $group)->createView();
 
             $notifications = $this->get('app.notification_manager')->findNotificationsForGroup(
                 $this->getUser()->getId(),
                 $group->getId()
             );
+        }
+
+        if ($this->isGranted('EDIT_DETAILS', $group)) {
+            $form = $this->createForm(GroupType::class, $group)->createView();
         }
 
         return $this->render(
@@ -98,7 +101,7 @@ class GroupController extends Controller
     {
         $group = $this->getGroup($id);
 
-        $this->denyAccessUnlessGranted('EDIT', $group);
+        $this->denyAccessUnlessGranted('EDIT_DETAILS', $group);
 
         $form = $this->createForm(GroupType::class, $group);
 
@@ -125,7 +128,7 @@ class GroupController extends Controller
     {
         $group = $this->getGroup($id);
 
-        $this->denyAccessUnlessGranted('EDIT', $group);
+        $this->denyAccessUnlessGranted('EDIT_DETAILS', $group);
 
         $this->get('app.group_manager')->deleteGroup($group->getId());
 
@@ -224,6 +227,8 @@ class GroupController extends Controller
     public function downloadMembersAction($id)
     {
         $group = $this->getGroup($id);
+
+        $this->denyAccessUnlessGranted('EDIT', $group);
 
         $response = new StreamedResponse();
         $response->setCallback(

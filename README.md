@@ -59,6 +59,7 @@ These URL's are secured with the username `voot` and the password specified in t
    * php5-intl
    * php5-curl
    * php5-apcu
+   * php5-ldap
 
 Consider setting `opcache.validate_timestamps` to `0` in php.ini for a lot of free performance!
 

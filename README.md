@@ -125,15 +125,30 @@ parameters:
     ldap_dn:   ~
     ldap_pass: ~
 
-    # DN of where the users are located in LDAP
-    users_dn: 'ou=Users,ou=SURFUni,dc=surfuni,dc=org'
+    # DN of where the users are located in LDAP, can be multiple DN's seperated by a comma
+    users_dn: ['ou=Users,ou=SURFUni,dc=surfuni,dc=org']
+    user_query: 'cn=*'
     # DN of where groups are located in LDAP, can be multiple DN's seperated by a comma
     groups_dn: ['ou=Formalgroups,dc=surfuni,dc=org']
+    group_query: 'cn=*'
     # Root group of where Grouphub groups will be stored
     grouphub_dn: 'ou=Grouphub,dc=surfuni,dc=org'
     # Subgroups located beneath the 'grouphub' DN where formal and adhoc groups will be stored
     formal_dn: 'ou=SemiFormal,ou=Grouphub,dc=surfuni,dc=org'
     adhoc_dn: 'ou=AdHoc,ou=Grouphub,dc=surfuni,dc=org'
+    
+    # Mapping of GroupHub properties to LDAP properties
+    ldap.mapping:
+        user:
+            firstName: givenname
+            lastName:  sn
+            loginName: uid
+            email:     mail
+        group:
+            name:        cn
+            description: description
+            objectClass: groupOfNames # this not a mapping, but a hardcoded value
+            groupType:   ~            # this not a mapping, but a hardcoded value which will not be added if empty 
 
     # Whether or not to sync admins to dedicated groups and, if so, to which DN
     # Note this DN should not be located beneath one of the groups mentioned earlier

@@ -11,28 +11,43 @@ use AppBundle\Model\User;
 class Normalizer
 {
     /**
+     * @var array
+     */
+    private $mapping;
+
+    /**
+     * @param array $mapping
+     */
+    public function __construct(array $mapping)
+    {
+        $this->mapping = $mapping;
+    }
+
+    /**
      * @param array $users
      *
      * @return User[]
      */
     public function denormalizeUsers(array $users)
     {
+        $mapping = $this->mapping['user'];
+
         $result = [];
         for ($i = 0; $i < $users['count']; $i++) {
             $user = $users[$i];
 
             $annotations = [];
 
-            if (isset($user['mail'][0])) {
-                $annotations['email'] = $user['mail'][0];
+            if (isset($user[$mapping['email']][0])) {
+                $annotations['email'] = $user[$mapping['email']][0];
             }
 
             $result[] = new User(
                 null,
                 $user['dn'],
-                $user['givenname'][0],
-                $user['sn'][0],
-                $user['uid'][0],
+                $user[$mapping['firstName']][0],
+                $user[$mapping['lastName']][0],
+                $user[$mapping['loginName']][0],
                 $annotations
             );
         }
@@ -47,6 +62,8 @@ class Normalizer
      */
     public function denormalizeGroups(array $groups)
     {
+        $mapping = $this->mapping['group'];
+
         $result = [];
         for ($i = 0; $i < $groups['count']; $i++) {
             $group = $groups[$i];
@@ -54,8 +71,8 @@ class Normalizer
             $result[] = new Group(
                 null,
                 $group['dn'],
-                $group['cn'][0],
-                isset($group['description'][0]) ? $group['description'][0] : '',
+                $group[$mapping['name']][0],
+                isset($group[$mapping['description']][0]) ? $group[$mapping['description']][0] : '',
                 'ldap',
                 new User(1)
             );
@@ -97,6 +114,8 @@ class Normalizer
      */
     public function denormalizeGrouphubGroups(array $groups)
     {
+        $mapping = $this->mapping['group'];
+
         $result = [];
         for ($i = 0; $i < $groups['count']; $i++) {
             $group = $groups[$i];
@@ -104,8 +123,8 @@ class Normalizer
             $result[] = new Group(
                 null,
                 $group['dn'],
-                $group['cn'][0],
-                isset($group['description'][0]) ? $group['description'][0] : ''
+                $group[$mapping['name']][0],
+                isset($group[$mapping['description']][0]) ? $group[$mapping['description']][0] : ''
             );
         }
 
@@ -119,11 +138,16 @@ class Normalizer
      */
     public function normalizeGroup(Group $group)
     {
-        $data = array_filter([
-            'cn'          => $group->getName(),
-            'description' => $group->getDescription(),
-            'objectClass' => 'groupOfNames',
-        ]);
+        $mapping = $this->mapping['group'];
+
+        $data = array_filter(
+            [
+                $mapping['name']        => $group->getName(),
+                $mapping['description'] => $group->getDescription(),
+                'objectClass'           => $mapping['objectClass'],
+                'groupType'             => $mapping['groupType'],
+            ]
+        );
 
         $data['member'] = '';
 
@@ -137,8 +161,12 @@ class Normalizer
      */
     public function normalizeGroupForUpdate(Group $group)
     {
-        return array_filter([
-            'description' => $group->getDescription(),
-        ]);
+        $mapping = $this->mapping['group'];
+
+        return array_filter(
+            [
+                $mapping['description'] => $group->getDescription(),
+            ]
+        );
     }
 }

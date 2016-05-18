@@ -19,11 +19,25 @@ parameters:
     ldap_dn:   ~
     ldap_pass: ~
 
-    users_dn: 'ou=Users,ou=SURFUni,dc=surfuni,dc=org'
+    users_dn: ['ou=Users,ou=SURFUni,dc=surfuni,dc=org']
+    user_query: 'cn=*'
     groups_dn: ['ou=Formalgroups,dc=surfuni,dc=org']
+    group_query: 'cn=*'
     grouphub_dn: 'ou=Grouphub,dc=surfuni,dc=org'
     formal_dn: 'ou=SemiFormal,ou=Grouphub,dc=surfuni,dc=org'
     adhoc_dn: 'ou=AdHoc,ou=Grouphub,dc=surfuni,dc=org'
+
+    ldap.mapping:
+        user:
+            firstName: givenname
+            lastName:  sn
+            loginName: uid
+            email:     mail
+        group:
+            name:        cn
+            description: description
+            objectClass: groupOfNames
+            groupType:   ~
 
     admin_groups_sync: false
     admin_groups_dn: ~

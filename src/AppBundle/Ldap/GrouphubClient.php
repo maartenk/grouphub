@@ -3,8 +3,10 @@
 namespace AppBundle\Ldap;
 
 use AppBundle\Model\Group;
+use AppBundle\Model\User;
 use AppBundle\Sequence;
 use AppBundle\SynchronizableSequence;
+use Doctrine\Common\Comparable;
 use InvalidArgumentException;
 
 /**
@@ -25,7 +27,7 @@ class GrouphubClient
     private $normalizer;
 
     /**
-     * @var string
+     * @var string[]
      */
     private $usersDn;
 
@@ -55,24 +57,38 @@ class GrouphubClient
     private $adminGroupsDn;
 
     /**
+     * @var string
+     */
+    private $userQuery;
+
+    /**
+     * @var string
+     */
+    private $groupQuery;
+
+    /**
      * @param LdapClient $ldap
      * @param Normalizer $normalizer
-     * @param string     $usersDn
+     * @param string[]   $usersDn
      * @param string[]   $groupsDn
      * @param string     $grouphubDn
      * @param string     $formalDn
      * @param string     $adhocDn
      * @param string     $adminGroupsDn
+     * @param string     $userQuery
+     * @param string     $groupQuery
      */
     public function __construct(
         LdapClient $ldap,
         $normalizer,
-        $usersDn,
+        array $usersDn,
         array $groupsDn,
         $grouphubDn,
         $formalDn,
         $adhocDn,
-        $adminGroupsDn = ''
+        $adminGroupsDn = '',
+        $userQuery = 'cn=*',
+        $groupQuery = 'cn=*'
     ) {
         $this->ldap = $ldap;
         $this->normalizer = $normalizer;
@@ -83,63 +99,73 @@ class GrouphubClient
         $this->formalDn = $formalDn;
         $this->adhocDn = $adhocDn;
         $this->adminGroupsDn = $adminGroupsDn;
+        $this->userQuery = $userQuery;
+        $this->groupQuery = $groupQuery;
     }
 
     /**
      * @param int $offset
      * @param int $limit
      *
-     * @return Sequence
+     * @return Sequence|User[]
      */
     public function findUsers($offset, $limit)
     {
-        $data = $this->ldap->find($this->usersDn, 'cn=*', '*', '', $offset, $limit);
-
-        if (empty($data)) {
-            return new Sequence([]);
-        }
-
-        $users = $this->normalizer->denormalizeUsers($data);
-
-        // @todo: use actual offset/limit
-        $users = array_slice($users, $offset, $limit);
-
-        return new Sequence($users);
+        return $this->findEntities($this->usersDn, $this->userQuery, ['*'], $offset, $limit, function ($data) {
+            return $this->normalizer->denormalizeUsers($data);
+        });
     }
 
     /**
      * @param int $offset
      * @param int $limit
      *
-     * @return Sequence
+     * @return Sequence|Group[]
      */
     public function findGroups($offset, $limit)
     {
-        $groups = [];
+        return $this->findEntities($this->groupsDn, $this->groupQuery, ['*'], $offset, $limit, function ($data) {
+            return $this->normalizer->denormalizeGroups($data);
+        });
+    }
 
-        foreach ($this->groupsDn as $dn) {
-            $data = $this->ldap->find($dn, 'cn=*', ['cn', 'description'], '');
+    /**
+     * @param array    $dns
+     * @param string   $query
+     * @param array    $filter
+     * @param int      $offset
+     * @param int      $limit
+     * @param \Closure $normalizer
+     *
+     * @return Sequence
+     */
+    private function findEntities(array $dns, $query, $filter, $offset, $limit, \Closure $normalizer)
+    {
+        $entities = [];
+
+        foreach ($dns as $dn) {
+            $data = $this->ldap->find($dn, $query, $filter, '');
 
             if (empty($data)) {
                 continue;
             }
 
-            $groups = array_merge($groups, $this->normalizer->denormalizeGroups($data));
+            $entities = array_merge($entities, $normalizer($data));
         }
 
-        if (count($this->groupsDn) > 1) {
+        if (count($dns) > 1) {
             usort(
-                $groups,
-                function (Group $a, Group $b) {
+                $entities,
+                function (Comparable $a, Comparable $b) {
                     return $a->compareTo($b);
                 }
             );
         }
 
         // @todo: use actual offset/limit
-        $groups = array_slice($groups, $offset, $limit);
+        $entities = array_slice($entities, $offset, $limit);
 
-        return new Sequence($groups);
+        return new Sequence($entities);
     }
 
     /**

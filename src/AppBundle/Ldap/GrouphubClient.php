@@ -13,6 +13,7 @@ use InvalidArgumentException;
  * Class GrouphubClient
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
 class GrouphubClient
 {

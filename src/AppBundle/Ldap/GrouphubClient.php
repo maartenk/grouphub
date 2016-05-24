@@ -237,7 +237,7 @@ class GrouphubClient
             return new SynchronizableSequence([]);
         }
 
-        $query = '(|(cn=*:' . implode(')(cn=*:', $groupIds) . '))';
+        $query = '(|(cn=*_' . implode(')(cn=*_', $groupIds) . '))';
 
         $data = $this->ldap->find($this->grouphubDn, $query, ['*'], '');
 
@@ -395,6 +395,6 @@ class GrouphubClient
     {
         $pos = strpos($group->getReference(), ',');
 
-        return substr($group->getReference(), 0, $pos) . ':admins,' . $this->adminGroupsDn;
+        return substr($group->getReference(), 0, $pos) . '_admins,' . $this->adminGroupsDn;
     }
 }

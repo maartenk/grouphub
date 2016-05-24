@@ -258,23 +258,7 @@ class GrouphubClient
      */
     public function addGroup(Group $group, $syncAdminGroup = false)
     {
-        $cn = $group->getName() . ':' . $group->getId();
-
-        $dn = null;
-        switch ($group->getType()) {
-            case Group::TYPE_FORMAL:
-                $dn = $this->formalDn;
-                break;
-            case Group::TYPE_GROUPHUB:
-                $dn = $this->adhocDn;
-                break;
-            default:
-                throw new InvalidArgumentException('Invalid group');
-        }
-
-        $dn = 'cn=' . strtolower($cn) . ',' . $dn;
-
-        $group->setReference($dn);
+        $group->setReference($this->getGroupReference($group));
 
         $data = $this->normalizer->normalizeGroup($group);
 
@@ -314,8 +298,6 @@ class GrouphubClient
 
         $data = $this->normalizer->normalizeGroupForUpdate($newGroup);
 
-        $this->ldap->deleteAttribute($groupReference, ['cn' => $oldGroup->getName()]);
-        $this->ldap->addAttribute($groupReference, ['cn' => $newGroup->getName()]);
         $this->ldap->modify($groupReference, $data);
 
         if ($syncAdminGroup) {
@@ -332,7 +314,13 @@ class GrouphubClient
         $this->ldap->delete($group->getReference());
 
         if ($syncAdminGroup) {
-            $this->ldap->delete($this->getAdminGroupReference($group));
+            try {
+                $this->ldap->delete($this->getAdminGroupReference($group));
+            } catch (\Exception $e) {
+                if (stripos($e->getMessage(), 'No such object') === false) {
+                    throw $e;
+                }
+            }
         }
     }
 
@@ -370,6 +358,32 @@ class GrouphubClient
     public function removeGroupAdmin(Group $group, $userReference)
     {
         $this->removeGroupUser($this->getAdminGroupReference($group), $userReference);
+    }
+
+    /**
+     * @param Group $group
+     *
+     * @return string
+     */
+    private function getGroupReference(Group $group)
+    {
+        $dn = null;
+        switch ($group->getType()) {
+            case Group::TYPE_FORMAL:
+                $dn = $this->formalDn;
+                break;
+            case Group::TYPE_GROUPHUB:
+                $dn = $this->adhocDn;
+                break;
+            default:
+                throw new InvalidArgumentException('Invalid group');
+        }
+
+        $group = $this->normalizer->normalizeGroup($group);
+
+        $cn = $this->ldap->escape($group['cn'], '', LDAP_ESCAPE_DN);
+
+        return 'cn=' . $cn . ',' . $dn;
     }
 
     /**

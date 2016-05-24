@@ -34,10 +34,10 @@ parameters:
             loginName: uid
             email:     mail
         group:
-            name:        cn
             description: description
             objectClass: groupOfNames
             groupType:   ~
+            accountName: ~
 
     admin_groups_sync: false
     admin_groups_dn: ~

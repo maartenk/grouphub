@@ -71,7 +71,7 @@ class Normalizer
             $result[] = new Group(
                 null,
                 $group['dn'],
-                $group[$mapping['name']][0],
+                $group['cn'][0],
                 isset($group[$mapping['description']][0]) ? $group[$mapping['description']][0] : '',
                 'ldap',
                 new User(1)
@@ -123,7 +123,7 @@ class Normalizer
             $result[] = new Group(
                 null,
                 $group['dn'],
-                $group[$mapping['name']][0],
+                $group['cn'][0],
                 isset($group[$mapping['description']][0]) ? $group[$mapping['description']][0] : ''
             );
         }
@@ -140,9 +140,11 @@ class Normalizer
     {
         $mapping = $this->mapping['group'];
 
+        $cn = $this->getGroupCN($group);
+
         $data = array_filter(
             [
-                $mapping['name']        => $group->getName(),
+                'cn'                    => $cn,
                 $mapping['description'] => $group->getDescription(),
                 'objectClass'           => $mapping['objectClass'],
                 'groupType'             => $mapping['groupType'],
@@ -150,6 +152,10 @@ class Normalizer
         );
 
         $data['member'] = '';
+
+        if (!empty($mapping['accountName'])) {
+            $data[$mapping['accountName']] = $cn;
+        }
 
         return $data;
     }
@@ -168,5 +174,23 @@ class Normalizer
                 $mapping['description'] => $group->getDescription(),
             ]
         );
+    }
+
+    /**
+     * @param Group $group
+     *
+     * @return string
+     */
+    private function getGroupCN(Group $group)
+    {
+        $cn = str_replace(
+            ['"', '/', '\\', '[', ']', ':', ';', '|', '=', ',', '+', '*', '?', '<', '>'],
+            '',
+            $group->getName()
+        );
+
+        $cn = strtolower($cn) . '_' . $group->getId();
+
+        return $cn;
     }
 }

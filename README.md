@@ -119,11 +119,17 @@ parameters:
     grouphub_api_username: 'grouphub'
     grouphub_api_password: ~
 
-    # LDAP connection details
-    ldap_host: ~
-    ldap_port: 389
-    ldap_dn:   ~
-    ldap_pass: ~
+    # LDAP read connection details
+    ldap_read_host: ~
+    ldap_read_port: 389
+    ldap_read_dn:   ~
+    ldap_read_pass: ~
+        
+    # LDAP write connection details (can be the same as the read LDAP)
+    ldap_write_host: ~
+    ldap_write_port: 389
+    ldap_write_dn:   ~
+    ldap_write_pass: ~
 
     # DN of where the users are located in LDAP, can be multiple DN's seperated by a comma
     users_dn: ['ou=Users,ou=SURFUni,dc=surfuni,dc=org']

@@ -20,7 +20,12 @@ class GrouphubClient
     /**
      * @var LdapClient
      */
-    private $ldap;
+    private $readLdap;
+
+    /**
+     * @var LdapClient
+     */
+    private $writeLdap;
 
     /**
      * @var Normalizer
@@ -68,7 +73,8 @@ class GrouphubClient
     private $groupQuery;
 
     /**
-     * @param LdapClient $ldap
+     * @param LdapClient $readLdap
+     * @param LdapClient $writeLdap
      * @param Normalizer $normalizer
      * @param string[]   $usersDn
      * @param string[]   $groupsDn
@@ -80,7 +86,8 @@ class GrouphubClient
      * @param string     $groupQuery
      */
     public function __construct(
-        LdapClient $ldap,
+        LdapClient $readLdap,
+        LdapClient $writeLdap,
         $normalizer,
         array $usersDn,
         array $groupsDn,
@@ -91,7 +98,8 @@ class GrouphubClient
         $userQuery = 'cn=*',
         $groupQuery = 'cn=*'
     ) {
-        $this->ldap = $ldap;
+        $this->readLdap = $readLdap;
+        $this->writeLdap = $writeLdap;
         $this->normalizer = $normalizer;
 
         $this->usersDn = $usersDn;
@@ -145,7 +153,7 @@ class GrouphubClient
         $entities = [];
 
         foreach ($dns as $dn) {
-            $data = $this->ldap->find($dn, $query, $filter, '');
+            $data = $this->readLdap->find($dn, $query, $filter, '');
 
             if (empty($data)) {
                 continue;
@@ -178,7 +186,7 @@ class GrouphubClient
      */
     public function findGroupUsers($groupReference, $offset, $limit)
     {
-        $data = $this->ldap->find($groupReference, 'cn=*', ['member'], null, $offset, $limit);
+        $data = $this->readLdap->find($groupReference, 'cn=*', ['member'], null, $offset, $limit);
 
         if (empty($data)) {
             return new SynchronizableSequence([]);
@@ -212,7 +220,7 @@ class GrouphubClient
      */
     public function findGrouphubGroups($offset, $limit)
     {
-        $data = $this->ldap->find($this->grouphubDn, 'cn=*', ['*'], '', $offset, $limit);
+        $data = $this->readLdap->find($this->grouphubDn, 'cn=*', ['*'], '', $offset, $limit);
 
         if (empty($data)) {
             return new SynchronizableSequence([]);
@@ -239,7 +247,7 @@ class GrouphubClient
 
         $query = '(|(cn=*_' . implode(')(cn=*_', $groupIds) . '))';
 
-        $data = $this->ldap->find($this->grouphubDn, $query, ['*'], '');
+        $data = $this->readLdap->find($this->grouphubDn, $query, ['*'], '');
 
         if (empty($data)) {
             return new SynchronizableSequence([]);
@@ -262,7 +270,7 @@ class GrouphubClient
 
         $data = $this->normalizer->normalizeGroup($group);
 
-        $this->ldap->add($group->getReference(), $data);
+        $this->writeLdap->add($group->getReference(), $data);
 
         if ($syncAdminGroup) {
             $this->addAdminGroupIfNotExists($group);
@@ -279,7 +287,7 @@ class GrouphubClient
         $data = $this->normalizer->normalizeGroup($group);
 
         try {
-            $this->ldap->add($this->getAdminGroupReference($group), $data);
+            $this->writeLdap->add($this->getAdminGroupReference($group), $data);
         } catch (\Exception $e) {
             if (stripos($e->getMessage(), 'already exists') === false) {
                 throw $e;
@@ -298,10 +306,10 @@ class GrouphubClient
 
         $data = $this->normalizer->normalizeGroupForUpdate($newGroup);
 
-        $this->ldap->modify($groupReference, $data);
+        $this->writeLdap->modify($groupReference, $data);
 
         if ($syncAdminGroup) {
-            $this->ldap->modify($this->getAdminGroupReference($oldGroup), $data);
+            $this->writeLdap->modify($this->getAdminGroupReference($oldGroup), $data);
         }
     }
 
@@ -311,11 +319,11 @@ class GrouphubClient
      */
     public function removeGroup(Group $group, $syncAdminGroup = false)
     {
-        $this->ldap->delete($group->getReference());
+        $this->writeLdap->delete($group->getReference());
 
         if ($syncAdminGroup) {
             try {
-                $this->ldap->delete($this->getAdminGroupReference($group));
+                $this->writeLdap->delete($this->getAdminGroupReference($group));
             } catch (\Exception $e) {
                 if (stripos($e->getMessage(), 'No such object') === false) {
                     throw $e;
@@ -330,7 +338,7 @@ class GrouphubClient
      */
     public function addGroupUser($groupReference, $userReference)
     {
-        $this->ldap->addAttribute($groupReference, ['member' => $userReference]);
+        $this->writeLdap->addAttribute($groupReference, ['member' => $userReference]);
     }
 
     /**
@@ -348,7 +356,7 @@ class GrouphubClient
      */
     public function removeGroupUser($groupReference, $userReference)
     {
-        $this->ldap->deleteAttribute($groupReference, ['member' => $userReference]);
+        $this->writeLdap->deleteAttribute($groupReference, ['member' => $userReference]);
     }
 
     /**
@@ -381,7 +389,7 @@ class GrouphubClient
 
         $group = $this->normalizer->normalizeGroup($group);
 
-        $cn = $this->ldap->escape($group['cn'], '', LDAP_ESCAPE_DN);
+        $cn = $this->readLdap->escape($group['cn'], '', LDAP_ESCAPE_DN);
 
         return 'cn=' . $cn . ',' . $dn;
     }

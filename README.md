@@ -151,10 +151,11 @@ parameters:
             loginName: uid
             email:     mail
         group:
-            description: description
-            objectClass: groupOfNames # this not a mapping, but a hardcoded value
-            groupType:   ~            # this not a mapping, but a hardcoded value which will not be added if empty
-            accountName: ~            # if set, the mapped property will also be filled with the 'cn' of the group 
+            name_prefix: ~              # prefix to add to the name of the group
+            description: description    # description property mapping
+            accountName: ~              # if set, the mapped property will also be filled with the 'cn' of the group 
+            extra_attributes:           # extra -static- attributes, which will be added if not empty
+                objectClass: groupOfNames
 
     # Whether or not to sync admins to dedicated groups and, if so, to which DN
     # Note this DN should not be located beneath one of the groups mentioned earlier

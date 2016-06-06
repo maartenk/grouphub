@@ -39,10 +39,11 @@ parameters:
             loginName: uid
             email:     mail
         group:
+            name_prefix: ~
             description: description
-            objectClass: groupOfNames
-            groupType:   ~
             accountName: ~
+            extra_attributes:
+                objectClass: groupOfNames
 
     admin_groups_sync: false
     admin_groups_dn: ~

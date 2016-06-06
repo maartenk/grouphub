@@ -42,10 +42,15 @@ class Normalizer
                 $annotations['email'] = $user[$mapping['email']][0];
             }
 
+            $firstName = '';
+            if (!empty($mapping['firstName']) && isset($user[$mapping['firstName']][0])) {
+                $firstName = $user[$mapping['firstName']][0];
+            }
+
             $result[] = new User(
                 null,
                 $user['dn'],
-                $user[$mapping['firstName']][0],
+                $firstName,
                 $user[$mapping['lastName']][0],
                 $user[$mapping['loginName']][0],
                 $annotations
@@ -142,14 +147,12 @@ class Normalizer
 
         $cn = $this->getGroupCN($group);
 
-        $data = array_filter(
-            [
-                'cn'                    => $cn,
-                $mapping['description'] => $group->getDescription(),
-                'objectClass'           => $mapping['objectClass'],
-                'groupType'             => $mapping['groupType'],
-            ]
-        );
+        $data = [
+            'cn'                    => $cn,
+            $mapping['description'] => $group->getDescription(),
+        ];
+
+        $data = array_filter(array_merge($data, $mapping['extra_attributes']));
 
         $data['member'] = '';
 
@@ -189,7 +192,7 @@ class Normalizer
             $group->getName()
         );
 
-        $cn = strtolower($cn) . '_' . $group->getId();
+        $cn = $this->mapping['group']['name_prefix'] . strtolower($cn) . '_' . $group->getId();
 
         return $cn;
     }

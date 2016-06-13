@@ -11,6 +11,8 @@ use Symfony\Component\Ldap\LdapClientInterface;
  */
 class LdapClient implements LdapClientInterface
 {
+    const PAGE_SIZE = 1000;
+
     /**
      * @var string
      */
@@ -93,9 +95,9 @@ class LdapClient implements LdapClientInterface
         $this->host = $host;
         $this->port = $port;
         $this->version = $version;
-        $this->useSsl = (bool) $useSsl;
-        $this->useStartTls = (bool) $useStartTls;
-        $this->optReferrals = (bool) $optReferrals;
+        $this->useSsl = (bool)$useSsl;
+        $this->useStartTls = (bool)$useStartTls;
+        $this->optReferrals = (bool)$optReferrals;
 
         $this->dn = $dn;
         $this->password = $password;
@@ -127,9 +129,9 @@ class LdapClient implements LdapClientInterface
      *
      * @todo: revise caching
      */
-    public function find($dn, $query, $filter = '*', $sort = null)
+    public function find($dn, $query, $filter = '*')
     {
-        $key = md5(json_encode([$dn, $query, $filter, $sort]));
+        $key = md5(json_encode([$dn, $query, $filter]));
 
         if (isset(self::$cache[$key])) {
             return self::$cache[$key];
@@ -143,17 +145,27 @@ class LdapClient implements LdapClientInterface
             $filter = [$filter];
         }
 
-        $search = ldap_search($this->connection, $dn, $query, $filter);
+        $count = 0;
+        $entries = [];
 
-        if ($sort !== null) {
-            ldap_sort($this->connection, $search, $sort);
-        }
+        $cookie = '';
+        do {
+            ldap_control_paged_result($this->connection, self::PAGE_SIZE, true, $cookie);
 
-        $entries = ldap_get_entries($this->connection, $search);
+            $search = ldap_search($this->connection, $dn, $query, $filter);
+            $result = ldap_get_entries($this->connection, $search);
 
-        if (0 === $entries['count']) {
+            $count += $result['count'];
+            $entries = array_merge($entries, $result);
+
+            ldap_control_paged_result_response($this->connection, $search, $cookie);
+        } while ($cookie !== null && $cookie != '');
+
+        if (0 === $count) {
             return [];
         }
+
+        $entries['count'] = $count;
 
         self::$cache[$key] = $entries;
 
@@ -174,7 +186,6 @@ class LdapClient implements LdapClientInterface
 
         self::$cache = [];
     }
-
 
     /**
      * @param string $dn
@@ -243,7 +254,7 @@ class LdapClient implements LdapClientInterface
         $value = ldap_escape($subject, $ignore, $flags);
 
         // Per RFC 4514, leading/trailing spaces should be encoded in DNs, as well as carriage returns.
-        if ((int) $flags & LDAP_ESCAPE_DN) {
+        if ((int)$flags & LDAP_ESCAPE_DN) {
             if (!empty($value) && $value[0] === ' ') {
                 $value = '\\20' . substr($value, 1);
             }

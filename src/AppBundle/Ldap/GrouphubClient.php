@@ -28,6 +28,11 @@ class GrouphubClient
     private $writeLdap;
 
     /**
+     * @var LdapClients
+     */
+    private $fallbackLdaps;
+
+    /**
      * @var Normalizer
      */
     private $normalizer;
@@ -73,21 +78,23 @@ class GrouphubClient
     private $groupQuery;
 
     /**
-     * @param LdapClient $readLdap
-     * @param LdapClient $writeLdap
-     * @param Normalizer $normalizer
-     * @param string[]   $usersDn
-     * @param string[]   $groupsDn
-     * @param string     $grouphubDn
-     * @param string     $formalDn
-     * @param string     $adhocDn
-     * @param string     $adminGroupsDn
-     * @param string     $userQuery
-     * @param string     $groupQuery
+     * @param LdapClient  $readLdap
+     * @param LdapClient  $writeLdap
+     * @param LdapClients $fallbackLdaps
+     * @param Normalizer  $normalizer
+     * @param string[]    $usersDn
+     * @param string[]    $groupsDn
+     * @param string      $grouphubDn
+     * @param string      $formalDn
+     * @param string      $adhocDn
+     * @param string      $adminGroupsDn
+     * @param string      $userQuery
+     * @param string      $groupQuery
      */
     public function __construct(
         LdapClient $readLdap,
         LdapClient $writeLdap,
+        LdapClients $fallbackLdaps,
         $normalizer,
         array $usersDn,
         array $groupsDn,
@@ -100,6 +107,8 @@ class GrouphubClient
     ) {
         $this->readLdap = $readLdap;
         $this->writeLdap = $writeLdap;
+        $this->fallbackLdaps = $fallbackLdaps;
+
         $this->normalizer = $normalizer;
 
         $this->usersDn = $usersDn;
@@ -120,9 +129,16 @@ class GrouphubClient
      */
     public function findUsers($offset, $limit)
     {
-        return $this->findEntities($this->usersDn, $this->userQuery, ['*'], $offset, $limit, function ($data) {
-            return $this->normalizer->denormalizeUsers($data);
-        });
+        return $this->findEntities(
+            $this->usersDn,
+            $this->userQuery,
+            ['*'],
+            $offset,
+            $limit,
+            function ($data) {
+                return $this->normalizer->denormalizeUsers($data);
+            }
+        );
     }
 
     /**
@@ -133,27 +149,46 @@ class GrouphubClient
      */
     public function findGroups($offset, $limit)
     {
-        return $this->findEntities($this->groupsDn, $this->groupQuery, ['*'], $offset, $limit, function ($data) {
-            return $this->normalizer->denormalizeGroups($data);
-        });
+        return $this->findEntities(
+            $this->groupsDn,
+            $this->groupQuery,
+            ['*'],
+            $offset,
+            $limit,
+            function ($data) {
+                return $this->normalizer->denormalizeGroups($data);
+            }
+        );
     }
 
     /**
-     * @param array    $dns
-     * @param string   $query
-     * @param array    $filter
-     * @param int      $offset
-     * @param int      $limit
-     * @param \Closure $normalizer
+     * @param array|string $dns
+     * @param string       $query
+     * @param array        $filter
+     * @param int          $offset
+     * @param int          $limit
+     * @param \Closure     $normalizer
+     * @param bool         $useFallback
      *
      * @return Sequence
      */
-    private function findEntities(array $dns, $query, $filter, $offset, $limit, \Closure $normalizer)
-    {
+    private function findEntities(
+        $dns,
+        $query,
+        $filter,
+        $offset,
+        $limit,
+        \Closure $normalizer,
+        $useFallback = false
+    ) {
         $entities = [];
 
-        foreach ($dns as $dn) {
-            $data = $this->readLdap->find($dn, $query, $filter, '');
+        foreach ((array)$dns as $dn) {
+            $data = $this->readLdap->find($dn, $query, $filter);
+
+            if (empty($data) && $useFallback && $fallbackLdap = $this->getFallbackLdapClient($dn)) {
+                $data = $fallbackLdap->find($dn, $query, $filter);
+            }
 
             if (empty($data)) {
                 continue;
@@ -162,19 +197,16 @@ class GrouphubClient
             $entities = array_merge($entities, $normalizer($data));
         }
 
-        if (count($dns) > 1) {
-            usort(
-                $entities,
-                function (Comparable $a, Comparable $b) {
-                    return $a->compareTo($b);
-                }
-            );
-        }
+        usort(
+            $entities,
+            function (Comparable $a, Comparable $b) {
+                return $a->compareTo($b);
+            }
+        );
 
-        // @todo: use actual offset/limit
         $entities = array_slice($entities, $offset, $limit);
 
-        return new Sequence($entities);
+        return new SynchronizableSequence($entities);
     }
 
     /**
@@ -186,18 +218,17 @@ class GrouphubClient
      */
     public function findGroupUsers($groupReference, $offset, $limit)
     {
-        $data = $this->readLdap->find($groupReference, 'cn=*', ['member'], null, $offset, $limit);
-
-        if (empty($data)) {
-            return new SynchronizableSequence([]);
-        }
-
-        $users = $this->normalizer->denormalizeGroupUsers($data);
-
-        // @todo: use actual offset/limit
-        $users = array_slice($users, $offset, $limit);
-
-        return new SynchronizableSequence($users);
+        return $this->findEntities(
+            $groupReference,
+            'cn=*',
+            ['member'],
+            $offset,
+            $limit,
+            function ($data) {
+                return $this->normalizer->denormalizeGroupUsers($data);
+            },
+            true
+        );
     }
 
     /**
@@ -220,18 +251,16 @@ class GrouphubClient
      */
     public function findGrouphubGroups($offset, $limit)
     {
-        $data = $this->readLdap->find($this->grouphubDn, 'cn=*', ['*'], '', $offset, $limit);
-
-        if (empty($data)) {
-            return new SynchronizableSequence([]);
-        }
-
-        $groups = $this->normalizer->denormalizeGrouphubGroups($data);
-
-        // @todo: use actual offset/limit
-        $groups = array_slice($groups, $offset, $limit);
-
-        return new SynchronizableSequence($groups);
+        return $this->findEntities(
+            $this->grouphubDn,
+            'cn=*',
+            ['*'],
+            $offset,
+            $limit,
+            function ($data) {
+                return $this->normalizer->denormalizeGrouphubGroups($data);
+            }
+        );
     }
 
     /**
@@ -247,15 +276,16 @@ class GrouphubClient
 
         $query = '(|(cn=*_' . implode(')(cn=*_', $groupIds) . '))';
 
-        $data = $this->readLdap->find($this->grouphubDn, $query, ['*'], '');
-
-        if (empty($data)) {
-            return new SynchronizableSequence([]);
-        }
-
-        $groups = $this->normalizer->denormalizeGrouphubGroups($data);
-
-        return new SynchronizableSequence($groups);
+        return $this->findEntities(
+            $this->grouphubDn,
+            $query,
+            ['*'],
+            0,
+            null,
+            function ($data) {
+                return $this->normalizer->denormalizeGrouphubGroups($data);
+            }
+        );
     }
 
     /**
@@ -404,5 +434,32 @@ class GrouphubClient
         $pos = strpos($group->getReference(), ',');
 
         return substr($group->getReference(), 0, $pos) . '_admins,' . $this->adminGroupsDn;
+    }
+
+    /**
+     * @param string $dn
+     *
+     * @return LdapClient
+     */
+    private function getFallbackLdapClient($dn)
+    {
+        $parts = ldap_explode_dn($dn, 0);
+
+        $alias = [];
+        foreach ($parts as $part) {
+            if (strpos($part, 'dc=') !== 0) {
+                continue;
+            }
+
+            $alias[] = substr($part, 3);
+        }
+
+        $alias = implode('.', $alias);
+
+        try {
+            return $this->fallbackLdaps->getClient($alias);
+        } catch (InvalidArgumentException $e) {
+            return null;
+        }
     }
 }

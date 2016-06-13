@@ -12,6 +12,10 @@ services:
         arguments: ["%ldap_write_host%", "%ldap_write_port%", "%ldap_write_dn%", "%ldap_write_pass%"]
         private: true
 
+    app.ldap_fallback_clients:
+        class: AppBundle\Ldap\LdapClients
+        private: true
+
     app.ldap_normalizer:
         class: AppBundle\Ldap\Normalizer
         arguments: ["%ldap.mapping%"]
@@ -19,7 +23,7 @@ services:
 
     app.grouphub_ldap_client:
         class: AppBundle\Ldap\GrouphubClient
-        arguments: ["@app.ldap_read_client", "@app.ldap_write_client", "@app.ldap_normalizer", "%users_dn%", "%groups_dn%", "%grouphub_dn%", "%formal_dn%", "%adhoc_dn%", "%admin_groups_dn%", "%user_query%", "%group_query%"]
+        arguments: ["@app.ldap_read_client", "@app.ldap_write_client", "@app.ldap_fallback_clients", "@app.ldap_normalizer", "%users_dn%", "%groups_dn%", "%grouphub_dn%", "%formal_dn%", "%adhoc_dn%", "%admin_groups_dn%", "%user_query%", "%group_query%"]
         private: true
 
     app.api_normalizer:

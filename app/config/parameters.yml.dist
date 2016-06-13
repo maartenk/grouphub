@@ -24,6 +24,13 @@ parameters:
     ldap_write_dn:   ~
     ldap_write_pass: ~
 
+    ldap_fallback:
+        alias:
+            host: ~
+            port: 389
+            dn:   ~
+            pass: ~
+
     users_dn: ['ou=Users,ou=SURFUni,dc=surfuni,dc=org']
     user_query: 'cn=*'
     groups_dn: ['ou=Formalgroups,dc=surfuni,dc=org']

@@ -130,6 +130,19 @@ parameters:
     ldap_write_port: 389
     ldap_write_dn:   ~
     ldap_write_pass: ~
+    
+    # LDAP fallback clients connection details (will be used when no results are found)
+    ldap_fallback:
+        alias1: # This alias will be matched based on the combined DC's of the empty DN e.g.: 'domain1.surfuni.org'
+            host: ~
+            port: 389
+            dn:   ~
+            pass: ~
+        alias2: # This alias will be matched based on the combined DC's of the empty DN e.g.: 'domain2.surfuni.org'
+            host: ~
+            port: 389
+            dn:   ~
+            pass: ~
 
     # DN of where the users are located in LDAP, can be multiple DN's seperated by a comma
     users_dn: ['ou=Users,ou=SURFUni,dc=surfuni,dc=org']

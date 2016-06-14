@@ -169,6 +169,7 @@ class GrouphubClient
      * @param int          $limit
      * @param \Closure     $normalizer
      * @param bool         $useFallback
+     * @param bool         $useWriteClient
      *
      * @return Sequence
      */
@@ -179,22 +180,35 @@ class GrouphubClient
         $offset,
         $limit,
         \Closure $normalizer,
-        $useFallback = false
+        $useFallback = false,
+        $useWriteClient = false
     ) {
         $entities = [];
 
         foreach ((array)$dns as $dn) {
-            $data = $this->readLdap->find($dn, $query, $filter);
-
-            if (empty($data) && $useFallback && $fallbackLdap = $this->getFallbackLdapClient($dn)) {
-                $data = $fallbackLdap->find($dn, $query, $filter);
+            if ($useWriteClient) {
+                $data = $this->writeLdap->find($dn, $query, $filter);
+            } else {
+                $data = $this->readLdap->find($dn, $query, $filter);
             }
 
             if (empty($data)) {
                 continue;
             }
 
-            $entities = array_merge($entities, $normalizer($data));
+            $newEntities = $normalizer($data);
+
+            if (empty($newEntities) && $useFallback && $fallbackLdap = $this->getFallbackLdapClient($dn)) {
+                $data = $fallbackLdap->find($dn, $query, $filter);
+
+                if (empty($data)) {
+                    continue;
+                }
+
+                $newEntities = $normalizer($data);
+            }
+
+            $entities = array_merge($entities, $newEntities);
         }
 
         usort(
@@ -259,7 +273,9 @@ class GrouphubClient
             $limit,
             function ($data) {
                 return $this->normalizer->denormalizeGrouphubGroups($data);
-            }
+            },
+            false,
+            true
         );
     }
 
@@ -421,7 +437,7 @@ class GrouphubClient
 
         $cn = $this->readLdap->escape($group['cn'], '', LDAP_ESCAPE_DN);
 
-        return 'cn=' . $cn . ',' . $dn;
+        return 'CN=' . $cn . ',' . $dn;
     }
 
     /**
@@ -447,7 +463,7 @@ class GrouphubClient
 
         $alias = [];
         foreach ($parts as $part) {
-            if (strpos($part, 'dc=') !== 0) {
+            if (stripos($part, 'dc=') !== 0) {
                 continue;
             }
 

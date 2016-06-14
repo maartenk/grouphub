@@ -186,7 +186,13 @@ class GrouphubClient
         $entities = [];
 
         foreach ((array)$dns as $dn) {
-            $newEntities = $this->doFind($useWriteClient ? $this->writeLdap : $this->readLdap, $dn, $query, $filter, $normalizer);
+            $newEntities = $this->doFind(
+                $useWriteClient ? $this->writeLdap : $this->readLdap,
+                $dn,
+                $query,
+                $filter,
+                $normalizer
+            );
 
             if (empty($newEntities) && $useFallback && $fallbackLdap = $this->getFallbackLdapClient($dn)) {
                 $newEntities = $this->doFind($fallbackLdap, $dn, $query, $filter, $normalizer);

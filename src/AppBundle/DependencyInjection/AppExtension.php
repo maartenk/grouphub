@@ -20,7 +20,7 @@ class AppExtension extends Extension
         $param = $container->getParameter('ldap_fallback');
 
         foreach ($param as $alias => $params) {
-            $definition = new Definition(LdapClient::class, [$params]);
+            $definition = new Definition(LdapClient::class, $params);
             $definition->addTag('app.ldap_fallback_client', array('alias' => $alias));
 
             $container->setDefinition('app.ldap_fallback_client.' . $alias, $definition);

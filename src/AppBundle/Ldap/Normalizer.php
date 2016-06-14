@@ -95,6 +95,10 @@ class Normalizer
     {
         $result = [];
         for ($i = 0; $i < $groups['count']; $i++) {
+            if (!isset($groups[$i]['member'])) {
+                continue;
+            }
+
             $group = $groups[$i]['member'];
 
             for ($j = 0; $j < $group['count']; $j++) {
@@ -153,8 +157,6 @@ class Normalizer
         ];
 
         $data = array_filter(array_merge($data, $mapping['extra_attributes']));
-
-        $data['member'] = '';
 
         if (!empty($mapping['accountName'])) {
             $data[$mapping['accountName']] = $cn;

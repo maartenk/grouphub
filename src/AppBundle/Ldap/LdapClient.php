@@ -153,6 +153,11 @@ class LdapClient implements LdapClientInterface
             ldap_control_paged_result($this->connection, self::PAGE_SIZE, true, $cookie);
 
             $search = ldap_search($this->connection, $dn, $query, $filter);
+
+            if (!$search) {
+                break;
+            }
+
             $result = ldap_get_entries($this->connection, $search);
 
             $count += $result['count'];

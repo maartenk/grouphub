@@ -66,7 +66,7 @@ class LdapClient implements LdapClientInterface
     /**
      * @var array
      */
-    private static $cache = [];
+    private $cache = [];
 
     /**
      * @param string $host
@@ -133,8 +133,8 @@ class LdapClient implements LdapClientInterface
     {
         $key = md5(json_encode([$dn, $query, $filter]));
 
-        if (isset(self::$cache[$key])) {
-            return self::$cache[$key];
+        if (isset($this->cache[$key])) {
+            return $this->cache[$key];
         }
 
         if (!$this->isBound) {
@@ -167,7 +167,7 @@ class LdapClient implements LdapClientInterface
 
         $entries['count'] = $count;
 
-        self::$cache[$key] = $entries;
+        $this->cache[$key] = $entries;
 
         return $entries;
     }
@@ -184,7 +184,7 @@ class LdapClient implements LdapClientInterface
 
         ldap_add($this->connection, $dn, $data);
 
-        self::$cache = [];
+        $this->cache = [];
     }
 
     /**
@@ -199,7 +199,7 @@ class LdapClient implements LdapClientInterface
 
         ldap_modify($this->connection, $dn, $data);
 
-        self::$cache = [];
+        $this->cache = [];
     }
 
     /**
@@ -213,7 +213,7 @@ class LdapClient implements LdapClientInterface
 
         ldap_delete($this->connection, $dn);
 
-        self::$cache = [];
+        $this->cache = [];
     }
 
     /**
@@ -228,7 +228,7 @@ class LdapClient implements LdapClientInterface
 
         ldap_mod_add($this->connection, $dn, $data);
 
-        self::$cache = [];
+        $this->cache = [];
     }
 
     /**
@@ -243,7 +243,7 @@ class LdapClient implements LdapClientInterface
 
         ldap_mod_del($this->connection, $dn, $data);
 
-        self::$cache = [];
+        $this->cache = [];
     }
 
     /**

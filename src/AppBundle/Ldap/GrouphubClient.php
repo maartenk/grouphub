@@ -186,26 +186,10 @@ class GrouphubClient
         $entities = [];
 
         foreach ((array)$dns as $dn) {
-            if ($useWriteClient) {
-                $data = $this->writeLdap->find($dn, $query, $filter);
-            } else {
-                $data = $this->readLdap->find($dn, $query, $filter);
-            }
-
-            if (empty($data)) {
-                continue;
-            }
-
-            $newEntities = $normalizer($data);
+            $newEntities = $this->doFind($useWriteClient ? $this->writeLdap : $this->readLdap, $dn, $query, $filter, $normalizer);
 
             if (empty($newEntities) && $useFallback && $fallbackLdap = $this->getFallbackLdapClient($dn)) {
-                $data = $fallbackLdap->find($dn, $query, $filter);
-
-                if (empty($data)) {
-                    continue;
-                }
-
-                $newEntities = $normalizer($data);
+                $newEntities = $this->doFind($fallbackLdap, $dn, $query, $filter, $normalizer);
             }
 
             $entities = array_merge($entities, $newEntities);
@@ -221,6 +205,26 @@ class GrouphubClient
         $entities = array_slice($entities, $offset, $limit);
 
         return new SynchronizableSequence($entities);
+    }
+
+    /**
+     * @param LdapClient $client
+     * @param string     $dn
+     * @param string     $query
+     * @param array      $filter
+     * @param \Closure   $normalizer
+     *
+     * @return array
+     */
+    private function doFind(LdapClient $client, $dn, $query, $filter, \Closure $normalizer)
+    {
+        $data = $client->find($dn, $query, $filter);
+
+        if (empty($data)) {
+            return [];
+        }
+
+        return $normalizer($data);
     }
 
     /**
@@ -241,6 +245,29 @@ class GrouphubClient
             function ($data) {
                 return $this->normalizer->denormalizeGroupUsers($data);
             },
+            true
+        );
+    }
+
+    /**
+     * @param string $groupReference
+     * @param int    $offset
+     * @param int    $limit
+     *
+     * @return SynchronizableSequence
+     */
+    public function findGrouphubGroupUsers($groupReference, $offset, $limit)
+    {
+        return $this->findEntities(
+            $groupReference,
+            'cn=*',
+            ['member'],
+            $offset,
+            $limit,
+            function ($data) {
+                return $this->normalizer->denormalizeGroupUsers($data);
+            },
+            true,
             true
         );
     }

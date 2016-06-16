@@ -134,15 +134,18 @@ class User implements Comparable, UserInterface, EquatableInterface, SamlUserInt
      */
     public function compareTo($other)
     {
-        if ($other->getReference() == $this->reference) {
+        $ref1 = strtolower($this->getReference());
+        $ref2 = strtolower($other->getReference());
+
+        if ($ref1 == $ref2) {
             return 0;
         }
 
-        if ($other->getReference() < $this->reference) {
-            return 1;
+        if ($ref1 < $ref2) {
+            return -1;
         }
 
-        return -1;
+        return 1;
     }
 
     /**
@@ -152,7 +155,7 @@ class User implements Comparable, UserInterface, EquatableInterface, SamlUserInt
      */
     public function equals($other)
     {
-        if ($other->getReference() !== $this->reference) {
+        if ($this->compareTo($other) !== 0) {
             return false;
         }
 

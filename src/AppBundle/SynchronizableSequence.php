@@ -176,7 +176,7 @@ class SynchronizableSequence extends Sequence
     private function elementShouldBeRemoved($sourceElement, $destinationElement)
     {
         if ($sourceElement instanceof Comparable) {
-            return $sourceElement->compareTo($destinationElement) === 1;
+            return $sourceElement->compareTo($destinationElement) > 0;
         }
 
         return $sourceElement > $destinationElement;
@@ -195,7 +195,7 @@ class SynchronizableSequence extends Sequence
         }
 
         if ($sourceElement instanceof Comparable) {
-            return $sourceElement->compareTo($destinationElement) === -1;
+            return $sourceElement->compareTo($destinationElement) < 0;
         }
 
         return $sourceElement < $destinationElement;

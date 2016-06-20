@@ -396,7 +396,11 @@ class ApiClient
     {
         $data = $this->encode(['user' => $this->normalizer->normalizeUser($user)]);
 
-        $this->guzzle->post('users', ['body' => $data]);
+        try {
+            $this->guzzle->post('users', ['body' => $data]);
+        } catch (ClientException $e) {
+            throw new \RuntimeException('Failed adding User to API: ' . $e->getResponse()->getBody());
+        }
     }
 
     /**
@@ -408,7 +412,11 @@ class ApiClient
     {
         $data = $this->encode(['group' => $this->normalizer->normalizeGroup($group)]);
 
-        $data = $this->guzzle->post('groups', ['body' => $data]);
+        try {
+            $data = $this->guzzle->post('groups', ['body' => $data]);
+        } catch (ClientException $e) {
+            throw new \RuntimeException('Failed adding Group to API: ' . $e->getResponse()->getBody());
+        }
 
         return $this->normalizer->denormalizeGroup($this->decode($data->getBody()));
     }

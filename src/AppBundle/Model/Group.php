@@ -221,15 +221,8 @@ class Group implements Comparable
         $ref1 = strtoupper($this->getReference());
         $ref2 = strtoupper($other->getReference());
 
-        if ($ref1 == $ref2) {
-            return 0;
-        }
-
-        if ($ref1 < $ref2) {
-            return -1;
-        }
-
-        return 1;
+        $c = new \Collator('en');
+        return $c->compare($ref1, $ref2);
     }
 
     /**

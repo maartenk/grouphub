@@ -205,7 +205,9 @@ class Normalizer
     public function getGroupFields()
     {
         return [
-            'dn', 'cn', $this->mapping['group']['description']
+            'dn',
+            'cn',
+            $this->mapping['group']['description'],
         ];
     }
 
@@ -215,7 +217,12 @@ class Normalizer
     public function getUserFields()
     {
         return [
-            'dn', 'cn', $this->mapping['user']['email'], $this->mapping['user']['firstName'], $this->mapping['user']['lastName'], $this->mapping['user']['loginName']
+            'dn',
+            'cn',
+            $this->mapping['user']['email'],
+            $this->mapping['user']['firstName'],
+            $this->mapping['user']['lastName'],
+            $this->mapping['user']['loginName'],
         ];
     }
 }

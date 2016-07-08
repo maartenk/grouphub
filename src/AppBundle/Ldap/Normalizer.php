@@ -198,4 +198,24 @@ class Normalizer
 
         return $cn;
     }
+
+    /**
+     * @return array
+     */
+    public function getGroupFields()
+    {
+        return [
+            'dn', 'cn', $this->mapping['group']['description']
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function getUserFields()
+    {
+        return [
+            'dn', 'cn', $this->mapping['user']['email'], $this->mapping['user']['firstName'], $this->mapping['user']['lastName'], $this->mapping['user']['loginName']
+        ];
+    }
 }

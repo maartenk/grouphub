@@ -132,7 +132,7 @@ class GrouphubClient
         return $this->findEntities(
             $this->usersDn,
             $this->userQuery,
-            ['*'],
+            $this->normalizer->getUserFields(),
             $offset,
             $limit,
             function ($data) {
@@ -152,7 +152,7 @@ class GrouphubClient
         return $this->findEntities(
             $this->groupsDn,
             $this->groupQuery,
-            ['*'],
+            $this->normalizer->getGroupFields(),
             $offset,
             $limit,
             function ($data) {
@@ -301,7 +301,7 @@ class GrouphubClient
         return $this->findEntities(
             $this->grouphubDn,
             'cn=*',
-            ['*'],
+            $this->normalizer->getGroupFields(),
             $offset,
             $limit,
             function ($data) {
@@ -328,7 +328,7 @@ class GrouphubClient
         return $this->findEntities(
             $this->grouphubDn,
             $query,
-            ['*'],
+            $this->normalizer->getGroupFields(),
             0,
             null,
             function ($data) {

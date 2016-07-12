@@ -154,11 +154,15 @@ class LdapClient implements LdapClientInterface
 
             $search = ldap_search($this->connection, $dn, $query, $filter);
 
-            if (!$search) {
-                break;
+            if (false === $search) {
+                throw new LdapException(ldap_error($this->connection));
             }
 
             $result = ldap_get_entries($this->connection, $search);
+
+            if (false === @ldap_free_result($search)) {
+                throw new LdapException(ldap_error($this->connection));
+            }
 
             $count += $result['count'];
             $entries = array_merge($entries, $result);

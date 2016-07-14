@@ -168,7 +168,6 @@ class LdapClient implements LdapClientInterface
             if (false === @ldap_free_result($search)) {
                 throw new LdapException(ldap_error($this->connection));
             }
-
         } while ($cookie !== null && $cookie != '');
 
         if (0 === $count) {

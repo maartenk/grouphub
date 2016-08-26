@@ -44,18 +44,19 @@ class ApiClient
 
     /**
      * @param string $query
+     * @param string $sort
      * @param int    $offset
      * @param int    $limit
      *
      * @return Collection
      */
-    public function findUsers($query = null, $offset = 0, $limit = 100)
+    public function findUsers($query = null, $sort = 'reference', $offset = 0, $limit = 100)
     {
         $data = $this->guzzle->get('users', [
             'query' => [
                 'offset' => $offset,
                 'limit'  => $limit,
-                'sort'   => 'reference',
+                'sort'   => $sort,
                 'query'  => $query,
             ],
         ]);
@@ -242,7 +243,7 @@ class ApiClient
             'query' => [
                 'offset' => $offset,
                 'limit'  => $limit,
-                'sort'   => 'reference',
+                'sort'   => 'name',
                 'query'  => $query
             ],
         ]);

@@ -32,7 +32,7 @@ class UserManager
      */
     public function findUsers($query = null, $offset = 0, $limit = 100)
     {
-        return $this->client->findUsers($query, $offset, $limit);
+        return $this->client->findUsers($query, 'name', $offset, $limit);
     }
 
     /**

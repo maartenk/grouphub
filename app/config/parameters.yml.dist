@@ -49,6 +49,8 @@ parameters:
             name_prefix: ~
             description: description
             accountName: ~
+            owner: ~
+            name: ~
             extra_attributes:
                 objectClass: groupOfNames
 

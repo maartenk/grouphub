@@ -162,6 +162,14 @@ class Normalizer
             $data[$mapping['accountName']] = $cn;
         }
 
+        if (!empty($mapping['owner'])) {
+            $data[$mapping['owner']] = $group->getOwner()->getReference();
+        }
+
+        if (!empty($mapping['name'])) {
+            $data[$mapping['name']] = $group->getName();
+        }
+
         return $data;
     }
 
@@ -174,11 +182,21 @@ class Normalizer
     {
         $mapping = $this->mapping['group'];
 
-        return array_filter(
+        $data = array_filter(
             [
                 $mapping['description'] => $group->getDescription(),
             ]
         );
+
+        if (!empty($mapping['owner'])) {
+            $data[$mapping['owner']] = $group->getOwner()->getReference();
+        }
+
+        if (!empty($mapping['name'])) {
+            $data[$mapping['name']] = $group->getName();
+        }
+
+        return $data;
     }
 
     /**

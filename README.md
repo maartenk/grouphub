@@ -166,7 +166,9 @@ parameters:
         group:
             name_prefix: ~              # prefix to add to the name of the group
             description: description    # description property mapping
-            accountName: ~              # if set, the mapped property will also be filled with the 'cn' of the group 
+            accountName: ~              # if set, the mapped property will also be filled with the 'cn' of the group
+            owner: ~                    # if set, the mapped property will be filled with the 'owner' reference of the group
+            name: ~                     # if set, the mapped property will be filled with the name of the group
             extra_attributes:           # extra -static- attributes, which will be added if not empty
                 objectClass: groupOfNames
 

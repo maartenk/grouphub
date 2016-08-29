@@ -290,7 +290,7 @@ class SyncService
             ' - Going to add ' . count($ldapGroups->getAddedElements()) . ' Grouphub groups to LDAP...'
         );
         foreach ($ldapGroups->getAddedElements() as $element) {
-            $this->logger->info(' -- Adding ' . $element->getReference());
+            $this->logger->info(' -- Adding ' . $element->getName());
             /** @var Group $element */
             $this->ldap->addGroup($element, $this->syncAdmins);
 

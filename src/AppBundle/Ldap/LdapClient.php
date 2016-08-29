@@ -150,20 +150,28 @@ class LdapClient implements LdapClientInterface
 
         $cookie = '';
         do {
-            ldap_control_paged_result($this->connection, self::PAGE_SIZE, true, $cookie);
+            if (false === @ldap_control_paged_result($this->connection, self::PAGE_SIZE, true, $cookie)) {
+                throw new LdapException(ldap_error($this->connection));
+            }
 
-            $search = ldap_search($this->connection, $dn, $query, $filter);
+            $search = @ldap_search($this->connection, $dn, $query, $filter);
 
             if (false === $search) {
                 throw new LdapException(ldap_error($this->connection));
             }
 
-            $result = ldap_get_entries($this->connection, $search);
+            $result = @ldap_get_entries($this->connection, $search);
+
+            if (false === $result) {
+                throw new LdapException(ldap_error($this->connection));
+            }
 
             $count += $result['count'];
             $entries = array_merge($entries, $result);
 
-            ldap_control_paged_result_response($this->connection, $search, $cookie);
+            if (false === @ldap_control_paged_result_response($this->connection, $search, $cookie)) {
+                throw new LdapException(ldap_error($this->connection));
+            }
 
             if (false === @ldap_free_result($search)) {
                 throw new LdapException(ldap_error($this->connection));
@@ -206,7 +214,9 @@ class LdapClient implements LdapClientInterface
             $this->bind($this->dn, $this->password);
         }
 
-        ldap_modify($this->connection, $dn, $data);
+        if (false === @ldap_modify($this->connection, $dn, $data)) {
+            throw new LdapException(ldap_error($this->connection));
+        }
 
         $this->cache = [];
     }

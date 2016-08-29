@@ -127,7 +127,9 @@ class LdapClient implements LdapClientInterface
     /**
      * {@inheritdoc}
      *
-     * @todo: revise caching
+     * @todo: revise caching & error handling
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function find($dn, $query, $filter = '*')
     {

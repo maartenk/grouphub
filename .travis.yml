@@ -17,6 +17,9 @@ cache:
   directories:
     - ~/.composer
 
+env:
+  - SYMFONY_DEPRECATIONS_HELPER=weak
+
 before_script:
   - phpenv config-add .travis.php.ini
   - composer self-update

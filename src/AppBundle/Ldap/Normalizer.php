@@ -151,12 +151,12 @@ class Normalizer
 
         $cn = $this->getGroupCN($group);
 
-        $data = [
+        $data = array_filter([
             'cn'                    => $cn,
             $mapping['description'] => $group->getDescription(),
-        ];
+        ]);
 
-        $data = array_filter(array_merge($data, $mapping['extra_attributes']));
+        $data = array_merge($data, $mapping['extra_attributes']);
 
         if (!empty($mapping['accountName'])) {
             $data[$mapping['accountName']] = $cn;

@@ -152,7 +152,7 @@ class LdapClient implements LdapClientInterface
 
         $cookie = '';
         do {
-            if (false === @ldap_control_paged_result($this->connection, self::PAGE_SIZE, true, $cookie)) {
+            if (false === @ldap_control_paged_result($this->connection, self::PAGE_SIZE, false, $cookie)) {
                 throw new LdapException(ldap_error($this->connection));
             }
 

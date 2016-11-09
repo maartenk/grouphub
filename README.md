@@ -23,6 +23,7 @@ Make sure you have the following vagrant plugins installed.
 <projectdir>$ vagrant ssh
 <vagrantbox>$ cd /vagrant
 <vagrantbox>$ composer install
+<vagrantbox>$ bin/console assetic:dump
 ```
 
 # Add

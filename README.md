@@ -33,6 +33,7 @@ After starting and provisioning your vagrant box you can go to:
 <http://dev.grouphub.org/app_dev.php>
 
 # Running synchronization scripts
+Note: you might have to add `app_dev.php/` to the `grouphub_api_url` parameter for dev
 ```sh
 <projectdir>$ vagrant ssh
 <vagrantbox>$ cd /vagrant

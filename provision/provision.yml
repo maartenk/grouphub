@@ -61,9 +61,6 @@
     - name: Install nodejs source
       shell: curl -sL https://deb.nodesource.com/setup | sudo bash -
 
-    - name: Perform system update
-      action: apt upgrade=safe state=latest update_cache=yes
-
   tasks:
     - name: Install common packages
       action: apt pkg={{ item }} state=installed update_cache=yes

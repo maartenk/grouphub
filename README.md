@@ -25,6 +25,9 @@ Make sure you have the following vagrant plugins installed.
 <vagrantbox>$ composer install
 ```
 
+# Add
+`145.100.180.203 ldap.surfuni.org idp.surfuni.org`
+
 # Getting started
 After starting and provisioning your vagrant box you can go to:
 <http://dev.grouphub.org/app_dev.php>

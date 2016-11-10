@@ -23,13 +23,18 @@ Make sure you have the following vagrant plugins installed.
 <projectdir>$ vagrant ssh
 <vagrantbox>$ cd /vagrant
 <vagrantbox>$ composer install
+<vagrantbox>$ bin/console assetic:dump
 ```
+
+# Add
+`145.100.180.203 ldap.surfuni.org idp.surfuni.org`
 
 # Getting started
 After starting and provisioning your vagrant box you can go to:
 <http://dev.grouphub.org/app_dev.php>
 
 # Running synchronization scripts
+Note: you might have to add `app_dev.php/` to the `grouphub_api_url` parameter for dev
 ```sh
 <projectdir>$ vagrant ssh
 <vagrantbox>$ cd /vagrant

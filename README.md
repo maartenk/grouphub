@@ -3,6 +3,9 @@ Grouphub
 
 De business laag van de GroupHub applicatie: https://wiki.surfnet.nl/display/P3GFeI2015/2.+Business+Laag
 
+[![Build Status](https://travis-ci.org/maartenk/grouphub.svg)](https://travis-ci.org/maartenk/grouphub)
+[![codecov.io](https://codecov.io/gh/maartenk/grouphub/coverage.svg)](https://codecov.io/gh/maartenk/grouphub)
+
 # Host machine requirements
 
  - Virtualbox
@@ -73,7 +76,7 @@ Also make sure there is a directory `/project/dir/` available which is writable 
 If you want to deploy the app you will need capistrano-symfony:
 
 `gem install capistrano-symfony --pre-release`
- 
+
 ## Vhost
 
 Minimum requirements:
@@ -81,11 +84,11 @@ Minimum requirements:
 ```sh
 <VirtualHost *:80>
     ServerName grouphub.org
-    
+
     DocumentRoot /project/dir/current/web
-    
+
     Alias /simplesaml /project/dir/current/vendor/simplesamlphp/simplesamlphp/www
-    
+
     <Directory /project/dir/current/web>
         Options FollowSymLinks
         AllowOverride All
@@ -99,7 +102,7 @@ Usage of HTTPS is highly recommended.
 
 ## Process
 
-To do an actual deployment, make sure a stage is available in app/config/deployment/stages/. Then run 
+To do an actual deployment, make sure a stage is available in app/config/deployment/stages/. Then run
 
 ```sh
 cap [stage-name] deploy
@@ -107,7 +110,7 @@ cap [stage-name] deploy
 
 This script will ask the branch/tag of the software to deploy. The default will probably be sufficient in most cases.
 
-The first time the script will most likely fail because the configuration is invalid, fix this manually as described below, 
+The first time the script will most likely fail because the configuration is invalid, fix this manually as described below,
 then run the script again.
 
 ## Configuration
@@ -129,13 +132,13 @@ parameters:
     ldap_read_port: 389
     ldap_read_dn:   ~
     ldap_read_pass: ~
-        
+
     # LDAP write connection details (can be the same as the read LDAP)
     ldap_write_host: ~
     ldap_write_port: 389
     ldap_write_dn:   ~
     ldap_write_pass: ~
-    
+
     # LDAP fallback clients connection details (will be used when no results are found)
     ldap_fallback:
         alias1: # This alias will be matched based on the combined DC's of the empty DN e.g.: 'domain1.surfuni.org'
@@ -160,7 +163,7 @@ parameters:
     # Subgroups located beneath the 'grouphub' DN where formal and adhoc groups will be stored
     formal_dn: 'ou=SemiFormal,ou=Grouphub,dc=surfuni,dc=org'
     adhoc_dn: 'ou=AdHoc,ou=Grouphub,dc=surfuni,dc=org'
-    
+
     # Mapping of GroupHub properties to LDAP properties
     ldap.mapping:
         user:
